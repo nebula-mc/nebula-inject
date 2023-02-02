@@ -3,7 +3,6 @@ package dev.nebulamc.inject;
 import org.jspecify.nullness.NullMarked;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * A composite of multiple {@link ServiceDefinitionRegistry ServiceDefinitionRegistries}.
