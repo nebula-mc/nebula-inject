@@ -1,5 +1,5 @@
 plugins {
-    java
+    `java-library`
 }
 
 repositories {
@@ -12,6 +12,15 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    testImplementation("org.mockito:mockito-core:4.11.0")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+    withJavadocJar()
+    withSourcesJar()
 }
 
 tasks {
