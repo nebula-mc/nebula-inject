@@ -7,9 +7,11 @@ import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Used to mark an injectable constructor.
+ * Used to mark an
+ * <a href="package-summary.html#injectable-constructors">injectable constructor</a>.
  *
  * @author Sparky983
+ * @see <a href="package-summary.html#injectable-constructors">injectable constructor</a>
  * @since 1.0
  */
 @Retention(RUNTIME)

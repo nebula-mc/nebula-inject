@@ -20,10 +20,18 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     }
  * }
  * }</pre>
+ * <p>
+ * Factory classes can be registered to a {@link Container} via
+ * {@link Container.Builder#factory(Object)}:
+ * <pre>{@code
+ * Container container = Container.builder()
+ *        .factory(new DatabaseFactory())
+ *        .build();
+ * }</pre>
  *
  * @author Sparky983
  * @see Service
- * @see Container.Builder#factory(Object)
+ * @see Container.Builder
  * @since 1.0
  */
 @Retention(RUNTIME)
