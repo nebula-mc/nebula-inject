@@ -162,6 +162,29 @@ class ServiceServiceDefinitionFactoryImplTest {
                         () -> serviceDefinition.createService(serviceFinder));
             }
 
+            @Test
+            void testCreateServiceWhenMethodReturnsNull() throws NoSuchMethodException {
+
+                @Factory
+                class NullFactory {
+
+                    @Service
+                    public Wheels createWheels() {
+
+                        return null;
+                    }
+                }
+
+                final Method nullMethod = NullFactory.class
+                        .getDeclaredMethod("createWheels");
+
+                final ServiceDefinition<?> serviceDefinition = serviceServiceDefinitionFactory
+                        .createServiceDefinition(new NullFactory(), nullMethod);
+
+                assertThrows(ServiceException.class,
+                        () -> serviceDefinition.createService(serviceFinder));
+            }
+
             @SuppressWarnings("unchecked")
             @Test
             void testCreateService() {
