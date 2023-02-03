@@ -34,5 +34,5 @@ public interface ServiceDefinition<T> {
      * @throws ServiceException if an exception occurred while creating the service object.
      * @since 1.0
      */
-    T createObject(ServiceFinder serviceFinder);
+    T createService(ServiceFinder serviceFinder);
 }

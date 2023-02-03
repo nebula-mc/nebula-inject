@@ -124,7 +124,7 @@ class InjectServiceDefinitionFactoryTest {
         void testCreateObjectWhenServiceFinderIsNull() {
 
             assertThrows(NullPointerException.class,
-                    () -> serviceDefinition.createObject(null));
+                    () -> serviceDefinition.createService(null));
         }
 
         @Test
@@ -135,7 +135,7 @@ class InjectServiceDefinitionFactoryTest {
             when(serviceFinder.findService(Engine.class)).thenReturn(engine);
             when(serviceFinder.findService(Wheels.class)).thenReturn(wheels);
 
-            final Car car = serviceDefinition.createObject(serviceFinder);
+            final Car car = serviceDefinition.createService(serviceFinder);
 
             assertEquals(engine, car.getEngine());
             assertEquals(wheels, car.getWheels());
@@ -149,7 +149,7 @@ class InjectServiceDefinitionFactoryTest {
             final ServiceDefinition<Engine> serviceDefinition =
                     serviceDefinitionFactory.createServiceDefinition(Engine.class, V8Engine.class);
 
-            final Engine engine = serviceDefinition.createObject(serviceFinder);
+            final Engine engine = serviceDefinition.createService(serviceFinder);
 
             assertInstanceOf(V8Engine.class, engine);
         }
@@ -161,7 +161,7 @@ class InjectServiceDefinitionFactoryTest {
                     serviceDefinitionFactory.createServiceDefinition(ThrowingConstructor.class, ThrowingConstructor.class);
 
             assertThrows(ServiceException.class,
-                    () -> serviceDefinition.createObject(serviceFinder));
+                    () -> serviceDefinition.createService(serviceFinder));
         }
 
         @Test
@@ -171,7 +171,7 @@ class InjectServiceDefinitionFactoryTest {
                     .thenThrow(NoUniqueServiceException.class);
 
             assertThrows(NoUniqueServiceException.class,
-                    () -> serviceDefinition.createObject(serviceFinder));
+                    () -> serviceDefinition.createService(serviceFinder));
 
             verify(serviceFinder).findService(Engine.class);
         }

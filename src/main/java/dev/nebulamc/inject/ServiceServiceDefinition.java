@@ -56,7 +56,7 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public T createObject(final ServiceFinder serviceFinder) {
+    public T createService(final ServiceFinder serviceFinder) {
 
         Preconditions.requireNonNull(serviceFinder, "serviceFinder");
 

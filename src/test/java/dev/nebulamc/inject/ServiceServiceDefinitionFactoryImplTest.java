@@ -110,7 +110,7 @@ class ServiceServiceDefinitionFactoryImplTest {
                         serviceServiceDefinitionFactory.createServiceDefinition(factory, method);
 
                 assertThrows(NullPointerException.class,
-                        () -> serviceDefinition.createObject(null));
+                        () -> serviceDefinition.createService(null));
             }
 
             @Test
@@ -133,7 +133,7 @@ class ServiceServiceDefinitionFactoryImplTest {
                         .createServiceDefinition(new PrivateFactory(), privateMethod);
 
                 assertThrows(ServiceException.class, () -> serviceDefinition
-                        .createObject(serviceFinder));
+                        .createService(serviceFinder));
                 verify(serviceFinder).findService(Engine.class);
                 verify(serviceFinder).findService(Wheels.class);
             }
@@ -159,7 +159,7 @@ class ServiceServiceDefinitionFactoryImplTest {
                         .createServiceDefinition(new ThrowingFactory(), throwingMethod);
 
                 assertThrows(ServiceException.class,
-                        () -> serviceDefinition.createObject(serviceFinder));
+                        () -> serviceDefinition.createService(serviceFinder));
             }
 
             @SuppressWarnings("unchecked")
@@ -174,7 +174,7 @@ class ServiceServiceDefinitionFactoryImplTest {
                 final ServiceDefinition<Car> serviceDefinition = (ServiceDefinition<Car>)
                         serviceServiceDefinitionFactory.createServiceDefinition(factory, method);
 
-                final Car car = serviceDefinition.createObject(serviceFinder);
+                final Car car = serviceDefinition.createService(serviceFinder);
 
                 assertInstanceOf(Suv.class, car);
                 assertInstanceOf(V8Engine.class, car.getEngine());

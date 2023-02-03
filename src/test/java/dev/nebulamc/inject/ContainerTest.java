@@ -102,13 +102,13 @@ class ContainerTest {
                 .serviceDefinition(serviceDefinition)
                 .build();
 
-        when(serviceDefinition.createObject(container)).thenReturn(engine);
+        when(serviceDefinition.createService(container)).thenReturn(engine);
 
         assertEquals(serviceDefinition, container.findServiceDefinition(Engine.class));
         assertEquals(engine, container.findService(Engine.class));
 
         verify(serviceDefinition).getServiceType();
-        verify(serviceDefinition).createObject(container);
+        verify(serviceDefinition).createService(container);
         verifyNoMoreInteractions(serviceDefinition);
     }
 

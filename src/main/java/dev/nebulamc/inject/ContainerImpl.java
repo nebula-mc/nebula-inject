@@ -107,7 +107,7 @@ final class ContainerImpl implements Container {
         try {
             final List<T> services = findServiceDefinitions(serviceType)
                     .stream()
-                    .map((serviceDefinition) -> serviceDefinition.createObject(this))
+                    .map((serviceDefinition) -> serviceDefinition.createService(this))
                     .toList();
             synchronized (this) {
                 services.forEach((service) -> singletons.add(serviceType, service));

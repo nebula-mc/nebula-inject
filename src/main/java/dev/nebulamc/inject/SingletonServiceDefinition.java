@@ -38,7 +38,7 @@ final class SingletonServiceDefinition<T> implements ServiceDefinition<T> {
     }
 
     @Override
-    public T createObject(final ServiceFinder serviceFinder) {
+    public T createService(final ServiceFinder serviceFinder) {
 
         Preconditions.requireNonNull(serviceFinder, "serviceFinder");
 

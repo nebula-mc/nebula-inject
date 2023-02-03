@@ -64,7 +64,7 @@ class SingletonServiceDefinitionTest {
         void testCreateObjectWhenServiceFinderIsNull() {
 
             assertThrows(NullPointerException.class, () ->
-                    serviceDefinition.createObject(null));
+                    serviceDefinition.createService(null));
         }
 
         @Test
@@ -72,7 +72,7 @@ class SingletonServiceDefinitionTest {
 
             final ServiceFinder serviceFinder = mock();
 
-            assertEquals(engine, serviceDefinition.createObject(serviceFinder));
+            assertEquals(engine, serviceDefinition.createService(serviceFinder));
             verifyNoMoreInteractions(serviceFinder);
         }
     }
