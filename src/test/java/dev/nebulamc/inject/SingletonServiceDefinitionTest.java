@@ -55,20 +55,20 @@ class SingletonServiceDefinitionTest {
         }
     }
 
-    @DisplayName("createObject(ServiceFinder)")
+    @DisplayName("createService(ServiceFinder)")
     @Nested
-    class CreateObject {
+    class CreateService {
 
         @SuppressWarnings("ConstantConditions")
         @Test
-        void testCreateObjectWhenServiceFinderIsNull() {
+        void testCreateServiceWhenServiceFinderIsNull() {
 
             assertThrows(NullPointerException.class, () ->
                     serviceDefinition.createService(null));
         }
 
         @Test
-        void testCreateObject() {
+        void testCreateService() {
 
             final ServiceFinder serviceFinder = mock();
 

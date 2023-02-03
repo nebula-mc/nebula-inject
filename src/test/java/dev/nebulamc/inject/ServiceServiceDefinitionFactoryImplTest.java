@@ -64,7 +64,7 @@ class ServiceServiceDefinitionFactoryImplTest {
         }
 
         @Test
-        void testCreateObjectWhenServiceMethodIsNotMemberOfFactory() {
+        void testCreateServiceWhenServiceMethodIsNotMemberOfFactory() {
 
             assertThrows(ClassCastException.class, () -> serviceServiceDefinitionFactory
                     .createServiceDefinition(new Object(), method));
@@ -85,8 +85,8 @@ class ServiceServiceDefinitionFactoryImplTest {
         }
 
         @Nested
-        @DisplayName("createObject()")
-        class CreateObject {
+        @DisplayName("createService()")
+        class CreateService {
 
             ServiceFinder serviceFinder;
 
@@ -104,7 +104,7 @@ class ServiceServiceDefinitionFactoryImplTest {
 
             @SuppressWarnings("ConstantConditions")
             @Test
-            void testCreateObjectWhenServiceFinderIsNull() {
+            void testCreateServiceWhenServiceFinderIsNull() {
 
                 final ServiceDefinition<?> serviceDefinition =
                         serviceServiceDefinitionFactory.createServiceDefinition(factory, method);
@@ -114,7 +114,7 @@ class ServiceServiceDefinitionFactoryImplTest {
             }
 
             @Test
-            void testCreateObjectWhenServiceMethodIsPrivate() throws NoSuchMethodException {
+            void testCreateServiceWhenServiceMethodIsPrivate() throws NoSuchMethodException {
 
                 @Factory
                 class PrivateFactory {
@@ -139,7 +139,7 @@ class ServiceServiceDefinitionFactoryImplTest {
             }
 
             @Test
-            void testCreateObjectWhenServiceMethodThrowsException()
+            void testCreateServiceWhenServiceMethodThrowsException()
                     throws NoSuchMethodException {
 
                 @Factory
@@ -164,7 +164,7 @@ class ServiceServiceDefinitionFactoryImplTest {
 
             @SuppressWarnings("unchecked")
             @Test
-            void testCreateObject() {
+            void testCreateService() {
 
                 final Engine engine = new V8Engine();
                 final Wheels wheels = new Wheels();

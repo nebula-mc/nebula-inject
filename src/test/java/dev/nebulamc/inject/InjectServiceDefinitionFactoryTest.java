@@ -101,9 +101,9 @@ class InjectServiceDefinitionFactoryTest {
         }
     }
 
-    @DisplayName("createObject(ServiceFinder)")
+    @DisplayName("createService(ServiceFinder)")
     @Nested
-    class CreateObject {
+    class CreateService {
 
         ServiceFinder serviceFinder;
 
@@ -121,14 +121,14 @@ class InjectServiceDefinitionFactoryTest {
 
         @SuppressWarnings("ConstantConditions")
         @Test
-        void testCreateObjectWhenServiceFinderIsNull() {
+        void testCreateServiceWhenServiceFinderIsNull() {
 
             assertThrows(NullPointerException.class,
                     () -> serviceDefinition.createService(null));
         }
 
         @Test
-        void testCreateObject() {
+        void testCreateService() {
 
             final Engine engine = new V8Engine();
             final Wheels wheels = new Wheels();
@@ -144,7 +144,7 @@ class InjectServiceDefinitionFactoryTest {
         }
 
         @Test
-        void testCreateObjectWhenNoArgsConstructor() {
+        void testCreateServiceWhenNoArgsConstructor() {
 
             final ServiceDefinition<Engine> serviceDefinition =
                     serviceDefinitionFactory.createServiceDefinition(Engine.class, V8Engine.class);
@@ -155,7 +155,7 @@ class InjectServiceDefinitionFactoryTest {
         }
 
         @Test
-        void testCreateObjectWhenThrowingConstructor() {
+        void testCreateServiceWhenThrowingConstructor() {
 
             final ServiceDefinition<ThrowingConstructor> serviceDefinition =
                     serviceDefinitionFactory.createServiceDefinition(ThrowingConstructor.class, ThrowingConstructor.class);
@@ -165,7 +165,7 @@ class InjectServiceDefinitionFactoryTest {
         }
 
         @Test
-        void testCreateObjectWhenServiceNotFound() {
+        void testCreateServiceWhenServiceNotFound() {
 
             when(serviceFinder.findService(Engine.class))
                     .thenThrow(NoUniqueServiceException.class);
