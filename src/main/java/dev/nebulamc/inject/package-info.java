@@ -5,7 +5,7 @@
  * Injectable constructors define where Nebula Inject should perform
  * <a href="https://en.wikipedia.org/wiki/Dependency_injection#Constructor_injection">
 *     constructor injection
-* </a>on a client object. By default, a single, no-args constructor is injectable, or any
+* </a> on a client object. By default, a single, no-args constructor is injectable, or any
  * constructors annotated with {@link dev.nebulamc.inject.Inject} (called "inject constructors") are
  * also injectable.
  *
