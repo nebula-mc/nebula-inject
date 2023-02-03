@@ -5,7 +5,8 @@ import org.jspecify.nullness.NullMarked;
 import java.util.List;
 
 /**
- * A {@link ServiceDefinitionRegistry} for {@link InjectServiceDefinition}s of concrete classes.
+ * A {@link ServiceDefinitionRegistry} for {@link InjectServiceDefinition ServiceDefinitions} of
+ * concrete classes.
  *
  * @author Sparky983
  */

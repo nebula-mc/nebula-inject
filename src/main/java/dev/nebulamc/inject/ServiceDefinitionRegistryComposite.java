@@ -15,14 +15,16 @@ final class ServiceDefinitionRegistryComposite implements ServiceDefinitionRegis
     private final List<ServiceDefinitionRegistry> serviceDefinitionRegistries;
 
     /**
-     * Constructs a new {@link ServiceDefinitionRegistryComposite}.
+     * Constructs a new {@link ServiceDefinitionRegistryComposite} from the given list of
+     * {@link ServiceDefinitionRegistry ServiceDefinitionRegistries}.
      *
      * @param serviceDefinitionRegistries the
      * {@link ServiceDefinitionRegistry ServiceDefinitionRegistries} to make a composite of.
      * @throws NullPointerException if the service definition registries is or contains
      * {@code null}.
      */
-    ServiceDefinitionRegistryComposite(final List<ServiceDefinitionRegistry> serviceDefinitionRegistries) {
+    ServiceDefinitionRegistryComposite(
+            final List<ServiceDefinitionRegistry> serviceDefinitionRegistries) {
 
         Preconditions.requireNonNull(serviceDefinitionRegistries, "serviceDefinitionRegistries");
 

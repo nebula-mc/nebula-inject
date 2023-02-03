@@ -3,7 +3,7 @@ package dev.nebulamc.inject;
 import org.jspecify.nullness.NullMarked;
 
 /**
- * A factory for creating {@link ServiceDefinition}s for classes with
+ * A factory for creating {@link ServiceDefinition ServiceDefinitions} for classes with
  * <a href="package-summary.html#injectable-constructors">injectable constructors</a>.
  *
  * @author Sparky983

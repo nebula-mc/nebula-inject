@@ -6,18 +6,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
+/**
+ * A service definition for a {@link Service} method.
+ *
+ * @author Sparky983
+ * @param <T> the service type
+ */
 @NullMarked
 final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
 
     private final Object factory;
     private final Method serviceMethod;
     /**
-     * Cache the {@link #serviceMethod} metadata, so we don't have to load it if we just want the
-     * service type.
-     */
-    private final Class<T> serviceType;
-    /**
-     * Cached method parameters.
+     * Cached method parameters so a new array doesn't need to be allocated by
+     * {@link Method#getParameters()} due to defensive copying.
      */
     private final Parameter[] parameters;
 
@@ -30,7 +32,6 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
      * @throws IllegalArgumentException if the service method is not public.
      * @throws NullPointerException if the factory or service method are {@code null}.
      */
-    @SuppressWarnings("unchecked")
     ServiceServiceDefinition(final Object factory, final Method serviceMethod) {
 
         Preconditions.requireNonNull(factory, "factory");
@@ -43,14 +44,14 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
 
         this.factory = factory;
         this.serviceMethod = serviceMethod;
-        this.serviceType = (Class<T>) serviceMethod.getReturnType();
         this.parameters = serviceMethod.getParameters();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Class<T> getServiceType() {
 
-        return serviceType;
+        return (Class<T>) serviceMethod.getReturnType();
     }
 
     @SuppressWarnings("unchecked")

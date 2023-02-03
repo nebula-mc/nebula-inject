@@ -23,11 +23,21 @@ final class Multimap<K extends @Nullable Object, V extends @Nullable Object>
 
     private final Map<K, List<V>> map;
 
+    /**
+     * Constructs a new, empty multimap.
+     */
     Multimap() {
 
         this.map = new HashMap<>();
     }
 
+    /**
+     * Constructs a new multimap by cloning the given map.
+     * <p>
+     * Note that the list of values are cloned, but not the values themselves.
+     *
+     * @param multimap the multimap to clone
+     */
     Multimap(final Map<K, List<V>> multimap) {
 
         Preconditions.requireNonNull(multimap, "multimap");
@@ -37,6 +47,12 @@ final class Multimap<K extends @Nullable Object, V extends @Nullable Object>
         map.entrySet().forEach((entry) -> entry.setValue(new LinkedList<>(entry.getValue())));
     }
 
+    /**
+     * Adds the given value to the list of values for the given key.
+     *
+     * @param key the key
+     * @param value the value
+     */
     public void add(final K key, final V value) {
 
         map.computeIfAbsent(key, (k) -> new LinkedList<>()).add(value);

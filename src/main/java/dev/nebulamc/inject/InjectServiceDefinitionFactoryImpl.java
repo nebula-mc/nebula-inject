@@ -2,6 +2,12 @@ package dev.nebulamc.inject;
 
 import org.jspecify.nullness.NullMarked;
 
+/**
+ * A factory for creating {@link InjectServiceDefinition InjectServiceDefinitions}.
+ *
+ * @author Sparky983
+ * @see InjectServiceDefinition
+ */
 @NullMarked
 final class InjectServiceDefinitionFactoryImpl implements InjectServiceDefinitionFactory {
 

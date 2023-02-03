@@ -19,10 +19,20 @@ import java.util.Optional;
 @NullMarked
 final class ContainerImpl implements Container {
 
+    /**
+     * A map of service type to service containing all currently loaded singletons.
+     */
     private final Multimap<Class<?>, Object> singletons = new Multimap<>();
 
     private final ServiceDefinitionRegistry serviceDefinitionRegistry;
 
+    /**
+     * Constructs a new {@link ContainerImpl} using the service from the given
+     * {@link ServiceDefinitionRegistry}.
+     *
+     * @param serviceDefinitionRegistry the service definition registry to use
+     * @throws NullPointerException if {@code serviceDefinitionRegistry} is {@code null}.
+     */
     ContainerImpl(final ServiceDefinitionRegistry serviceDefinitionRegistry) {
 
         Preconditions.requireNonNull(serviceDefinitionRegistry, "serviceDefinitionRegistry");
@@ -108,8 +118,14 @@ final class ContainerImpl implements Container {
         }
     }
 
+    /**
+     * The default implementation of {@link Builder}, used by {@link Container#builder()}.
+     */
     static final class BuilderImpl implements Builder {
 
+        /**
+         * The factory used by {@link #factory(Object)}.
+         */
         private final FactoryServiceDefinitionRegistryFactory serviceDefinitionRegistryFactory
                 = new FactoryServiceDefinitionRegistryFactoryImpl(
                         new ServiceServiceDefinitionFactoryImpl());
@@ -200,15 +216,14 @@ final class ContainerImpl implements Container {
                     new ArrayList<>(factories);
             serviceDefinitionRegistries.add(serviceDefinitions.build());
 
-            final ServiceDefinitionRegistry serviceDefinitionRegistry =
+            return new ContainerImpl(
                     new FallbackServiceDefinitionRegistry(
                             new ServiceDefinitionRegistryComposite(serviceDefinitionRegistries),
                             new InjectServiceDefinitionRegistry(
                                     new InjectServiceDefinitionFactoryImpl()
                             )
-                    );
-
-            return new ContainerImpl(serviceDefinitionRegistry);
+                    )
+            );
         }
     }
 }

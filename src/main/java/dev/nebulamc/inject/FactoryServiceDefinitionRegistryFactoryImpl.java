@@ -15,6 +15,14 @@ final class FactoryServiceDefinitionRegistryFactoryImpl
 
     private final ServiceServiceDefinitionFactory serviceServiceDefinitionFactory;
 
+    /**
+     * Constructs a new {@link FactoryServiceDefinitionRegistryFactoryImpl} using the given {@link
+     * ServiceServiceDefinitionFactory} as the factory to create service definitions for methods
+     * annotated with {@link Service @Service}.
+     *
+     * @param serviceServiceDefinitionFactory the service service definition factory to use
+     * @throws NullPointerException if {@code serviceServiceDefinitionFactory} is {@code null}.
+     */
     FactoryServiceDefinitionRegistryFactoryImpl(
             final ServiceServiceDefinitionFactory serviceServiceDefinitionFactory) {
 

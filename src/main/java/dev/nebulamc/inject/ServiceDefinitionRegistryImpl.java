@@ -5,11 +5,23 @@ import org.jspecify.nullness.NullMarked;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The default implementation of {@link ServiceDefinitionRegistry}, used by
+ * {@link ServiceDefinitionRegistry#builder()}.
+ *
+ * @author Sparky983
+ */
 @NullMarked
 final class ServiceDefinitionRegistryImpl implements ServiceDefinitionRegistry {
 
     private final Multimap<Class<?>, ServiceDefinition<?>> serviceDefinitions;
 
+    /**
+     * Constructs a new {@link ServiceDefinitionRegistryImpl} using the given service definitions.
+     *
+     * @param serviceDefinitions the service definitions to use
+     * @throws NullPointerException if {@code serviceDefinitions} is {@code null}.
+     */
     private ServiceDefinitionRegistryImpl(
             final Multimap<Class<?>, ServiceDefinition<?>> serviceDefinitions) {
 
@@ -47,6 +59,10 @@ final class ServiceDefinitionRegistryImpl implements ServiceDefinitionRegistry {
                 serviceDefinitions.getOrDefault(type, Collections.emptyList()));
     }
 
+    /**
+     * The default implementation of {@link ServiceDefinitionRegistry.Builder}, used by
+     * {@link ServiceDefinitionRegistry#builder()}.
+     */
     static final class BuilderImpl implements Builder {
 
         private final Multimap<Class<?>, ServiceDefinition<?>> serviceDefinitions =

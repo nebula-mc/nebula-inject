@@ -12,7 +12,9 @@ import java.util.List;
  * <p>
  * Note that this is different to {@link ServiceDefinitionRegistryComposite} in that it only uses
  * the fallback registry if the decorated registry does not contain a service definition for the
- * requested type rather than always using it
+ * requested type rather than always using it.
+ *
+ * @author Sparky983
  */
 @NullMarked
 final class FallbackServiceDefinitionRegistry implements ServiceDefinitionRegistry {
@@ -20,6 +22,16 @@ final class FallbackServiceDefinitionRegistry implements ServiceDefinitionRegist
     private final ServiceDefinitionRegistry serviceDefinitionRegistry;
     private final ServiceDefinitionRegistry fallback;
 
+    /**
+     * Constructs a new {@link FallbackServiceDefinitionRegistry} using the given service definition
+     * registry as the primary registry and the given service definition registry as the fallback
+     * registry if a service is not found in the primary registry.
+     *
+     * @param serviceDefinitionRegistry the primary service definition registry
+     * @param fallback the fallback service definition registry
+     * @throws NullPointerException if {@code serviceDefinitionRegistry} or {@code fallback} are
+     * {@code null}.
+     */
     FallbackServiceDefinitionRegistry(final ServiceDefinitionRegistry serviceDefinitionRegistry,
                                       final ServiceDefinitionRegistry fallback) {
 

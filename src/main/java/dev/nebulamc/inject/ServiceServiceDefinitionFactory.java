@@ -5,7 +5,7 @@ import org.jspecify.nullness.NullMarked;
 import java.lang.reflect.Method;
 
 /**
- * A factory for creating {@link ServiceDefinition}s for {@link Service} methods.
+ * A factory for creating {@link ServiceDefinition ServiceDefinitions} for {@link Service} methods.
  *
  * @author Sparky983
  * @see Service
