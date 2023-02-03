@@ -9,6 +9,7 @@
  * constructors annotated with {@link dev.nebulamc.inject.Inject} (called "inject constructors") are
  * also injectable.
  *
+ * @see dev.nebulamc.inject.Container
  * @since 1.0
  */
 package dev.nebulamc.inject;
