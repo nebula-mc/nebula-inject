@@ -8,13 +8,10 @@ import java.util.List;
 @NullMarked
 final class ServiceDefinitionRegistryImpl implements ServiceDefinitionRegistry {
 
-    private final Multimap<
-            Class<? extends Object>,
-            ServiceDefinition<? extends Object>> serviceDefinitions;
+    private final Multimap<Class<?>, ServiceDefinition<?>> serviceDefinitions;
 
-    private ServiceDefinitionRegistryImpl(final Multimap<
-            Class<? extends Object>,
-            ServiceDefinition<? extends Object>> serviceDefinitions) {
+    private ServiceDefinitionRegistryImpl(
+            final Multimap<Class<?>, ServiceDefinition<?>> serviceDefinitions) {
 
         Preconditions.requireNonNull(serviceDefinitions, "serviceDefinitions");
 
@@ -52,13 +49,11 @@ final class ServiceDefinitionRegistryImpl implements ServiceDefinitionRegistry {
 
     static final class BuilderImpl implements Builder {
 
-        private final Multimap<
-                Class<? extends Object>,
-                ServiceDefinition<? extends Object>> serviceDefinitions = new Multimap<>();
+        private final Multimap<Class<?>, ServiceDefinition<?>> serviceDefinitions =
+                new Multimap<>();
 
         @Override
-        public Builder serviceDefinition(
-                final ServiceDefinition<? extends Object> serviceDefinition) {
+        public Builder serviceDefinition(final ServiceDefinition<?> serviceDefinition) {
 
             Preconditions.requireNonNull(serviceDefinition, "serviceDefinition");
 

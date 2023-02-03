@@ -24,5 +24,5 @@ interface ServiceServiceDefinitionFactory {
      * @throws IllegalArgumentException if the service method is not public.
      * @throws NullPointerException if the service method or factory are {@code null}.
      */
-    ServiceDefinition<? extends Object> createServiceDefinition(Object factory, Method serviceMethod);
+    ServiceDefinition<?> createServiceDefinition(Object factory, Method serviceMethod);
 }

@@ -101,7 +101,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * @since 1.0
          */
         @Override
-        Builder serviceDefinition(ServiceDefinition<? extends Object> serviceDefinition);
+        Builder serviceDefinition(ServiceDefinition<?> serviceDefinition);
 
         /**
          * Builds the container.

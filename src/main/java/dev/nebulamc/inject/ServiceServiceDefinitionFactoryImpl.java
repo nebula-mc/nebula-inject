@@ -13,8 +13,8 @@ import java.lang.reflect.Method;
 final class ServiceServiceDefinitionFactoryImpl implements ServiceServiceDefinitionFactory {
 
     @Override
-    public ServiceDefinition<? extends Object> createServiceDefinition(final Object factory,
-                                                                       final Method serviceMethod) {
+    public ServiceDefinition<?> createServiceDefinition(final Object factory,
+                                                        final Method serviceMethod) {
 
         Preconditions.requireNonNull(factory, "factory");
         Preconditions.requireNonNull(serviceMethod, "serviceMethod");

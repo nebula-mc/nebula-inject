@@ -19,7 +19,7 @@ import java.util.Optional;
 @NullMarked
 final class ContainerImpl implements Container {
 
-    private final Multimap<Class<? extends Object>, Object> singletons = new Multimap<>();
+    private final Multimap<Class<?>, Object> singletons = new Multimap<>();
 
     private final ServiceDefinitionRegistry serviceDefinitionRegistry;
 
@@ -119,8 +119,7 @@ final class ContainerImpl implements Container {
         private final List<ServiceDefinitionRegistry> factories = new ArrayList<>();
 
         @Override
-        public Builder serviceDefinition(
-                final ServiceDefinition<? extends Object> serviceDefinition) {
+        public Builder serviceDefinition(final ServiceDefinition<?> serviceDefinition) {
 
             Preconditions.requireNonNull(serviceDefinition, "serviceDefinition");
 

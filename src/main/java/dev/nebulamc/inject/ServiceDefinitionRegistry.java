@@ -65,7 +65,7 @@ public interface ServiceDefinitionRegistry {
          * @throws NullPointerException if the factory is {@code null}.
          * @since 1.0
          */
-        Builder serviceDefinition(ServiceDefinition<? extends Object> serviceDefinition);
+        Builder serviceDefinition(ServiceDefinition<?> serviceDefinition);
 
         /**
          * Builds the service definition registry.
