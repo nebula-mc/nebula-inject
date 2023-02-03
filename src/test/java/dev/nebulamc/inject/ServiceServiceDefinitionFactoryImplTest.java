@@ -120,7 +120,7 @@ class ServiceServiceDefinitionFactoryImplTest {
                 class PrivateFactory {
 
                     @Service
-                    private Car createCar(Engine engine, Wheels wheels) {
+                    private Car createCar(final Engine engine, final Wheels wheels) {
 
                         return new Suv(engine, wheels);
                     }
