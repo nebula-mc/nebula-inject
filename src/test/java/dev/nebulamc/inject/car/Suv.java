@@ -1,0 +1,28 @@
+package dev.nebulamc.inject.car;
+
+import dev.nebulamc.inject.Inject;
+
+public final class Suv implements Car {
+
+    private final Engine engine;
+    private final Wheels wheels;
+
+    @Inject
+    public Suv(final Engine engine, final Wheels wheels) {
+
+        this.engine = engine;
+        this.wheels = wheels;
+    }
+
+    @Override
+    public Engine getEngine() {
+
+        return engine;
+    }
+
+    @Override
+    public Wheels getWheels() {
+
+        return wheels;
+    }
+}
