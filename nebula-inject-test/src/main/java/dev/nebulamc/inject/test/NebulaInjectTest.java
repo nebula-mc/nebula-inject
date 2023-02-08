@@ -9,7 +9,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Enables the {@link Mock} parameter resolver and the {@link InjectMocks} extension.
+ * Enables the {@link Mock} and {@link InjectMocks} annotations to be used in a test class.
  *
  * @author Sparky983
  * @since 1.0
