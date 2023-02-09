@@ -1,3 +1,6 @@
 rootProject.name = "nebula-inject"
 
-include(":nebula-inject-test")
+sequenceOf(
+    "nebula-inject",
+    "nebula-inject-test"
+).forEach { include(it) }
