@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    jacoco
     `maven-publish`
 }
 
@@ -45,5 +46,10 @@ java {
 tasks {
     test {
         useJUnitPlatform()
+    }
+    jacocoTestReport {
+        reports {
+            xml.required.set(true)
+        }
     }
 }
