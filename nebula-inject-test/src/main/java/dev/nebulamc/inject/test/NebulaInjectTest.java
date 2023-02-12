@@ -2,6 +2,7 @@ package dev.nebulamc.inject.test;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -16,6 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @ExtendWith(ContainerExtension.class)
 @ExtendWith(MockParameterResolver.class)
+@Documented
 @Retention(RUNTIME)
 @Target(TYPE)
 public @interface NebulaInjectTest {
