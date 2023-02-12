@@ -1,5 +1,6 @@
 package dev.nebulamc.inject;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -34,6 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @see Container.Builder
  * @since 1.0
  */
+@Documented
 @Retention(RUNTIME)
 @Target(TYPE)
 public @interface Factory {

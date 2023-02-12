@@ -3,6 +3,7 @@ package dev.nebulamc.inject.test;
 import dev.nebulamc.inject.Container;
 import dev.nebulamc.inject.Inject;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -39,6 +40,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @see Mock
  * @since 1.0
  */
+@Documented
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface InjectMocks {

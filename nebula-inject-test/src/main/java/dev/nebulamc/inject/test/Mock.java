@@ -3,6 +3,7 @@ package dev.nebulamc.inject.test;
 import org.jspecify.nullness.NullMarked;
 import org.mockito.Answers;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -51,6 +52,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @since 1.0
  */
 @NullMarked
+@Documented
 @Retention(RUNTIME)
 @Target({FIELD, PARAMETER})
 public @interface Mock {
