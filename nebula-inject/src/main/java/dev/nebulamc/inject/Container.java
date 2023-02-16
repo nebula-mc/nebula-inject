@@ -43,6 +43,16 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
     interface Builder extends ServiceDefinitionRegistry.Builder {
 
         /**
+         * Sets the parent of this container.
+         *
+         * @param parent the parent container
+         * @return this builder (for chaining)
+         * @throws NullPointerException if the parent is {@code null}.
+         * @since 1.0
+         */
+        Builder parent(Container parent);
+
+        /**
          * Adds a factory to the container.
          *
          * @param factory the factory instance

@@ -22,6 +22,33 @@ class ContainerTest {
 
     @SuppressWarnings("ConstantConditions")
     @Test
+    void testParentWhenParentIsNull() {
+
+        final Container.Builder builder = Container.builder();
+
+        assertThrows(NullPointerException.class, () -> builder.parent(null));
+    }
+
+    @Test
+    void testParent() {
+
+        final Engine engine = new V8Engine();
+        final Wheels wheels = new Wheels();
+        final Container parent = mock();
+        when(parent.findServices(Engine.class)).thenReturn(List.of(engine));
+        when(parent.findServices(Wheels.class)).thenReturn(List.of(wheels, wheels));
+
+        final Container child = Container.builder()
+                .parent(parent)
+                .singleton(wheels)
+                .build();
+
+        assertEquals(engine, child.findService(Engine.class));
+        assertEquals(List.of(wheels, wheels, wheels), child.findServices(Wheels.class));
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Test
     void testSingletonWhenSingletonIsNull() {
 
         final Container.Builder builder = Container.builder();

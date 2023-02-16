@@ -10,7 +10,7 @@ import java.util.List;
  * @author Sparky983
  */
 @NullMarked
-final class ServiceDefinitionRegistryComposite implements ServiceDefinitionRegistry {
+final class ServiceDefinitionRegistryComposite extends AbstractServiceDefinitionRegistry {
 
     private final List<ServiceDefinitionRegistry> serviceDefinitionRegistries;
 
@@ -29,23 +29,6 @@ final class ServiceDefinitionRegistryComposite implements ServiceDefinitionRegis
         Preconditions.requireNonNull(serviceDefinitionRegistries, "serviceDefinitionRegistries");
 
         this.serviceDefinitionRegistries = List.copyOf(serviceDefinitionRegistries);
-    }
-
-    @Override
-    public <T> ServiceDefinition<T> findServiceDefinition(final Class<T> type) {
-
-        Preconditions.requireNonNull(type, "type");
-
-        return findServiceDefinitions(type)
-                .stream()
-                .reduce((service1, service2) -> {
-                    throw new NoUniqueServiceException(
-                            "Multiple service definitions for type \"" +
-                                    type.getName() +
-                                    "\" found");
-                })
-                .orElseThrow(() -> new NoUniqueServiceException(
-                        "No service definition found for type \"" + type.getName() + "\""));
     }
 
     @Override

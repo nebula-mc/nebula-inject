@@ -12,7 +12,7 @@ import java.util.List;
  * @author Sparky983
  */
 @NullMarked
-final class ServiceDefinitionRegistryImpl implements ServiceDefinitionRegistry {
+final class ServiceDefinitionRegistryImpl extends AbstractServiceDefinitionRegistry {
 
     private final Multimap<Class<?>, ServiceDefinition<?>> serviceDefinitions;
 
@@ -28,23 +28,6 @@ final class ServiceDefinitionRegistryImpl implements ServiceDefinitionRegistry {
         Preconditions.requireNonNull(serviceDefinitions, "serviceDefinitions");
 
         this.serviceDefinitions = new Multimap<>(serviceDefinitions);
-    }
-
-    @Override
-    public <T> ServiceDefinition<T> findServiceDefinition(final Class<T> type) {
-
-        Preconditions.requireNonNull(type, "type");
-
-        return findServiceDefinitions(type)
-                .stream()
-                .reduce((service1, service2) -> {
-                    throw new NoUniqueServiceException(
-                            "Multiple service definitions for type \"" +
-                                    type.getName() +
-                                    "\" found");
-                })
-                .orElseThrow(() -> new NoUniqueServiceException(
-                        "No service definition found for type \"" + type.getName() + "\""));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
