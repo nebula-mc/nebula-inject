@@ -1,12 +1,12 @@
 package dev.nebulamc.inject;
 
 import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The default implementation of {@link Container}, used by {@link Container#builder()} and
@@ -17,7 +17,7 @@ import java.util.Optional;
  * @author Sparky983
  */
 @NullMarked
-final class ContainerImpl implements Container {
+final class ContainerImpl extends AbstractContainer {
 
     /**
      * A map of service type to service containing all currently loaded singletons.
@@ -56,42 +56,6 @@ final class ContainerImpl implements Container {
         return serviceDefinitionRegistry.findServiceDefinitions(type);
     }
 
-    @Override
-    public <T> T findService(final Class<T> serviceType) {
-
-        Preconditions.requireNonNull(serviceType, "serviceType");
-
-        final List<T> services = findServices(serviceType);
-
-        if (services.isEmpty()) {
-            throw new NoUniqueServiceException(
-                    "No services of type \"" + serviceType.getName() + "\" found");
-        }
-
-        if (services.size() > 1) {
-            throw new NoUniqueServiceException(
-                    "Multiple service definitions for type \"" +
-                            serviceType.getName() +
-                            "\" found");
-        }
-
-        return services.get(0);
-    }
-
-    @Override
-    public <T> Optional<T> findOptionalService(final Class<T> serviceType) {
-
-        Preconditions.requireNonNull(serviceType, "serviceType");
-
-        final List<T> services = findServices(serviceType);
-
-        if (services.size() != 1) {
-            return Optional.empty();
-        }
-
-        return Optional.of(services.get(0));
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public <T> List<T> findServices(final Class<T> serviceType) {
@@ -119,9 +83,9 @@ final class ContainerImpl implements Container {
     }
 
     /**
-     * The default implementation of {@link Builder}, used by {@link Container#builder()}.
+     * The default implementation of {@link Container.Builder}, used by {@link Container#builder()}.
      */
-    static final class BuilderImpl implements Builder {
+    static final class BuilderImpl implements Container.Builder {
 
         /**
          * The factory used by {@link #factory(Object)}.
@@ -134,8 +98,10 @@ final class ContainerImpl implements Container {
                 ServiceDefinitionRegistry.builder();
         private final List<ServiceDefinitionRegistry> factories = new ArrayList<>();
 
+        private @Nullable Container parent;
+
         @Override
-        public Builder serviceDefinition(final ServiceDefinition<?> serviceDefinition) {
+        public Container.Builder serviceDefinition(final ServiceDefinition<?> serviceDefinition) {
 
             Preconditions.requireNonNull(serviceDefinition, "serviceDefinition");
 
@@ -145,7 +111,17 @@ final class ContainerImpl implements Container {
         }
 
         @Override
-        public Builder factory(final Object factory) {
+        public Container.Builder parent(final Container parent) {
+
+            Preconditions.requireNonNull(parent, "parent");
+
+            this.parent = parent;
+
+            return this;
+        }
+
+        @Override
+        public Container.Builder factory(final Object factory) {
 
             Preconditions.requireNonNull(factory, "factory");
 
@@ -159,7 +135,7 @@ final class ContainerImpl implements Container {
 
         @SuppressWarnings({"unchecked", "rawtypes"})
         @Override
-        public Builder singleton(final Object singleton) {
+        public Container.Builder singleton(final Object singleton) {
 
             Preconditions.requireNonNull(singleton, "singleton");
 
@@ -169,7 +145,7 @@ final class ContainerImpl implements Container {
         }
 
         @Override
-        public <T> Builder singleton(final T singleton, final Iterable<Class<? super T>> types) {
+        public <T> Container.Builder singleton(final T singleton, final Iterable<Class<? super T>> types) {
 
             Preconditions.requireNonNull(singleton, "singleton");
             Preconditions.requireNonNull(types, "types");
@@ -183,7 +159,7 @@ final class ContainerImpl implements Container {
         }
 
         @Override
-        public <T> Builder singleton(final T singleton, final Class<? super T> type) {
+        public <T> Container.Builder singleton(final T singleton, final Class<? super T> type) {
 
             Preconditions.requireNonNull(singleton, "singleton");
             Preconditions.requireNonNull(type, "type");
@@ -216,7 +192,7 @@ final class ContainerImpl implements Container {
                     new ArrayList<>(factories);
             serviceDefinitionRegistries.add(serviceDefinitions.build());
 
-            return new ContainerImpl(
+            final Container container = new ContainerImpl(
                     new FallbackServiceDefinitionRegistry(
                             new ServiceDefinitionRegistryComposite(serviceDefinitionRegistries),
                             new InjectServiceDefinitionRegistry(
@@ -224,6 +200,12 @@ final class ContainerImpl implements Container {
                             )
                     )
             );
+
+            if (parent == null) {
+                return container;
+            }
+
+            return new ContainerComposite(List.of(parent, container));
         }
     }
 }
