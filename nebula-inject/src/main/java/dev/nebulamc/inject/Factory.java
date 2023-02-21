@@ -14,9 +14,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * support Nebula Inject such as external objects, for example:
  * <pre>{@code
  * @Factory
- * public class DatabaseFactory {
+ * class DatabaseFactory {
  *     @Service
- *     public Database connectToDatabase()  {
+ *     Database connectToDatabase()  {
  *         return Database.connect(...);
  *     }
  * }

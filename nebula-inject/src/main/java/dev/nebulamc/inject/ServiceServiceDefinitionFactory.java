@@ -21,7 +21,6 @@ interface ServiceServiceDefinitionFactory {
      * @param serviceMethod the service method
      * @return the service definition
      * @throws ClassCastException if the service method is not a member of the factory's class.
-     * @throws IllegalArgumentException if the service method is not public.
      * @throws NullPointerException if the service method or factory are {@code null}.
      */
     ServiceDefinition<?> createServiceDefinition(Object factory, Method serviceMethod);
