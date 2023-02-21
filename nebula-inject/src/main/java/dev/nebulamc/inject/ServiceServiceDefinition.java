@@ -66,6 +66,8 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
             arguments[i] = serviceFinder.findService(parameters[i].getType());
         }
 
+        serviceMethod.setAccessible(true);
+
         try {
             final T t = (T) serviceMethod.invoke(factory, arguments);
             if (t == null) {
@@ -76,6 +78,8 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
             throw new ServiceException(e);
         } catch (final IllegalAccessException e) {
             throw new ServiceException("The service method was not accessible", e);
+        } finally {
+            serviceMethod.setAccessible(false);
         }
     }
 }

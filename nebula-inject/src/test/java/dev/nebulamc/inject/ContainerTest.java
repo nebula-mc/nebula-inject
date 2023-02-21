@@ -3,6 +3,7 @@ package dev.nebulamc.inject;
 import dev.nebulamc.inject.car.Car;
 import dev.nebulamc.inject.car.CarFactory;
 import dev.nebulamc.inject.car.Engine;
+import dev.nebulamc.inject.car.Sedan;
 import dev.nebulamc.inject.car.Suv;
 import dev.nebulamc.inject.car.V8Engine;
 import dev.nebulamc.inject.car.Wheels;
@@ -150,7 +151,7 @@ class ContainerTest {
                 .singleton(wheels)
                 .build();
 
-        final Car car = container.findService(Suv.class);
+        final Car car = container.findService(Sedan.class);
 
         assertEquals(engine, car.getEngine());
         assertEquals(wheels, car.getWheels());
