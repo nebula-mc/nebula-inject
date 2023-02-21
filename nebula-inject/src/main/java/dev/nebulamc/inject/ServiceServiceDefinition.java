@@ -29,7 +29,6 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
      * @param factory the factory object
      * @param serviceMethod the service serviceMethod
      * @throws ClassCastException if the service method is not a member of the factory's class.
-     * @throws IllegalArgumentException if the service method is not public.
      * @throws NullPointerException if the factory or service method are {@code null}.
      */
     ServiceServiceDefinition(final Object factory, final Method serviceMethod) {
@@ -66,6 +65,8 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
             arguments[i] = serviceFinder.findService(parameters[i].getType());
         }
 
+        serviceMethod.setAccessible(true);
+
         try {
             final T t = (T) serviceMethod.invoke(factory, arguments);
             if (t == null) {
@@ -75,7 +76,9 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
         } catch (final InvocationTargetException e) {
             throw new ServiceException(e);
         } catch (final IllegalAccessException e) {
-            throw new ServiceException("The service method was not accessible", e);
+            throw new AssertionError(e);
+        } finally {
+            serviceMethod.setAccessible(false);
         }
     }
 }

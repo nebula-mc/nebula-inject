@@ -2,6 +2,7 @@ package dev.nebulamc.inject;
 
 import dev.nebulamc.inject.car.Car;
 import dev.nebulamc.inject.car.Engine;
+import dev.nebulamc.inject.car.Sedan;
 import dev.nebulamc.inject.car.Suv;
 import dev.nebulamc.inject.car.V8Engine;
 import dev.nebulamc.inject.car.Wheels;
@@ -30,7 +31,7 @@ class InjectServiceDefinitionFactoryTest {
     void setUp() {
 
         serviceDefinitionFactory = new InjectServiceDefinitionFactoryImpl();
-        serviceDefinition = serviceDefinitionFactory.createServiceDefinition(Car.class, Suv.class);
+        serviceDefinition = serviceDefinitionFactory.createServiceDefinition(Car.class, Sedan.class);
     }
 
     @DisplayName("createServiceDefinition(Class<T>, Class<? extends T>)")
@@ -75,8 +76,6 @@ class InjectServiceDefinitionFactoryTest {
 
             assertThrows(IllegalArgumentException.class, () -> serviceDefinitionFactory
                     .createServiceDefinition(Object.class, NoInjectAnnotation.class));
-            assertThrows(IllegalArgumentException.class, () -> serviceDefinitionFactory
-                    .createServiceDefinition(Object.class, PrivateConstructor.class));
             assertThrows(IllegalArgumentException.class, () -> serviceDefinitionFactory
                     .createServiceDefinition(Object.class, MultipleInjectableConstructors.class));
             assertThrows(IllegalArgumentException.class, () -> serviceDefinitionFactory
@@ -180,14 +179,6 @@ class InjectServiceDefinitionFactoryTest {
     static class NoInjectAnnotation {
 
         public NoInjectAnnotation(final Car car) {
-
-        }
-    }
-
-    static class PrivateConstructor {
-
-        @Inject
-        private PrivateConstructor(final Car car) {
 
         }
     }

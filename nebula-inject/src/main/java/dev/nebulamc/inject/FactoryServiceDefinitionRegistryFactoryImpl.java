@@ -43,7 +43,7 @@ final class FactoryServiceDefinitionRegistryFactoryImpl
             throw new IllegalArgumentException("The factory must be annotated with @Factory.");
         }
 
-        for (final Method method : factory.getClass().getMethods()) {
+        for (final Method method : factory.getClass().getDeclaredMethods()) {
             if (method.isAnnotationPresent(Service.class)) {
                 builder.serviceDefinition(
                         serviceServiceDefinitionFactory.createServiceDefinition(factory, method));

@@ -114,31 +114,6 @@ class ServiceServiceDefinitionFactoryImplTest {
             }
 
             @Test
-            void testCreateServiceWhenServiceMethodIsPrivate() throws NoSuchMethodException {
-
-                @Factory
-                class PrivateFactory {
-
-                    @Service
-                    private Car createCar(final Engine engine, final Wheels wheels) {
-
-                        return new Suv(engine, wheels);
-                    }
-                }
-
-                final Method privateMethod = PrivateFactory.class
-                        .getDeclaredMethod("createCar", Engine.class, Wheels.class);
-
-                final ServiceDefinition<?> serviceDefinition = serviceServiceDefinitionFactory
-                        .createServiceDefinition(new PrivateFactory(), privateMethod);
-
-                assertThrows(ServiceException.class, () -> serviceDefinition
-                        .createService(serviceFinder));
-                verify(serviceFinder).findService(Engine.class);
-                verify(serviceFinder).findService(Wheels.class);
-            }
-
-            @Test
             void testCreateServiceWhenServiceMethodThrowsException()
                     throws NoSuchMethodException {
 
@@ -146,7 +121,7 @@ class ServiceServiceDefinitionFactoryImplTest {
                 class ThrowingFactory {
 
                     @Service
-                    public Wheels createWheels() {
+                    Wheels createWheels() {
 
                         throw new RuntimeException();
                     }
@@ -169,7 +144,7 @@ class ServiceServiceDefinitionFactoryImplTest {
                 class NullFactory {
 
                     @Service
-                    public Wheels createWheels() {
+                    Wheels createWheels() {
 
                         return null;
                     }
@@ -200,7 +175,8 @@ class ServiceServiceDefinitionFactoryImplTest {
                 final Car car = serviceDefinition.createService(serviceFinder);
 
                 assertInstanceOf(Suv.class, car);
-                assertInstanceOf(V8Engine.class, car.getEngine());
+                assertEquals(engine, car.getEngine());
+                assertEquals(wheels, car.getWheels());
                 assertNotNull(car.getWheels());
                 verify(serviceFinder).findService(Engine.class);
                 verify(serviceFinder).findService(Wheels.class);

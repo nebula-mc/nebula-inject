@@ -46,7 +46,7 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
 
         Constructor<?> injectConstructor = null;
 
-        final Constructor<?>[] constructors = implementation.getConstructors();
+        final Constructor<?>[] constructors = implementation.getDeclaredConstructors();
 
         if (constructors.length == 1 && constructors[0].getParameterCount() == 0) {
             injectConstructor = constructors[0];
@@ -55,7 +55,7 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
                 if (constructor.isAnnotationPresent(Inject.class)) {
                     if (injectConstructor != null) {
                         throw new IllegalArgumentException(
-                                "Multiple public constructors annotated with @Inject found");
+                                "Multiple constructors annotated with @Inject found");
                     }
                     injectConstructor = constructor;
                 }
@@ -63,7 +63,7 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
         }
 
         if (injectConstructor == null) {
-            throw new IllegalArgumentException("No public constructors annotated with @Inject" +
+            throw new IllegalArgumentException("No constructors annotated with @Inject" +
                     " found for type " +
                     implementation.getName());
         }
@@ -91,12 +91,16 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
             arguments[i] = service;
         }
 
+        injectableConstructor.setAccessible(true);
+
         try {
             return injectableConstructor.newInstance(arguments);
         } catch (final InvocationTargetException | InstantiationException e) {
             throw new ServiceException("Constructor threw an exception", e);
         } catch (final IllegalAccessException e) {
-            throw new AssertionError("Constructor should be public", e);
+            throw new AssertionError(e);
+        } finally {
+            injectableConstructor.setAccessible(false);
         }
     }
 }

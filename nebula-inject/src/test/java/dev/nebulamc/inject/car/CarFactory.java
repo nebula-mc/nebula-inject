@@ -7,7 +7,7 @@ import dev.nebulamc.inject.Service;
 public final class CarFactory {
 
     @Service
-    public Car createCar(final Engine engine, final Wheels wheels) {
+    private Car createCar(final Engine engine, final Wheels wheels) {
 
         return new Suv(engine, wheels);
     }

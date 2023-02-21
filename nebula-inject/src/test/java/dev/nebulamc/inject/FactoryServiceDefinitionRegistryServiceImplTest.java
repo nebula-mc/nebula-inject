@@ -82,13 +82,13 @@ class FactoryServiceDefinitionRegistryServiceImplTest {
                 class MultipleEngineFactory {
 
                     @Service
-                    public Engine createV8Engine() {
+                    Engine createV8Engine() {
 
                         return new V8Engine();
                     }
 
                     @Service
-                    public Engine createV12Engine() {
+                    Engine createV12Engine() {
 
                         return new V12Engine();
                     }
@@ -164,7 +164,7 @@ class FactoryServiceDefinitionRegistryServiceImplTest {
                 class WheelsFactory {
 
                     @Service
-                    public Wheels createWheels() {
+                    Wheels createWheels() {
 
                         return new Wheels();
                     }
@@ -238,13 +238,13 @@ class FactoryServiceDefinitionRegistryServiceImplTest {
                 class EngineFactory {
 
                     @Service
-                    public Engine createV8Engine() {
+                    Engine createV8Engine() {
 
                         return new V8Engine();
                     }
 
                     @Service
-                    public Engine createV12Engine() {
+                    Engine createV12Engine() {
 
                         return new V12Engine();
                     }
