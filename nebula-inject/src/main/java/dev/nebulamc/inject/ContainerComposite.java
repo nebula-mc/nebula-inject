@@ -4,6 +4,7 @@ import org.jspecify.nullness.NullMarked;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @NullMarked
 final class ContainerComposite extends AbstractContainer {
@@ -35,7 +36,13 @@ final class ContainerComposite extends AbstractContainer {
 
         return containers
                 .stream()
-                .flatMap((container) -> container.findServices(serviceType).stream())
+                .flatMap((container) -> {
+                    try {
+                        return container.findServices(serviceType).stream();
+                    } catch (final ServiceException serviceException) {
+                        return Stream.empty();
+                    }
+                })
                 .toList();
     }
 }

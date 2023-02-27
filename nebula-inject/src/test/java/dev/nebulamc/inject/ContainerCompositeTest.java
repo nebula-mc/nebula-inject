@@ -168,7 +168,7 @@ class ContainerCompositeTest {
         }
 
         @Test
-        void testFindServiceWhenCompositesHaveMultipleServices() {
+        void testFindServiceWhenContainersHaveMultipleServices() {
 
             final Engine engine = new V8Engine();
 
@@ -179,6 +179,21 @@ class ContainerCompositeTest {
 
             assertThrows(NoUniqueServiceException.class,
                     () -> composite.findService(Engine.class));
+            verify(container1).findServices(Engine.class);
+            verify(container2).findServices(Engine.class);
+        }
+
+        @Test
+        void testFindServiceWhenContainerThrows() {
+
+            final Engine engine = new V8Engine();
+
+            when(container1.findServices(Engine.class))
+                    .thenThrow(ServiceException.class);
+            when(container2.findServices(Engine.class))
+                    .thenReturn(List.of(engine));
+
+            assertEquals(engine, composite.findService(Engine.class));
             verify(container1).findServices(Engine.class);
             verify(container2).findServices(Engine.class);
         }
@@ -221,7 +236,7 @@ class ContainerCompositeTest {
         }
 
         @Test
-        void testFindOptionalServiceWhenCompositesHaveMultipleServices() {
+        void testFindOptionalServiceWhenContainersHaveMultipleServices() {
 
             final Engine engine = new V8Engine();
 
@@ -231,6 +246,21 @@ class ContainerCompositeTest {
                     .thenReturn(List.of(engine));
 
             assertEquals(Optional.empty(), composite.findOptionalService(Engine.class));
+            verify(container1).findServices(Engine.class);
+            verify(container2).findServices(Engine.class);
+        }
+
+        @Test
+        void testFindOptionalServiceWhenContainerThrows() {
+
+            final Engine engine = new V8Engine();
+
+            when(container1.findServices(Engine.class))
+                    .thenThrow(ServiceException.class);
+            when(container2.findServices(Engine.class))
+                    .thenReturn(List.of(engine));
+
+            assertEquals(Optional.of(engine), composite.findOptionalService(Engine.class));
             verify(container1).findServices(Engine.class);
             verify(container2).findServices(Engine.class);
         }
@@ -259,6 +289,21 @@ class ContainerCompositeTest {
         void testFindServicesWhenTypeIsNull() {
 
             assertThrows(NullPointerException.class, () -> composite.findServices(null));
+        }
+
+        @Test
+        void testFindServicesWhenContainerThrows() {
+
+            final Engine engine = new V8Engine();
+
+            when(container1.findServices(Engine.class))
+                    .thenThrow(ServiceException.class);
+            when(container2.findServices(Engine.class))
+                    .thenReturn(List.of(engine));
+
+            assertEquals(List.of(engine), composite.findServices(Engine.class));
+            verify(container1).findServices(Engine.class);
+            verify(container2).findServices(Engine.class);
         }
 
         @Test
