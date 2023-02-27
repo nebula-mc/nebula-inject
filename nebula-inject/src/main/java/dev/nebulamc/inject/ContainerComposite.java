@@ -2,7 +2,6 @@ package dev.nebulamc.inject;
 
 import org.jspecify.nullness.NullMarked;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
