@@ -25,7 +25,7 @@ final class ContainerComposite extends AbstractContainer {
 
         return containers
                 .stream()
-                .flatMap(container -> container.findServiceDefinitions(type).stream())
+                .flatMap((container) -> container.findServiceDefinitions(type).stream())
                 .toList();
     }
 
