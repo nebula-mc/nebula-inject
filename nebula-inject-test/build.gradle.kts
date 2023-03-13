@@ -2,6 +2,17 @@ plugins {
     id("nebula-inject.library-conventions")
 }
 
+sourceSets {
+    create("intTest") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+
+val intTestImplementation: Configuration by configurations.getting {
+    extendsFrom(configurations.implementation.get())
+}
+
 repositories {
     mavenCentral()
 }
@@ -15,6 +26,10 @@ dependencies {
     api(project(":nebula-inject"))
 
     testImplementation("org.junit.platform:junit-platform-launcher:1.9.2")
+
+    intTestImplementation("org.junit.platform:junit-platform-launcher:1.9.2")
+    intTestImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
+    intTestImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.0")
 }
 
 java {
@@ -25,11 +40,32 @@ java {
     withSourcesJar()
 }
 
-tasks {
-    test {
-        // Used for integration testing with JUnit
-        exclude("dev/nebulamc/inject/test/NebulaInjectTestTest\$InjectAndMockFieldTest.class")
+val integrationTest = task<Test>("integrationTest") {
+    description = "Runs integration tests."
+    group = "verification"
 
+    testClassesDirs = sourceSets["intTest"].output.classesDirs
+    classpath = sourceSets["intTest"].runtimeClasspath
+    shouldRunAfter("test")
+
+    // Used for integration testing with JUnit
+    exclude("dev/nebulamc/inject/test/MockTest\$InjectAndMockFieldTest.class")
+    exclude("dev/nebulamc/inject/test/FactoryTest\$NonFactoryTest.class")
+    exclude("dev/nebulamc/inject/test/FactoryTest\$FactoryAndMockTest.class")
+    exclude("dev/nebulamc/inject/test/FactoryTest\$FactoryAndInjectTest.class")
+
+    useJUnitPlatform()
+
+    testLogging {
+        events("passed")
+    }
+}
+
+tasks {
+    check {
+        dependsOn(integrationTest)
+    }
+    test {
         useJUnitPlatform()
     }
 }
