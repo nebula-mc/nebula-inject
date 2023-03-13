@@ -37,10 +37,10 @@ class MockTest {
     }
 
     @Test
-    void testCpuIsMocked(@Mock(answer = Answers.RETURNS_SMART_NULLS) final Cpu heater) {
+    void testCpuIsMocked(@Mock(answer = Answers.RETURNS_SMART_NULLS) final Cpu cpu) {
 
-        assertTrue(Mockito.mockingDetails(heater).isMock());
-        assertEquals(Answers.RETURNS_SMART_NULLS, Mockito.mockingDetails(heater)
+        assertTrue(Mockito.mockingDetails(cpu).isMock());
+        assertEquals(Answers.RETURNS_SMART_NULLS, Mockito.mockingDetails(cpu)
                 .getMockHandler()
                 .getMockSettings()
                 .getDefaultAnswer());
@@ -65,7 +65,7 @@ class MockTest {
     @NebulaInjectTest
     static class InjectAndMockFieldTest {
 
-        @Mock @InjectMocks Computer house;
+        @Mock @InjectMocks Computer computer;
 
         /**
          * Required because the test container can't fail, only tests can.
