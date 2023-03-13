@@ -14,6 +14,13 @@ final class ServiceFinderServiceDefinitionRegistry implements ServiceDefinitionR
     
     private final ServiceFinder serviceFinder;
 
+    /**
+     * Constructs a new {@link ServiceFinderServiceDefinitionRegistry} for the specified
+     * {@link ServiceFinder}.
+     *
+     * @param serviceFinder the service finder
+     * @throws NullPointerException if the serviceFinder is {@code null}.
+     */
     ServiceFinderServiceDefinitionRegistry(final ServiceFinder serviceFinder) {
 
         Preconditions.requireNonNull(serviceFinder, "serviceFinder");
