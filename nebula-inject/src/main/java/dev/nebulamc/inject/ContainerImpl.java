@@ -192,7 +192,11 @@ final class ContainerImpl extends AbstractContainer {
                     new ArrayList<>(factories);
             serviceDefinitionRegistries.add(serviceDefinitions.build());
 
-            final Container container = new ContainerImpl(
+            if (parent != null) {
+                serviceDefinitionRegistries.add(new ServiceFinderServiceDefinitionRegistry(parent));
+            }
+
+            return new ContainerImpl(
                     new FallbackServiceDefinitionRegistry(
                             new ServiceDefinitionRegistryComposite(serviceDefinitionRegistries),
                             new InjectServiceDefinitionRegistry(
@@ -200,12 +204,6 @@ final class ContainerImpl extends AbstractContainer {
                             )
                     )
             );
-
-            if (parent == null) {
-                return container;
-            }
-
-            return new ContainerComposite(List.of(parent, container));
         }
     }
 }
