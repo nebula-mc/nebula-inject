@@ -65,12 +65,16 @@ class MockTest {
     @NebulaInjectTest
     static class InjectAndMockFieldTest {
 
-        @Mock @InjectMocks Computer computer;
+        @Mock
+        @InjectMocks
+        Computer computer;
 
         /**
          * Required because the test container can't fail, only tests can.
          */
         @Test
-        void test() {}
+        void test() {
+
+        }
     }
 }

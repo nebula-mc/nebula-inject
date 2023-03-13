@@ -51,7 +51,9 @@ class NebulaInjectTestsTest {
 
         class MockAndInjectTest {
 
-            @Mock @InjectMocks Cpu cpu;
+            @Mock
+            @InjectMocks
+            Cpu cpu;
         }
 
         assertThrows(IllegalArgumentException.class, () ->

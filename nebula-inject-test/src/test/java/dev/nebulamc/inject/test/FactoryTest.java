@@ -40,18 +40,6 @@ class FactoryTest {
         assertEquals(cpu, computer.getCpu());
     }
 
-    @NebulaInjectTest
-    static class NonFactoryTest {
-
-        @Factory Cpu nonFactory;
-
-        /**
-         * Required so test can fail.
-         */
-        @Test
-        void test() {}
-    }
-
     @Test
     void testNonFactory() {
 
@@ -65,18 +53,6 @@ class FactoryTest {
 
         assumeTrue(listener.getSummary().getTestsFoundCount() == 1);
         assertEquals(1, listener.getSummary().getTestsFailedCount());
-    }
-
-    @NebulaInjectTest
-    static class FactoryAndMockTest {
-
-        @Factory @Mock IntelCpuFactory factory;
-
-        /**
-         * Required so test can fail.
-         */
-        @Test
-        void test() {}
     }
 
     @Test
@@ -95,18 +71,6 @@ class FactoryTest {
         assertEquals(1, listener.getSummary().getContainersFailedCount());
     }
 
-    @NebulaInjectTest
-    static class FactoryAndInjectTest {
-
-        @InjectMocks @Factory IntelCpuFactory factory;
-
-        /**
-         * Required so test can fail.
-         */
-        @Test
-        void test() {}
-    }
-
     @Test
     void testFactoryAndInject() {
 
@@ -121,6 +85,52 @@ class FactoryTest {
         assumeTrue(listener.getSummary().getContainersFoundCount() == 2);
         assertEquals(1, listener.getSummary().getContainersSucceededCount());
         assertEquals(1, listener.getSummary().getContainersFailedCount());
+    }
+
+    @NebulaInjectTest
+    static class NonFactoryTest {
+
+        @Factory Cpu nonFactory;
+
+        /**
+         * Required so test can fail.
+         */
+        @Test
+        void test() {
+
+        }
+    }
+
+    @NebulaInjectTest
+    static class FactoryAndMockTest {
+
+        @Factory
+        @Mock
+        IntelCpuFactory factory;
+
+        /**
+         * Required so test can fail.
+         */
+        @Test
+        void test() {
+
+        }
+    }
+
+    @NebulaInjectTest
+    static class FactoryAndInjectTest {
+
+        @InjectMocks
+        @Factory
+        IntelCpuFactory factory;
+
+        /**
+         * Required so test can fail.
+         */
+        @Test
+        void test() {
+
+        }
     }
 
 }
