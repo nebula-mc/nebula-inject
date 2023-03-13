@@ -43,7 +43,7 @@ jobs:
           fail_ci_if_error: true
 
       - name: Integration test project
-        run: ./gradlew integrationTest
+        run: ./gradlew clean integrationTest
 
       - name: Generate coverage report
         run: ./gradlew jacocoTestReport
