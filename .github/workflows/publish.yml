@@ -29,8 +29,8 @@ jobs:
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
 
-      - name: Build project
-        run: ./gradlew build
+      - name: Unit test project
+        run: ./gradlew test
 
       - name: Generate coverage report
         run: ./gradlew jacocoTestReport
@@ -39,7 +39,24 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unit
           fail_ci_if_error: true
+
+      - name: Integration test project
+        run: ./gradlew integrationTest
+
+      - name: Generate coverage report
+        run: ./gradlew jacocoIntegrationTestReport
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: integration
+          fail_ci_if_error: true
+
+      - name: Build project
+        run: ./gradlew build -x check
 
   publish:
     if: github.event_name == 'push' || github.event_name == 'release'
