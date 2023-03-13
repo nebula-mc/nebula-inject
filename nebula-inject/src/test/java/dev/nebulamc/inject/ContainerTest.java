@@ -158,6 +158,20 @@ class ContainerTest {
     }
 
     @Test
+    void testFindConcreteServiceWithParent() {
+
+        final Wheels wheels = new Wheels();
+        final Container parent = Container.builder()
+                .singleton(wheels)
+                .build();
+        final Container child = Container.builder()
+                .parent(parent)
+                .build();
+
+        assertEquals(wheels, child.findService(Wheels.class));
+    }
+
+    @Test
     void testFindServiceWhenServiceIsNotRegistered() {
 
         final Container container = Container.create();
