@@ -55,10 +55,6 @@ val integrationTest = task<Test>("integrationTest") {
     exclude("dev/nebulamc/inject/test/FactoryTest\$FactoryAndInjectTest.class")
 
     useJUnitPlatform()
-
-    testLogging {
-        events("passed")
-    }
 }
 
 tasks {
