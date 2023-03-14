@@ -27,8 +27,10 @@ java {
 
 tasks {
     test {
-        // Used for integration testing with JUnit
-        exclude("dev/nebulamc/inject/test/NebulaInjectTestTest\$InjectAndMockFieldTest.class")
+        exclude("dev/nebulamc/inject/test/MockTest\$InjectAndMockFieldTest.class")
+        exclude("dev/nebulamc/inject/test/FactoryTest\$NonFactoryTest.class")
+        exclude("dev/nebulamc/inject/test/FactoryTest\$FactoryAndMockTest.class")
+        exclude("dev/nebulamc/inject/test/FactoryTest\$FactoryAndInjectTest.class")
 
         useJUnitPlatform()
     }

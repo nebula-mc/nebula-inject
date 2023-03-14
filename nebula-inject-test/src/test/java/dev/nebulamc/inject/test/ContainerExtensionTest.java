@@ -1,7 +1,7 @@
 package dev.nebulamc.inject.test;
 
-import dev.nebulamc.inject.test.house.Heater;
-import dev.nebulamc.inject.test.house.House;
+import dev.nebulamc.inject.test.computer.Computer;
+import dev.nebulamc.inject.test.computer.Cpu;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -60,25 +60,25 @@ class ContainerExtensionTest {
 
         class Test {
 
-            @Mock(answer = Answers.RETURNS_MOCKS) Heater heater;
-            @InjectMocks House house;
+            @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
+            @InjectMocks Computer computer;
         }
 
         final Test test = new Test();
 
-        final Heater heater = mock();
+        final Cpu cpu = mock();
         final ExtensionContext context = mock(ExtensionContext.class);
         when(context.getRequiredTestClass()).thenAnswer((invocation) -> Test.class);
         when(context.getRequiredTestInstance()).thenReturn(test);
         when(mockFactory.createMock(
-                eq(Heater.class),
+                eq(Cpu.class),
                 argThat((argument) -> argument.answer() == Answers.RETURNS_MOCKS)))
-                .thenReturn(heater);
+                .thenReturn(cpu);
         containerExtension.beforeAll(context);
 
         containerExtension.beforeEach(context);
 
-        assertEquals(heater, test.heater);
-        assertEquals(heater, test.house.getHeater());
+        assertEquals(cpu, test.cpu);
+        assertEquals(cpu, test.computer.getCpu());
     }
 }

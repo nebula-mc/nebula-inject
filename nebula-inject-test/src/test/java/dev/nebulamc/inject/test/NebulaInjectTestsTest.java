@@ -1,7 +1,7 @@
 package dev.nebulamc.inject.test;
 
-import dev.nebulamc.inject.test.house.Heater;
-import dev.nebulamc.inject.test.house.House;
+import dev.nebulamc.inject.test.computer.Computer;
+import dev.nebulamc.inject.test.computer.Cpu;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -17,16 +17,16 @@ class NebulaInjectTestsTest {
 
         class MocksTest {
 
-            @Mock Heater heater;
-            @Mock House house;
+            @Mock Cpu cpu;
+            @Mock Computer computer;
         }
 
-        final Field heater = MocksTest.class.getDeclaredField("heater");
-        final Field house = MocksTest.class.getDeclaredField("house");
+        final Field cpu = MocksTest.class.getDeclaredField("cpu");
+        final Field computer = MocksTest.class.getDeclaredField("computer");
 
         final NebulaInjectTests tests = new NebulaInjectTests(MocksTest.class);
 
-        assertEquals(Set.of(heater, house), tests.getMockFields());
+        assertEquals(Set.of(cpu, computer), tests.getMockFields());
     }
 
     @Test
@@ -34,16 +34,16 @@ class NebulaInjectTestsTest {
 
         class InjectMocksTest {
 
-            @InjectMocks Heater heater;
-            @InjectMocks House house;
+            @InjectMocks Cpu cpu;
+            @InjectMocks Computer computer;
         }
 
-        final Field heater = InjectMocksTest.class.getDeclaredField("heater");
-        final Field house = InjectMocksTest.class.getDeclaredField("house");
+        final Field cpu = InjectMocksTest.class.getDeclaredField("cpu");
+        final Field computer = InjectMocksTest.class.getDeclaredField("computer");
 
         final NebulaInjectTests tests = new NebulaInjectTests(InjectMocksTest.class);
 
-        assertEquals(Set.of(heater, house), tests.getInjectMocksFields());
+        assertEquals(Set.of(cpu, computer), tests.getInjectMocksFields());
     }
 
     @Test
@@ -51,7 +51,9 @@ class NebulaInjectTestsTest {
 
         class MockAndInjectTest {
 
-            @Mock @InjectMocks Heater heater;
+            @Mock
+            @InjectMocks
+            Cpu cpu;
         }
 
         assertThrows(IllegalArgumentException.class, () ->

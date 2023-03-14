@@ -63,7 +63,7 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
             throw new IllegalStateException("beforeAll(ExtensionContext) has not been called yet");
         }
 
-        final Container.Builder builder = Container.builder();
+        final Container.Builder mocksBuilder = Container.builder();
 
         for (final Field field : tests.getMockFields()) {
             final Object mock = mockFactory.createMock(
@@ -74,7 +74,23 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
             } finally {
                 field.setAccessible(false);
             }
-            builder.singleton(mock);
+            mocksBuilder.singleton(mock);
+        }
+
+        final Container mocksContainer = mocksBuilder.build();
+
+        final Container.Builder builder = Container.builder()
+                .parent(mocksContainer);
+
+        for (final Field field : tests.getFactoryFields()) {
+            final Object factory = mocksContainer.findService(field.getType());
+            field.setAccessible(true);
+            try {
+                field.set(context.getRequiredTestInstance(), factory);
+            } finally {
+                field.setAccessible(false);
+            }
+            builder.factory(factory);
         }
 
         final Container container = builder.build();

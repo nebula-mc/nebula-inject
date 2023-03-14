@@ -1,7 +1,7 @@
 package dev.nebulamc.inject.test;
 
-import dev.nebulamc.inject.test.house.Heater;
-import dev.nebulamc.inject.test.house.House;
+import dev.nebulamc.inject.test.computer.Computer;
+import dev.nebulamc.inject.test.computer.Cpu;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
@@ -15,32 +15,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @NebulaInjectTest
-class NebulaInjectTestTest {
+class MockTest {
 
-    @Mock(answer = Answers.RETURNS_MOCKS) Heater heater;
-    @InjectMocks House house;
+    @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
+    @InjectMocks Computer computer;
 
     @Test
-    void testHeaterFieldIsInjected() {
+    void testComputerIsInjected() {
 
-        assertEquals(heater, house.getHeater());
+        assertEquals(cpu, computer.getCpu());
     }
 
     @Test
-    void testHeaterFieldIsMocked() {
+    void testCpuFieldIsMocked() {
 
-        assertTrue(Mockito.mockingDetails(heater).isMock());
-        assertEquals(Answers.RETURNS_MOCKS, Mockito.mockingDetails(heater)
+        assertTrue(Mockito.mockingDetails(cpu).isMock());
+        assertEquals(Answers.RETURNS_MOCKS, Mockito.mockingDetails(cpu)
                 .getMockHandler()
                 .getMockSettings()
                 .getDefaultAnswer());
     }
 
     @Test
-    void testHeaterIsMocked(@Mock(answer = Answers.RETURNS_SMART_NULLS) final Heater heater) {
+    void testCpuIsMocked(@Mock(answer = Answers.RETURNS_SMART_NULLS) final Cpu cpu) {
 
-        assertTrue(Mockito.mockingDetails(heater).isMock());
-        assertEquals(Answers.RETURNS_SMART_NULLS, Mockito.mockingDetails(heater)
+        assertTrue(Mockito.mockingDetails(cpu).isMock());
+        assertEquals(Answers.RETURNS_SMART_NULLS, Mockito.mockingDetails(cpu)
                 .getMockHandler()
                 .getMockSettings()
                 .getDefaultAnswer());
@@ -58,19 +58,23 @@ class NebulaInjectTestTest {
                         .build(), listener);
 
         assumeTrue(listener.getSummary().getContainersFoundCount() == 2);
-        assumeTrue(listener.getSummary().getContainersSucceededCount() == 1);
+        assertEquals(listener.getSummary().getContainersSucceededCount(), 1);
         assertEquals(listener.getSummary().getTotalFailureCount(), 1);
     }
 
     @NebulaInjectTest
     static class InjectAndMockFieldTest {
 
-        @Mock @InjectMocks House house;
+        @Mock
+        @InjectMocks
+        Computer computer;
 
         /**
          * Required because the test container can't fail, only tests can.
          */
         @Test
-        void test() {}
+        void test() {
+
+        }
     }
 }
