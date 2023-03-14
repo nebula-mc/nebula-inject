@@ -1,6 +1,7 @@
 package dev.nebulamc.inject.test;
 
 import dev.nebulamc.inject.Factory;
+import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
 import dev.nebulamc.inject.test.computer.IntelCpu;
@@ -18,9 +19,9 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 class FactoryTest {
 
     @Factory IntelCpuFactory intelCpuFactory;
-    @InjectMocks IntelCpu intelCpu;
-    @InjectMocks Cpu cpu;
-    @InjectMocks Computer computer;
+    @Inject IntelCpu intelCpu;
+    @Inject Cpu cpu;
+    @Inject Computer computer;
 
     @Test
     void testIntelCpuFactoryIsInjectedIntoFactory() {
@@ -120,7 +121,7 @@ class FactoryTest {
     @NebulaInjectTest
     static class FactoryAndInjectTest {
 
-        @InjectMocks
+        @Inject
         @Factory
         IntelCpuFactory factory;
 

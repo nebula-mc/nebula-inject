@@ -1,5 +1,6 @@
 package dev.nebulamc.inject.test;
 
+import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
 import org.junit.jupiter.api.Test;
@@ -30,29 +31,29 @@ class NebulaInjectTestsTest {
     }
 
     @Test
-    void testGetInjectMocksFields() throws NoSuchFieldException {
+    void testGetInjectFields() throws NoSuchFieldException {
 
-        class InjectMocksTest {
+        class InjectTest {
 
-            @InjectMocks Cpu cpu;
-            @InjectMocks Computer computer;
+            @Inject Cpu cpu;
+            @Inject Computer computer;
         }
 
-        final Field cpu = InjectMocksTest.class.getDeclaredField("cpu");
-        final Field computer = InjectMocksTest.class.getDeclaredField("computer");
+        final Field cpu = InjectTest.class.getDeclaredField("cpu");
+        final Field computer = InjectTest.class.getDeclaredField("computer");
 
-        final NebulaInjectTests tests = new NebulaInjectTests(InjectMocksTest.class);
+        final NebulaInjectTests tests = new NebulaInjectTests(InjectTest.class);
 
-        assertEquals(Set.of(cpu, computer), tests.getInjectMocksFields());
+        assertEquals(Set.of(cpu, computer), tests.getInjectFields());
     }
 
     @Test
-    void testInitWhenMockAndInjectMocks() {
+    void testInitWhenMockAndInject() {
 
         class MockAndInjectTest {
 
             @Mock
-            @InjectMocks
+            @Inject
             Cpu cpu;
         }
 

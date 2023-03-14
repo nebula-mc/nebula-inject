@@ -1,5 +1,6 @@
 package dev.nebulamc.inject.test;
 
+import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 class MockTest {
 
     @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
-    @InjectMocks Computer computer;
+    @Inject Computer computer;
 
     @Test
     void testComputerIsInjected() {
@@ -66,7 +67,7 @@ class MockTest {
     static class InjectAndMockFieldTest {
 
         @Mock
-        @InjectMocks
+        @Inject
         Computer computer;
 
         /**

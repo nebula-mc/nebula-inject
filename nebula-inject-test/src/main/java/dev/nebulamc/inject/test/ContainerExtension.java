@@ -1,6 +1,7 @@
 package dev.nebulamc.inject.test;
 
 import dev.nebulamc.inject.Container;
+import dev.nebulamc.inject.Inject;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 /**
  * The extension that creates the container and creates and injects mocks to {@link Mock} and
- * {@link InjectMocks} fields.
+ * {@link Inject} fields.
  * <p>
  * Does not include {@link MockParameterResolver}.
  *
@@ -95,7 +96,7 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
 
         final Container container = builder.build();
 
-        for (final Field field : tests.getInjectMocksFields()) {
+        for (final Field field : tests.getInjectFields()) {
             field.setAccessible(true);
             try {
                 field.set(context.getRequiredTestInstance(), container.findService(field.getType()));

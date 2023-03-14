@@ -1,5 +1,6 @@
 package dev.nebulamc.inject.test;
 
+import dev.nebulamc.inject.Inject;
 import org.jspecify.nullness.NullMarked;
 import org.mockito.Answers;
 
@@ -15,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * An annotation that indicates that the annotated field or parameter should be mocked.
  * <p>
  * If this annotation is present on a field, it is added to the test's container before
- * {@link InjectMocks} fields are, so it can be used by the {@link InjectMocks} fields:
+ * {@link Inject} fields are, so it can be used by the {@link Inject} fields:
  * <pre>{@code
  * class MockTest {
  *     @Mock Engine engine;
@@ -48,7 +49,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * </ul>
  *
  * @author Sparky983
- * @see InjectMocks
+ * @see Inject
  * @since 1.0
  */
 @NullMarked

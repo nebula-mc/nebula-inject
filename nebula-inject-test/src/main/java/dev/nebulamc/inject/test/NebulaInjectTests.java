@@ -1,6 +1,7 @@
 package dev.nebulamc.inject.test;
 
 import dev.nebulamc.inject.Factory;
+import dev.nebulamc.inject.Inject;
 import org.jspecify.nullness.NullMarked;
 
 import java.lang.reflect.Field;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 final class NebulaInjectTests {
 
     private final Set<Field> mockFields;
-    private final Set<Field> injectMocksFields;
+    private final Set<Field> injectFields;
     private final Set<Field> factoryFields;
 
     NebulaInjectTests(final Class<?> testClass) {
@@ -33,20 +34,20 @@ final class NebulaInjectTests {
         this.mockFields = Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Mock.class))
                 .collect(Collectors.toSet());
-        this.injectMocksFields = Arrays.stream(fields)
-                .filter((field) -> field.isAnnotationPresent(InjectMocks.class))
+        this.injectFields = Arrays.stream(fields)
+                .filter((field) -> field.isAnnotationPresent(Inject.class))
                 .collect(Collectors.toSet());
         this.factoryFields = Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Factory.class))
                 .collect(Collectors.toSet());
 
-        final Set<Field> mockAndInjectMockFields = new HashSet<>(mockFields);
-        mockAndInjectMockFields.retainAll(injectMocksFields);
+        final Set<Field> mockAndInjectFields = new HashSet<>(mockFields);
+        mockAndInjectFields.retainAll(injectFields);
 
-        if (!mockAndInjectMockFields.isEmpty()) {
+        if (!mockAndInjectFields.isEmpty()) {
             throw new IllegalArgumentException(
-                    "The following fields cannot be annotated with both @Mock and @InjectMocks: " +
-                            mockAndInjectMockFields.stream()
+                    "The following fields cannot be annotated with both @Mock and @Inject: " +
+                            mockAndInjectFields.stream()
                                     .map(Field::getName)
                                     .collect(Collectors.joining(", ")));
         }
@@ -62,13 +63,13 @@ final class NebulaInjectTests {
                                     .collect(Collectors.joining(", ")));
         }
 
-        final Set<Field> injectMocksAndFactoryFields = new HashSet<>(injectMocksFields);
-        injectMocksAndFactoryFields.retainAll(factoryFields);
+        final Set<Field> injectAndFactoryFields = new HashSet<>(injectFields);
+        injectAndFactoryFields.retainAll(factoryFields);
 
-        if (!injectMocksAndFactoryFields.isEmpty()) {
+        if (!injectAndFactoryFields.isEmpty()) {
             throw new IllegalArgumentException(
-                    "The following fields cannot be annotated with both @InjectMocks and @Factory: " +
-                            injectMocksAndFactoryFields.stream()
+                    "The following fields cannot be annotated with both @Inject and @Factory: " +
+                            injectAndFactoryFields.stream()
                                     .map(Field::getName)
                                     .collect(Collectors.joining(", ")));
         }
@@ -79,9 +80,9 @@ final class NebulaInjectTests {
         return mockFields;
     }
 
-    public Set<Field> getInjectMocksFields() {
+    public Set<Field> getInjectFields() {
 
-        return injectMocksFields;
+        return injectFields;
     }
 
     public Set<Field> getFactoryFields() {

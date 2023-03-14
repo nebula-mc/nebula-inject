@@ -1,5 +1,6 @@
 package dev.nebulamc.inject.test;
 
+import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +62,7 @@ class ContainerExtensionTest {
         class Test {
 
             @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
-            @InjectMocks Computer computer;
+            @Inject Computer computer;
         }
 
         final Test test = new Test();
