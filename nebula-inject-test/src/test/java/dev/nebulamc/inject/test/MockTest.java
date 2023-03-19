@@ -3,6 +3,7 @@ package dev.nebulamc.inject.test;
 import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
+import dev.nebulamc.inject.test.computer.IntelCpu;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
@@ -63,6 +64,20 @@ class MockTest {
         assertEquals(listener.getSummary().getTotalFailureCount(), 1);
     }
 
+    @Test
+    void testInjectMockSubtype() {
+
+        final SummaryGeneratingListener listener = new SummaryGeneratingListener();
+
+        LauncherFactory.create()
+                .execute(LauncherDiscoveryRequestBuilder.request()
+                        .selectors(DiscoverySelectors.selectClass(InjectMockSubtypeTest.class))
+                        .listeners()
+                        .build(), listener);
+
+        assumeTrue(listener.getSummary().getTestsFoundCount() == 1);
+        assertEquals(1, listener.getSummary().getTestsFailedCount());
+    }
     @NebulaInjectTest
     static class InjectAndMockFieldTest {
 
@@ -71,7 +86,22 @@ class MockTest {
         Computer computer;
 
         /**
-         * Required because the test container can't fail, only tests can.
+         * Required so test can fail.
+         */
+        @Test
+        void test() {
+
+        }
+    }
+
+    @NebulaInjectTest
+    static class InjectMockSubtypeTest {
+
+        @Mock IntelCpu intelCpu;
+        @Inject Cpu cpu;
+
+        /**
+         * Required so test can fail.
          */
         @Test
         void test() {
