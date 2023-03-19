@@ -55,6 +55,7 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
         tests = new NebulaInjectTests(context.getRequiredTestClass());
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void beforeEach(final ExtensionContext context) throws Exception {
 
@@ -75,7 +76,7 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
             } finally {
                 field.setAccessible(false);
             }
-            mocksBuilder.singleton(mock);
+            mocksBuilder.singleton(mock, (Class) field.getType());
         }
 
         final Container mocksContainer = mocksBuilder.build();

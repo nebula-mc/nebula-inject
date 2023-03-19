@@ -28,6 +28,7 @@ java {
 tasks {
     test {
         exclude("dev/nebulamc/inject/test/MockTest\$InjectAndMockFieldTest.class")
+        exclude("dev/nebulamc/inject/test/MockTest\$InjectMockSubtypeTest.class")
         exclude("dev/nebulamc/inject/test/FactoryTest\$NonFactoryTest.class")
         exclude("dev/nebulamc/inject/test/FactoryTest\$FactoryAndMockTest.class")
         exclude("dev/nebulamc/inject/test/FactoryTest\$FactoryAndInjectTest.class")
