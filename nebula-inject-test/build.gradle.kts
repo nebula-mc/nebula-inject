@@ -11,7 +11,7 @@ dependencies {
     // TODO: Update to 0.3.0 when more tools add support
 
     compileOnly("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    api("org.mockito:mockito-core:4.11.0")
+    api("org.mockito:mockito-core:5.3.0")
     api(project(":nebula-inject"))
 
     testImplementation("org.junit.platform:junit-platform-launcher:1.9.2")
