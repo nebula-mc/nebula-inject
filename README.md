@@ -13,6 +13,7 @@
 ## 📚 Documentation
 
 - [📄 Javadoc](https://repo.nebulamc.dev/javadoc/snapshots/dev/nebulamc/nebula-inject/latest)
+- [📖 Wiki](https://inject.nebulamc.dev)
 
 ## 🤝 Contributing
 
