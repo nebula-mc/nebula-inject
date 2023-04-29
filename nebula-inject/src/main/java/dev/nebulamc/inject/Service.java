@@ -22,7 +22,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author Sparky983
  * @see Factory
- * @since 1.0
+ * @since 0.1
  */
 @Documented
 @Retention(RUNTIME)

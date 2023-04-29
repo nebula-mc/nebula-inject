@@ -9,7 +9,7 @@ import java.util.Optional;
  * Responsible for finding services.
  *
  * @author Sparky983
- * @since 1.0
+ * @since 0.1
  */
 @NullMarked
 public interface ServiceFinder {
@@ -23,7 +23,7 @@ public interface ServiceFinder {
      * @throws NoUniqueServiceException if zero or multiple service was found.
      * @throws NullPointerException if the service is {@code null}.
      * @throws ServiceException if an exception occurred while finding the service object.
-     * @since 1.0
+     * @since 0.1
      */
     <T> T findService(Class<T> serviceType);
 
@@ -35,7 +35,7 @@ public interface ServiceFinder {
      * @param <T> the type of the service
      * @throws NullPointerException if the service is {@code null}.
      * @throws ServiceException if an exception occurred while finding the service object.
-     * @since 1.0
+     * @since 0.1
      */
     <T> Optional<T> findOptionalService(Class<T> serviceType);
 
@@ -47,7 +47,7 @@ public interface ServiceFinder {
      * @param <T> the type of the service
      * @throws NullPointerException if the service is {@code null}.
      * @throws ServiceException if an exception occurred while finding the service objects.
-     * @since 1.0
+     * @since 0.1
      */
     <T> List<T> findServices(Class<T> serviceType);
 }

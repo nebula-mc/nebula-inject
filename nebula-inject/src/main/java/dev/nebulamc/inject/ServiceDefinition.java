@@ -7,7 +7,7 @@ import org.jspecify.nullness.NullMarked;
  *
  * @author Sparky983
  * @param <T> the type of the service
- * @since 1.0
+ * @since 0.1
  */
 @NullMarked
 public interface ServiceDefinition<T> {
@@ -16,7 +16,7 @@ public interface ServiceDefinition<T> {
      * Gets the type of the service.
      *
      * @return the type of the service
-     * @since 1.0
+     * @since 0.1
      */
     Class<T> getServiceType();
 
@@ -32,7 +32,7 @@ public interface ServiceDefinition<T> {
      * required for injecting.
      * @throws NullPointerException if the service finder is {@code null}.
      * @throws ServiceException if an exception occurred while creating the service object.
-     * @since 1.0
+     * @since 0.1
      */
     T createService(ServiceFinder serviceFinder);
 }

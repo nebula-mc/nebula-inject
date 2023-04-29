@@ -50,7 +50,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author Sparky983
  * @see Inject
- * @since 1.0
+ * @since 0.1
  */
 @NullMarked
 @Documented

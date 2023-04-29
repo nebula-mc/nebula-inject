@@ -10,6 +10,6 @@
  * also injectable.
  *
  * @see dev.nebulamc.inject.Container
- * @since 1.0
+ * @since 0.1
  */
 package dev.nebulamc.inject;
