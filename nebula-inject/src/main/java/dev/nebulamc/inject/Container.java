@@ -7,7 +7,7 @@ import org.jspecify.nullness.NullMarked;
  *
  * @author Sparky983
  * @see #create()
- * @since 1.0
+ * @since 0.1
  */
 @NullMarked
 public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
@@ -16,7 +16,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
      * Creates a new builder for the dependency injection container.
      *
      * @return the builder
-     * @since 1.0
+     * @since 0.1
      */
     static Builder builder() {
 
@@ -27,7 +27,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
      * Creates a new dependency injection container.
      *
      * @return the container
-     * @since 1.0
+     * @since 0.1
      */
     static Container create() {
 
@@ -38,7 +38,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
      * A builder for the dependency injection container.
      *
      * @see #builder()
-     * @since 1.0
+     * @since 0.1
      */
     interface Builder extends ServiceDefinitionRegistry.Builder {
 
@@ -48,7 +48,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * @param parent the parent container
          * @return this builder (for chaining)
          * @throws NullPointerException if the parent is {@code null}.
-         * @since 1.0
+         * @since 0.1
          */
         Builder parent(Container parent);
 
@@ -62,7 +62,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * @throws NullPointerException if the factory is {@code null}.
          * @see Factory
          * @see Service
-         * @since 1.0
+         * @since 0.1
          */
         Builder factory(Object factory);
 
@@ -73,7 +73,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * @param singleton the singleton instance
          * @return this builder (for chaining)
          * @throws NullPointerException if the singleton is {@code null}.
-         * @since 1.0
+         * @since 0.1
          */
         Builder singleton(Object singleton);
 
@@ -86,7 +86,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * @param <T> the type of the singleton
          * @throws NullPointerException if the singleton is {@code null} is the types are or
          * contains {@code null}.
-         * @since 1.0
+         * @since 0.1
          */
         <T> Builder singleton(T singleton, Iterable<Class<? super T>> types);
 
@@ -98,7 +98,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * @return this builder (for chaining)
          * @param <T> the type of the singleton
          * @throws NullPointerException if the singleton or type are {@code null}.
-         * @since 1.0
+         * @since 0.1
          */
         <T> Builder singleton(T singleton, Class<? super T> type);
 
@@ -108,7 +108,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * @param serviceDefinition the service definition
          * @return this builder (for chaining)
          * @throws NullPointerException if the factory is {@code null}.
-         * @since 1.0
+         * @since 0.1
          */
         @Override
         Builder serviceDefinition(ServiceDefinition<?> serviceDefinition);
@@ -117,7 +117,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * Builds the container.
          *
          * @return the built container
-         * @since 1.0
+         * @since 0.1
          */
         @Override
         Container build();

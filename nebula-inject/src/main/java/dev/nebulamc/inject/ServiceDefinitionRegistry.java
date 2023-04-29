@@ -8,7 +8,7 @@ import java.util.List;
  * A registry of {@link ServiceDefinition ServiceDefinitions}.
  *
  * @author Sparky983
- * @since 1.0
+ * @since 0.1
  */
 @NullMarked
 public interface ServiceDefinitionRegistry {
@@ -22,7 +22,7 @@ public interface ServiceDefinitionRegistry {
      * @throws NoUniqueServiceException if zero or multiple implementations of the service type were
      * found.
      * @throws NullPointerException if the type is {@code null}.
-     * @since 1.0
+     * @since 0.1
      */
     <T> ServiceDefinition<T> findServiceDefinition(Class<T> type);
 
@@ -33,7 +33,7 @@ public interface ServiceDefinitionRegistry {
      * @return an unmodifiable list of all implementations of the specified service type
      * @param <T> the type of the service
      * @throws NullPointerException if the type is {@code null}.
-     * @since 1.0
+     * @since 0.1
      */
     <T> List<ServiceDefinition<T>> findServiceDefinitions(Class<T> type);
 
@@ -41,7 +41,7 @@ public interface ServiceDefinitionRegistry {
      * Creates a new builder for a service definition registry.
      *
      * @return the builder
-     * @since 1.0
+     * @since 0.1
      */
     static Builder builder() {
 
@@ -53,7 +53,7 @@ public interface ServiceDefinitionRegistry {
      * A builder for a service definition registry.
      *
      * @see #builder()
-     * @since 1.0
+     * @since 0.1
      */
     interface Builder {
 
@@ -63,7 +63,7 @@ public interface ServiceDefinitionRegistry {
          * @param serviceDefinition the service definition
          * @return this builder (for chaining)
          * @throws NullPointerException if the factory is {@code null}.
-         * @since 1.0
+         * @since 0.1
          */
         Builder serviceDefinition(ServiceDefinition<?> serviceDefinition);
 
@@ -71,7 +71,7 @@ public interface ServiceDefinitionRegistry {
          * Builds the service definition registry.
          *
          * @return the built service definition registry.
-         * @since 1.0
+         * @since 0.1
          */
         ServiceDefinitionRegistry build();
     }

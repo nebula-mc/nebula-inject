@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author Sparky983
  * @see <a href="package-summary.html#injectable-constructors">injectable constructor</a>
- * @since 1.0
+ * @since 0.1
  */
 @Documented
 @Retention(RUNTIME)
