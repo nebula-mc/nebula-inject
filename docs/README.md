@@ -12,7 +12,7 @@ Add the following to your build file:
 {% tab title="Gradle (Kotlin DSL)" %}
 ```kts
 repositories {
-    maven("https://repo.nebulamc.dev/snapshots")
+    maven("https://repo.nebulamc.dev/releases")
 }
 
 dependencies {
@@ -25,7 +25,7 @@ dependencies {
 ```groovy
 repositories {
     maven {
-        url = 'https://repo.nebulamc.dev/snapshots'
+        url = 'https://repo.nebulamc.dev/releases'
     }
 }
 
