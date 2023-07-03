@@ -4,6 +4,8 @@ import org.jspecify.nullness.NullMarked;
 
 import java.util.List;
 
+import dev.nebulamc.inject.util.Preconditions;
+
 /**
  * A service definition registry decorator that adds a fallback service definition registry.
  * <p>

@@ -5,6 +5,9 @@ import org.jspecify.nullness.NullMarked;
 import java.util.Collections;
 import java.util.List;
 
+import dev.nebulamc.inject.util.Multimap;
+import dev.nebulamc.inject.util.Preconditions;
+
 /**
  * The default implementation of {@link ServiceDefinitionRegistry}, used by
  * {@link ServiceDefinitionRegistry#builder()}.

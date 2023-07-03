@@ -2,9 +2,9 @@ package dev.nebulamc.inject.test;
 
 import org.jspecify.nullness.NullMarked;
 
-import java.util.Objects;
-
 import static org.mockito.Mockito.mock;
+
+import dev.nebulamc.inject.util.Preconditions;
 
 /**
  * A {@link MockFactory} implementation that uses Mockito to create mock objects.
@@ -17,8 +17,8 @@ final class MockitoMockFactory implements MockFactory {
     @Override
     public <T> T createMock(final Class<T> type, final Mock options) {
 
-        Objects.requireNonNull(type, "type cannot be null");
-        Objects.requireNonNull(options, "options cannot be null");
+        Preconditions.requireNonNull(type, "type");
+        Preconditions.requireNonNull(options, "options");
 
         return mock(type, options.answer());
     }

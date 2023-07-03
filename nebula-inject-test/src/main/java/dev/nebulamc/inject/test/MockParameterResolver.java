@@ -1,12 +1,11 @@
 package dev.nebulamc.inject.test;
 
+import dev.nebulamc.inject.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
-
-import java.util.Objects;
 
 /**
  * A {@link ParameterResolver} implementation that resolves parameters annotated with {@link Mock}.
@@ -26,7 +25,7 @@ final class MockParameterResolver implements ParameterResolver {
 
     MockParameterResolver(final MockFactory mockFactory) {
 
-        Objects.requireNonNull(mockFactory, "mockFactory cannot be null");
+        Preconditions.requireNonNull(mockFactory, "mockFactory");
 
         this.mockFactory = mockFactory;
     }
@@ -36,8 +35,8 @@ final class MockParameterResolver implements ParameterResolver {
                                      final ExtensionContext extensionContext)
             throws ParameterResolutionException {
 
-        Objects.requireNonNull(parameterContext, "parameterContext cannot be null");
-        Objects.requireNonNull(extensionContext, "extensionContext cannot be null");
+        Preconditions.requireNonNull(parameterContext, "parameterContext");
+        Preconditions.requireNonNull(extensionContext, "extensionContext");
 
         return parameterContext.isAnnotated(Mock.class);
     }
@@ -47,8 +46,8 @@ final class MockParameterResolver implements ParameterResolver {
                                    final ExtensionContext extensionContext)
             throws ParameterResolutionException {
 
-        Objects.requireNonNull(parameterContext, "parameterContext cannot be null");
-        Objects.requireNonNull(extensionContext, "extensionContext cannot be null");
+        Preconditions.requireNonNull(parameterContext, "parameterContext");
+        Preconditions.requireNonNull(extensionContext, "extensionContext");
 
         final Mock options = parameterContext.findAnnotation(Mock.class)
                 .orElseThrow(IllegalArgumentException::new);
