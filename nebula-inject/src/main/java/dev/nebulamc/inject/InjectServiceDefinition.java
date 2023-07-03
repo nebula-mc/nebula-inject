@@ -6,6 +6,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
 
+import dev.nebulamc.inject.util.Preconditions;
+
 /**
  * A {@link ServiceDefinition} for concrete classes with an
  * <a href="package-summary.html#injectable-constructors">injectable constructor</a>.

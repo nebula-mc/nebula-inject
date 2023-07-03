@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import dev.nebulamc.inject.util.Multimap;
+import dev.nebulamc.inject.util.Preconditions;
+
 /**
  * The default implementation of {@link Container}, used by {@link Container#builder()} and
  * {@link Container#create()}.

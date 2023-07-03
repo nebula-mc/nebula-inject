@@ -1,4 +1,4 @@
-package dev.nebulamc.inject;
+package dev.nebulamc.inject.util;
 
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
@@ -18,7 +18,7 @@ import java.util.Set;
  * @param <V> the values type
  */
 @NullMarked
-final class Multimap<K extends @Nullable Object, V extends @Nullable Object>
+public final class Multimap<K extends @Nullable Object, V extends @Nullable Object>
         implements Map<K, List<V>> {
 
     private final Map<K, List<V>> map;
@@ -26,7 +26,7 @@ final class Multimap<K extends @Nullable Object, V extends @Nullable Object>
     /**
      * Constructs a new, empty multimap.
      */
-    Multimap() {
+    public Multimap() {
 
         this.map = new HashMap<>();
     }
@@ -38,7 +38,7 @@ final class Multimap<K extends @Nullable Object, V extends @Nullable Object>
      *
      * @param multimap the multimap to clone
      */
-    Multimap(final Map<K, List<V>> multimap) {
+    public Multimap(final Map<K, List<V>> multimap) {
 
         Preconditions.requireNonNull(multimap, "multimap");
 

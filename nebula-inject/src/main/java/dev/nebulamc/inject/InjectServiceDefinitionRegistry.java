@@ -4,6 +4,8 @@ import org.jspecify.nullness.NullMarked;
 
 import java.util.List;
 
+import dev.nebulamc.inject.util.Preconditions;
+
 /**
  * A {@link ServiceDefinitionRegistry} for {@link InjectServiceDefinition ServiceDefinitions} of
  * concrete classes.

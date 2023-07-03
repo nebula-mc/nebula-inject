@@ -2,6 +2,8 @@ package dev.nebulamc.inject;
 
 import org.jspecify.nullness.NullMarked;
 
+import dev.nebulamc.inject.util.Preconditions;
+
 /**
  * A factory for creating {@link InjectServiceDefinition InjectServiceDefinitions}.
  *

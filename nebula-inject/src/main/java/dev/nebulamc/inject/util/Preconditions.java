@@ -1,4 +1,4 @@
-package dev.nebulamc.inject;
+package dev.nebulamc.inject.util;
 
 import org.jspecify.nullness.NullMarked;
 
@@ -8,7 +8,7 @@ import org.jspecify.nullness.NullMarked;
  * @author Sparky983
  */
 @NullMarked
-final class Preconditions {
+public final class Preconditions {
 
     private Preconditions() {
 
@@ -24,7 +24,7 @@ final class Preconditions {
      * @throws NullPointerException if the object is {@code null}.
      */
     @SuppressWarnings("ConstantConditions")
-    static void requireNonNull(final Object object, final String name) {
+    public static void requireNonNull(final Object object, final String name) {
 
         /*
          The object parameter is @NonNull because this method should be only used to prevent

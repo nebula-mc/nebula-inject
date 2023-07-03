@@ -4,6 +4,8 @@ import org.jspecify.nullness.NullMarked;
 
 import java.lang.reflect.Method;
 
+import dev.nebulamc.inject.util.Preconditions;
+
 /**
  * The main implementation of {@link FactoryServiceDefinitionRegistryFactory}.
  *
