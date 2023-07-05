@@ -39,11 +39,6 @@ final class ContainerExtension
 
     /**
      * The container to use for parameter resolution.
-     * <p>
-     * There are two phases of container initialization:
-     * <ol>
-     *     <li>All {@link Mock} and {@link Service} fields are </li>
-     *
      */
     private @Nullable Container container;
 
