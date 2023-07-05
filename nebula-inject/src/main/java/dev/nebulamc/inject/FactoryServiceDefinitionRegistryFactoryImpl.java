@@ -42,7 +42,9 @@ final class FactoryServiceDefinitionRegistryFactoryImpl
         final ServiceDefinitionRegistry.Builder builder = ServiceDefinitionRegistry.builder();
 
         if (!factory.getClass().isAnnotationPresent(Factory.class)) {
-            throw new IllegalArgumentException("The factory must be annotated with @Factory.");
+            throw new IllegalArgumentException(factory.getClass().getName() +
+                    " must be annotated with @" +
+                    Factory.class.getName());
         }
 
         for (final Method method : factory.getClass().getDeclaredMethods()) {

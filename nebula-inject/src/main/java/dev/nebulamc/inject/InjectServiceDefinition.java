@@ -4,6 +4,7 @@ import org.jspecify.nullness.NullMarked;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 
 import dev.nebulamc.inject.util.Preconditions;
@@ -46,6 +47,12 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
 
         assert implementation != null;
 
+        if (Modifier.isAbstract(implementation.getModifiers())) {
+            throw new IllegalArgumentException(
+                    "Cannot create service definition for abstract class " +
+                    implementation.getName());
+        }
+
         Constructor<?> injectConstructor = null;
 
         final Constructor<?>[] constructors = implementation.getDeclaredConstructors();
@@ -57,7 +64,9 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
                 if (constructor.isAnnotationPresent(Inject.class)) {
                     if (injectConstructor != null) {
                         throw new IllegalArgumentException(
-                                "Multiple constructors annotated with @Inject found");
+                                "Multiple constructors annotated with @" +
+                                        Inject.class.getName() +
+                                        "found");
                     }
                     injectConstructor = constructor;
                 }
@@ -65,7 +74,8 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
         }
 
         if (injectConstructor == null) {
-            throw new IllegalArgumentException("No constructors annotated with @Inject" +
+            throw new IllegalArgumentException("No constructors annotated with @" +
+                    Inject.class.getName() +
                     " found for type " +
                     implementation.getName());
         }
@@ -97,9 +107,11 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
 
         try {
             return injectableConstructor.newInstance(arguments);
-        } catch (final InvocationTargetException | InstantiationException e) {
-            throw new ServiceException("Constructor threw an exception", e);
-        } catch (final IllegalAccessException e) {
+        } catch (final InvocationTargetException e) {
+            throw new ServiceException("Exception while constructing " +
+                    injectableConstructor.getDeclaringClass(),
+                    e.getCause());
+        } catch (final IllegalAccessException | InstantiationException e) {
             throw new AssertionError(e);
         } finally {
             injectableConstructor.setAccessible(false);

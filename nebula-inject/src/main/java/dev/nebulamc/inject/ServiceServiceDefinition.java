@@ -72,11 +72,11 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
         try {
             final T t = (T) serviceMethod.invoke(factory, arguments);
             if (t == null) {
-                throw new ServiceException("The service method returned null");
+                throw new ServiceException("Service method " + serviceMethod + " returned null");
             }
             return t;
         } catch (final InvocationTargetException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(serviceMethod + " threw an exception", e.getCause());
         } catch (final IllegalAccessException e) {
             throw new AssertionError(e);
         } finally {
