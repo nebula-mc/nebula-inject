@@ -4,6 +4,7 @@ import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
 import dev.nebulamc.inject.test.computer.IntelCpu;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
@@ -16,37 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-@NebulaInjectTest
 class MockTest {
-
-    @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
-    @Inject Computer computer;
-
-    @Test
-    void testComputerIsInjected() {
-
-        assertEquals(cpu, computer.getCpu());
-    }
-
-    @Test
-    void testCpuFieldIsMocked() {
-
-        assertTrue(Mockito.mockingDetails(cpu).isMock());
-        assertEquals(Answers.RETURNS_MOCKS, Mockito.mockingDetails(cpu)
-                .getMockHandler()
-                .getMockSettings()
-                .getDefaultAnswer());
-    }
-
-    @Test
-    void testCpuIsMocked(@Mock(answer = Answers.RETURNS_SMART_NULLS) final Cpu cpu) {
-
-        assertTrue(Mockito.mockingDetails(cpu).isMock());
-        assertEquals(Answers.RETURNS_SMART_NULLS, Mockito.mockingDetails(cpu)
-                .getMockHandler()
-                .getMockSettings()
-                .getDefaultAnswer());
-    }
 
     @Test
     void testMultipleAnnotations() {
@@ -107,6 +78,45 @@ class MockTest {
         @Test
         void test() {
 
+        }
+    }
+
+    @NebulaInjectTest
+    @Nested
+    class MockFieldTest {
+
+        @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
+        @Inject Computer computer;
+
+        @Test
+        void testComputerIsInjected() {
+
+            assertEquals(cpu, computer.getCpu());
+        }
+
+        @Test
+        void testCpuIsMocked() {
+
+            assertTrue(Mockito.mockingDetails(cpu).isMock());
+            assertEquals(Answers.RETURNS_MOCKS, Mockito.mockingDetails(cpu)
+                    .getMockHandler()
+                    .getMockSettings()
+                    .getDefaultAnswer());
+        }
+    }
+
+    @NebulaInjectTest
+    @Nested
+    class MockParameterTest {
+
+        @Test
+        void testCpuIsMocked(@Mock(answer = Answers.RETURNS_SMART_NULLS) final Cpu cpu) {
+
+            assertTrue(Mockito.mockingDetails(cpu).isMock());
+            assertEquals(Answers.RETURNS_SMART_NULLS, Mockito.mockingDetails(cpu)
+                    .getMockHandler()
+                    .getMockSettings()
+                    .getDefaultAnswer());
         }
     }
 }
