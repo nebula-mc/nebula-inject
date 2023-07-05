@@ -103,6 +103,12 @@ class MockTest {
                     .getMockSettings()
                     .getDefaultAnswer());
         }
+
+        @Test
+        void testParameterResolution(@Inject final Cpu cpu) {
+
+            assertEquals(this.cpu, cpu);
+        }
     }
 
     @NebulaInjectTest

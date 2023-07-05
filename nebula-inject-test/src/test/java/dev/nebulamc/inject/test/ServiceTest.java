@@ -11,10 +11,8 @@ import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
 import org.junit.platform.launcher.core.LauncherFactory;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @NebulaInjectTest
@@ -64,6 +62,12 @@ class ServiceTest {
 
             assertEquals(cpu, computer.getCpu());
         }
+
+        @Test
+        void testCpuParameterResolution(@Inject final Cpu cpu) {
+
+            assertEquals(this.cpu, cpu);
+        }
     }
 
     @NebulaInjectTest
@@ -72,6 +76,7 @@ class ServiceTest {
 
         Cpu cpu = new IntelCpu();
         @Inject Computer computer;
+        @Service String string = "testing parameter resolution";
 
         @Test
         void testComputerIsInjected() {
@@ -80,9 +85,9 @@ class ServiceTest {
         }
 
         @Service
-        Cpu createCpu(@Mock final Computer computer) {
+        Cpu createCpu(@Inject final String string) {
 
-            assertTrue(Mockito.mockingDetails(computer).isMock());
+            assertEquals("testing parameter resolution", string);
 
             return cpu;
         }

@@ -2,12 +2,21 @@ package dev.nebulamc.inject.test;
 
 import dev.nebulamc.inject.Container;
 import dev.nebulamc.inject.Inject;
+import dev.nebulamc.inject.NoUniqueServiceException;
+import dev.nebulamc.inject.Service;
+import dev.nebulamc.inject.ServiceDefinition;
+import dev.nebulamc.inject.ServiceException;
+import dev.nebulamc.inject.ServiceFinder;
 import dev.nebulamc.inject.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
+import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -21,11 +30,22 @@ import java.lang.reflect.Method;
  * @author Sparky983
  */
 @NullMarked
-final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback {
+final class ContainerExtension
+        implements BeforeAllCallback, BeforeEachCallback, AfterEachCallback, ParameterResolver {
 
     private final MockFactory mockFactory;
 
     private @Nullable NebulaInjectTests tests;
+
+    /**
+     * The container to use for parameter resolution.
+     * <p>
+     * There are two phases of container initialization:
+     * <ol>
+     *     <li>All {@link Mock} and {@link Service} fields are </li>
+     *
+     */
+    private @Nullable Container container;
 
     /**
      * Extension constructor for JUnit.
@@ -66,6 +86,10 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
             throw new IllegalStateException("beforeAll(ExtensionContext) has not been called yet");
         }
 
+        if (container != null) {
+            throw new IllegalStateException("beforeEach(ExtensionContext) has already been called");
+        }
+
         final Container.Builder mocksAndServicesBuilder = Container.builder();
 
         for (final Field field : tests.getMockFields()) {
@@ -91,9 +115,20 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
         }
 
         for (final Method method : tests.getServiceMethods()) {
-            final Object service = context.getExecutableInvoker()
-                    .invoke(method, context.getRequiredTestInstance());
-            mocksAndServicesBuilder.singleton(service, (Class) method.getReturnType());
+            mocksAndServicesBuilder.serviceDefinition(new ServiceDefinition<>() {
+                @Override
+                public Class getServiceType() {
+
+                    return method.getReturnType();
+                }
+
+                @Override
+                public Object createService(final ServiceFinder serviceFinder) {
+
+                    return context.getExecutableInvoker()
+                            .invoke(method, context.getRequiredTestInstance());
+                }
+            });
         }
 
         final Container mocksContainer = mocksAndServicesBuilder.build();
@@ -112,7 +147,7 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
             builder.factory(factory);
         }
 
-        final Container container = builder.build();
+        container = builder.build();
 
         for (final Field field : tests.getInjectFields()) {
             field.setAccessible(true);
@@ -121,6 +156,63 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
             } finally {
                 field.setAccessible(false);
             }
+        }
+    }
+
+    @Override
+    public void afterEach(final ExtensionContext context) throws Exception {
+
+        Preconditions.requireNonNull(context, "context");
+
+        if (tests == null) {
+            throw new IllegalStateException("beforeAll(ExtensionContext) has not been called yet");
+        }
+
+        if (container == null) {
+            throw new IllegalStateException("beforeEach(ExtensionContext) has not been called yet");
+        }
+
+        container = null;
+    }
+
+    @Override
+    public boolean supportsParameter(final ParameterContext parameterContext,
+                                     final ExtensionContext extensionContext)
+            throws ParameterResolutionException {
+
+        Preconditions.requireNonNull(parameterContext, "parameterContext");
+        Preconditions.requireNonNull(extensionContext, "extensionContext");
+
+        return parameterContext.isAnnotated(Inject.class);
+    }
+
+    @Override
+    public Object resolveParameter(final ParameterContext parameterContext,
+                                   final ExtensionContext extensionContext)
+            throws ParameterResolutionException {
+
+        Preconditions.requireNonNull(parameterContext, "parameterContext");
+        Preconditions.requireNonNull(extensionContext, "extensionContext");
+
+        if (tests == null) {
+            throw new IllegalStateException("beforeAll(ExtensionContext) has not been called yet");
+        }
+
+        if (container == null) {
+            throw new IllegalStateException("beforeEach(ExtensionContext) has not been called yet");
+        }
+
+        if (!parameterContext.isAnnotated(Inject.class)) {
+            assert !supportsParameter(parameterContext, extensionContext);
+            throw new IllegalArgumentException("resolveParameter(ParameterContext, ExtensionContext) "
+                    + "should only be called if " +
+                    "supportsParameter(ParameterContext, ExtensionContext) returns true");
+        }
+
+        try {
+            return container.findService(parameterContext.getParameter().getType());
+        } catch (final NoUniqueServiceException | ServiceException e) {
+            throw new ParameterResolutionException(e.getMessage(), e);
         }
     }
 }

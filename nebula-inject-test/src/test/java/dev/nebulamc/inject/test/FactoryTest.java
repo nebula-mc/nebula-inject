@@ -42,6 +42,12 @@ class FactoryTest {
     }
 
     @Test
+    void testParameterResolution(@Inject final Cpu cpu) {
+
+        assertEquals(this.cpu, cpu);
+    }
+
+    @Test
     void testNonFactory() {
 
         final SummaryGeneratingListener listener = new SummaryGeneratingListener();
