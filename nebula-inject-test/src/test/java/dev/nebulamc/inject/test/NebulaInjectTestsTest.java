@@ -5,9 +5,11 @@ import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.Service;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
+import dev.nebulamc.inject.test.computer.IntelCpu;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -64,6 +66,32 @@ class NebulaInjectTestsTest {
         final NebulaInjectTests tests = new NebulaInjectTests(ServicesTest.class);
 
         assertEquals(Set.of(cpu, computer), tests.getServiceFields());
+    }
+
+    @Test
+    void testGetServiceMethods() throws NoSuchMethodException {
+
+        class ServicesTest {
+
+            @Service
+            Cpu createMockCpu(@Mock final Cpu cpu) {
+                return cpu;
+            }
+
+            @Service
+            Cpu createIntelCpu() {
+                return new IntelCpu();
+            }
+        }
+
+        final Method createMockCpu = ServicesTest.class
+                .getDeclaredMethod("createMockCpu", Cpu.class);
+        final Method createIntelCpu = ServicesTest.class
+                .getDeclaredMethod("createIntelCpu");
+
+        final NebulaInjectTests tests = new NebulaInjectTests(ServicesTest.class);
+
+        assertEquals(Set.of(createMockCpu, createIntelCpu), tests.getServiceMethods());
     }
 
     @Test

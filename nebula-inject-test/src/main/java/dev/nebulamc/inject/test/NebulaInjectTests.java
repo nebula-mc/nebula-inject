@@ -7,6 +7,7 @@ import dev.nebulamc.inject.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,12 +25,11 @@ final class NebulaInjectTests {
     private final Set<Field> injectFields;
     private final Set<Field> factoryFields;
     private final Set<Field> serviceFields;
+    private final Set<Method> serviceMethods;
 
     NebulaInjectTests(final Class<?> testClass) {
 
         Preconditions.requireNonNull(testClass, "testClass");
-
-        // TODO: Make a class that performs all of this in compliance with the open-closed principle
 
         final Field[] fields = testClass.getDeclaredFields();
 
@@ -44,6 +44,9 @@ final class NebulaInjectTests {
                 .collect(Collectors.toSet());
         this.serviceFields = Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Service.class))
+                .collect(Collectors.toSet());
+        this.serviceMethods = Arrays.stream(testClass.getDeclaredMethods())
+                .filter((method) -> method.isAnnotationPresent(Service.class))
                 .collect(Collectors.toSet());
 
         final Set<Field> annotatedFields = Stream.concat(
@@ -80,4 +83,10 @@ final class NebulaInjectTests {
 
         return serviceFields;
     }
+
+    public Set<Method> getServiceMethods() {
+
+        return serviceMethods;
+    }
+
 }

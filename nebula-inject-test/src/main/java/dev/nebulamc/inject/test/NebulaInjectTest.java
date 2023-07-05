@@ -33,6 +33,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     </li>
  * </ul>
  * <p>
+ * If it is impossible to use {@link Service} on a field, it is possible to use a getter method.
+ * <p>
  * In addition, the {@link Mock} annotation can be used on any parameter which resolves to a new
  * mock of the parameter's type. The created mock is not added to the test's {@link Container}.
  *
