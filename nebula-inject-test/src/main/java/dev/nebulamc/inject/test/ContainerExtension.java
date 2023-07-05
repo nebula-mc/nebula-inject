@@ -202,8 +202,7 @@ final class ContainerExtension
             throw new IllegalStateException("beforeEach(ExtensionContext) has not been called yet");
         }
 
-        if (!parameterContext.isAnnotated(Inject.class)) {
-            assert !supportsParameter(parameterContext, extensionContext);
+        if (!supportsParameter(parameterContext, extensionContext)) {
             throw new IllegalArgumentException("resolveParameter(ParameterContext, ExtensionContext) "
                     + "should only be called if " +
                     "supportsParameter(ParameterContext, ExtensionContext) returns true");
