@@ -178,4 +178,12 @@ class ContainerTest {
 
         assertEquals(Optional.empty(), container.findOptionalService(Car.class));
     }
+
+    @Test
+    void testFindServiceWhenContainer() {
+
+        final Container container = Container.create();
+
+        assertEquals(container, container.findService(Container.class));
+    }
 }

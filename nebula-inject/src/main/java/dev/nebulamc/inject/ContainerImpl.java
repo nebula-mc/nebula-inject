@@ -65,6 +65,10 @@ final class ContainerImpl extends AbstractContainer {
 
         Preconditions.requireNonNull(serviceType, "serviceType");
 
+        if (serviceType.equals(Container.class)) {
+            return (List<T>) List.of(this);
+        }
+
         final List<T> singletonServices = (List<T>) singletons.get(serviceType);
 
         if (singletonServices != null) {
