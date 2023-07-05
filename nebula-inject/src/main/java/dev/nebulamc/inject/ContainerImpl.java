@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import dev.nebulamc.inject.util.Multimap;
+import dev.nebulamc.inject.util.Preconditions;
+
 /**
  * The default implementation of {@link Container}, used by {@link Container#builder()} and
  * {@link Container#create()}.
@@ -60,6 +63,10 @@ final class ContainerImpl extends AbstractContainer {
     public <T> List<T> findServices(final Class<T> serviceType) {
 
         Preconditions.requireNonNull(serviceType, "serviceType");
+
+        if (serviceType.equals(Container.class)) {
+            return (List<T>) List.of(this);
+        }
 
         final List<T> singletonServices = (List<T>) singletons.get(serviceType);
 

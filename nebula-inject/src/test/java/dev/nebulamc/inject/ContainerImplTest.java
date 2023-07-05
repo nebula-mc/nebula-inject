@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -321,6 +322,15 @@ class ContainerImplTest {
             assertThrows(ServiceException.class, () -> container.findServices(Engine.class));
             verify(serviceDefinitionRegistry).findServiceDefinitions(Engine.class);
             verify(serviceDefinition).createService(container);
+        }
+
+        @Test
+        void testFindServicesWhenContainer() {
+
+            final List<Container> foundContainer = container.findServices(Container.class);
+
+            assertEquals(1, foundContainer.size());
+            assertSame(container, foundContainer.get(0));
         }
 
         @SuppressWarnings("unchecked")

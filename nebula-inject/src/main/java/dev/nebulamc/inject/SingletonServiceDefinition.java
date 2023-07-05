@@ -2,6 +2,8 @@ package dev.nebulamc.inject;
 
 import org.jspecify.nullness.NullMarked;
 
+import dev.nebulamc.inject.util.Preconditions;
+
 /**
  * A service definition for a singleton object.
  *

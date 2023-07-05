@@ -2,6 +2,7 @@ package dev.nebulamc.inject.test;
 
 import dev.nebulamc.inject.Container;
 import dev.nebulamc.inject.Inject;
+import dev.nebulamc.inject.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 import java.lang.reflect.Field;
-import java.util.Objects;
 
 /**
  * The extension that creates the container and creates and injects mocks to {@link Mock} and
@@ -42,7 +42,7 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
      */
     ContainerExtension(final MockFactory mockFactory) {
 
-        Objects.requireNonNull(mockFactory, "mockFactory cannot be null");
+        Preconditions.requireNonNull(mockFactory, "mockFactory");
 
         this.mockFactory = mockFactory;
     }
@@ -50,7 +50,7 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
     @Override
     public void beforeAll(final ExtensionContext context) {
 
-        Objects.requireNonNull(context, "context cannot be null");
+        Preconditions.requireNonNull(context, "context cannot be null");
 
         tests = new NebulaInjectTests(context.getRequiredTestClass());
     }
@@ -59,13 +59,13 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
     @Override
     public void beforeEach(final ExtensionContext context) throws Exception {
 
-        Objects.requireNonNull(context, "context cannot be null");
+        Preconditions.requireNonNull(context, "context");
 
         if (tests == null) {
             throw new IllegalStateException("beforeAll(ExtensionContext) has not been called yet");
         }
 
-        final Container.Builder mocksBuilder = Container.builder();
+        final Container.Builder mocksAndServicesBuilder = Container.builder();
 
         for (final Field field : tests.getMockFields()) {
             final Object mock = mockFactory.createMock(
@@ -76,10 +76,20 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
             } finally {
                 field.setAccessible(false);
             }
-            mocksBuilder.singleton(mock, (Class) field.getType());
+            mocksAndServicesBuilder.singleton(mock, (Class) field.getType());
         }
 
-        final Container mocksContainer = mocksBuilder.build();
+        for (final Field field : tests.getServiceFields()) {
+            field.setAccessible(true);
+            try {
+                final Object service = field.get(context.getRequiredTestInstance());
+                mocksAndServicesBuilder.singleton(service, (Class) field.getType());
+            } finally {
+                field.setAccessible(false);
+            }
+        }
+
+        final Container mocksContainer = mocksAndServicesBuilder.build();
 
         final Container.Builder builder = Container.builder()
                 .parent(mocksContainer);

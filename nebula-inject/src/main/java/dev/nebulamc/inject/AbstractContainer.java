@@ -5,6 +5,8 @@ import org.jspecify.nullness.NullMarked;
 import java.util.List;
 import java.util.Optional;
 
+import dev.nebulamc.inject.util.Preconditions;
+
 @NullMarked
 abstract class AbstractContainer extends AbstractServiceDefinitionRegistry implements Container {
 

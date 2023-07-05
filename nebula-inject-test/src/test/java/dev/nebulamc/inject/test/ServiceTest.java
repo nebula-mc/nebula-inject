@@ -1,6 +1,7 @@
 package dev.nebulamc.inject.test;
 
 import dev.nebulamc.inject.Inject;
+import dev.nebulamc.inject.Service;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
 import dev.nebulamc.inject.test.computer.IntelCpu;
@@ -9,43 +10,20 @@ import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
 import org.junit.platform.launcher.core.LauncherFactory;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
-import org.mockito.Answers;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @NebulaInjectTest
-class MockTest {
+class ServiceTest {
 
-    @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
+    @Service Cpu cpu = new IntelCpu();
     @Inject Computer computer;
 
     @Test
     void testComputerIsInjected() {
 
         assertEquals(cpu, computer.getCpu());
-    }
-
-    @Test
-    void testCpuFieldIsMocked() {
-
-        assertTrue(Mockito.mockingDetails(cpu).isMock());
-        assertEquals(Answers.RETURNS_MOCKS, Mockito.mockingDetails(cpu)
-                .getMockHandler()
-                .getMockSettings()
-                .getDefaultAnswer());
-    }
-
-    @Test
-    void testCpuIsMocked(@Mock(answer = Answers.RETURNS_SMART_NULLS) final Cpu cpu) {
-
-        assertTrue(Mockito.mockingDetails(cpu).isMock());
-        assertEquals(Answers.RETURNS_SMART_NULLS, Mockito.mockingDetails(cpu)
-                .getMockHandler()
-                .getMockSettings()
-                .getDefaultAnswer());
     }
 
     @Test
@@ -64,42 +42,12 @@ class MockTest {
         assertEquals(listener.getSummary().getTotalFailureCount(), 1);
     }
 
-    @Test
-    void testInjectMockSubtype() {
-
-        final SummaryGeneratingListener listener = new SummaryGeneratingListener();
-
-        LauncherFactory.create()
-                .execute(LauncherDiscoveryRequestBuilder.request()
-                        .selectors(DiscoverySelectors.selectClass(InjectMockSubtypeTest.class))
-                        .listeners()
-                        .build(), listener);
-
-        assumeTrue(listener.getSummary().getTestsFoundCount() == 1);
-        assertEquals(1, listener.getSummary().getTestsFailedCount());
-    }
-
     @NebulaInjectTest
     static class MultipleAnnotationsTest {
 
-        @Mock
+        @Service
         @Inject
         Computer computer;
-
-        /**
-         * Required so test can fail.
-         */
-        @Test
-        void test() {
-
-        }
-    }
-
-    @NebulaInjectTest
-    static class InjectMockSubtypeTest {
-
-        @Mock IntelCpu intelCpu;
-        @Inject Cpu cpu;
 
         /**
          * Required so test can fail.

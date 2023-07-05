@@ -57,29 +57,13 @@ class FactoryTest {
     }
 
     @Test
-    void testFactoryAndMock() {
+    void testMultipleAnnotations() {
 
         final SummaryGeneratingListener listener = new SummaryGeneratingListener();
 
         LauncherFactory.create()
                 .execute(LauncherDiscoveryRequestBuilder.request()
-                        .selectors(DiscoverySelectors.selectClass(FactoryAndMockTest.class))
-                        .listeners()
-                        .build(), listener);
-
-        assumeTrue(listener.getSummary().getContainersFoundCount() == 2);
-        assertEquals(1, listener.getSummary().getContainersSucceededCount());
-        assertEquals(1, listener.getSummary().getContainersFailedCount());
-    }
-
-    @Test
-    void testFactoryAndInject() {
-
-        final SummaryGeneratingListener listener = new SummaryGeneratingListener();
-
-        LauncherFactory.create()
-                .execute(LauncherDiscoveryRequestBuilder.request()
-                        .selectors(DiscoverySelectors.selectClass(FactoryAndInjectTest.class))
+                        .selectors(DiscoverySelectors.selectClass(MultipleAnnotationsTest.class))
                         .listeners()
                         .build(), listener);
 
@@ -103,7 +87,7 @@ class FactoryTest {
     }
 
     @NebulaInjectTest
-    static class FactoryAndMockTest {
+    static class MultipleAnnotationsTest {
 
         @Factory
         @Mock
@@ -117,21 +101,4 @@ class FactoryTest {
 
         }
     }
-
-    @NebulaInjectTest
-    static class FactoryAndInjectTest {
-
-        @Inject
-        @Factory
-        IntelCpuFactory factory;
-
-        /**
-         * Required so test can fail.
-         */
-        @Test
-        void test() {
-
-        }
-    }
-
 }
