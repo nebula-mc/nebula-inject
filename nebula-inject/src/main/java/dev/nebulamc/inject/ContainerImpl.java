@@ -5,7 +5,6 @@ import org.jspecify.nullness.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import dev.nebulamc.inject.util.Multimap;
@@ -182,14 +181,14 @@ final class ContainerImpl extends AbstractContainer {
 
             assert type != null;
 
-            final LinkedList<Class<? super T>> queue = new LinkedList<>();
+            final List<Class<? super T>> supertypes = new ArrayList<>();
 
             for (Class<?> current = type; current != null; current = current.getSuperclass()) {
-                queue.add((Class<? super T>) current);
-                queue.addAll(Arrays.asList((Class<? super T>[]) current.getInterfaces()));
+                supertypes.add((Class<? super T>) current);
+                supertypes.addAll(Arrays.asList((Class<? super T>[]) current.getInterfaces()));
             }
 
-            return queue;
+            return supertypes;
         }
 
         @Override
