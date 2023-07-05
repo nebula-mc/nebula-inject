@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * The extension that creates the container and creates and injects mocks to {@link Mock} and
@@ -87,6 +88,12 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
             } finally {
                 field.setAccessible(false);
             }
+        }
+
+        for (final Method method : tests.getServiceMethods()) {
+            final Object service = context.getExecutableInvoker()
+                    .invoke(method, context.getRequiredTestInstance());
+            mocksAndServicesBuilder.singleton(service, (Class) method.getReturnType());
         }
 
         final Container mocksContainer = mocksAndServicesBuilder.build();
