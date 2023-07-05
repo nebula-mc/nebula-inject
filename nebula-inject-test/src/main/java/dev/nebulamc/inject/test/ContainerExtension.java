@@ -80,8 +80,13 @@ final class ContainerExtension implements BeforeAllCallback, BeforeEachCallback 
         }
 
         for (final Field field : tests.getServiceFields()) {
-            final Object service = field.get(context.getRequiredTestInstance());
-            mocksAndServicesBuilder.singleton(service, (Class) field.getType());
+            field.setAccessible(true);
+            try {
+                final Object service = field.get(context.getRequiredTestInstance());
+                mocksAndServicesBuilder.singleton(service, (Class) field.getType());
+            } finally {
+                field.setAccessible(false);
+            }
         }
 
         final Container mocksContainer = mocksAndServicesBuilder.build();
