@@ -1,10 +1,9 @@
 package dev.nebulamc.inject.test;
 
+import dev.nebulamc.inject.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 
 import static org.mockito.Mockito.mock;
-
-import dev.nebulamc.inject.util.Preconditions;
 
 /**
  * A {@link MockFactory} implementation that uses Mockito to create mock objects.

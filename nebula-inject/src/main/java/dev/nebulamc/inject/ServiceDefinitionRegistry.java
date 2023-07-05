@@ -14,6 +14,17 @@ import java.util.List;
 public interface ServiceDefinitionRegistry {
 
     /**
+     * Creates a new builder for a service definition registry.
+     *
+     * @return the builder
+     * @since 0.1
+     */
+    static Builder builder() {
+
+        return new ServiceDefinitionRegistryImpl.BuilderImpl();
+    }
+
+    /**
      * Finds a single implementation of the specified service type.
      *
      * @param type the service type
@@ -36,17 +47,6 @@ public interface ServiceDefinitionRegistry {
      * @since 0.1
      */
     <T> List<ServiceDefinition<T>> findServiceDefinitions(Class<T> type);
-
-    /**
-     * Creates a new builder for a service definition registry.
-     *
-     * @return the builder
-     * @since 0.1
-     */
-    static Builder builder() {
-
-        return new ServiceDefinitionRegistryImpl.BuilderImpl();
-    }
 
 
     /**

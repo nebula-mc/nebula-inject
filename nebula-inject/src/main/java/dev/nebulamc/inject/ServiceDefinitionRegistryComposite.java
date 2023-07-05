@@ -1,10 +1,9 @@
 package dev.nebulamc.inject;
 
+import dev.nebulamc.inject.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 
 import java.util.List;
-
-import dev.nebulamc.inject.util.Preconditions;
 
 /**
  * A composite of multiple {@link ServiceDefinitionRegistry ServiceDefinitionRegistries}.

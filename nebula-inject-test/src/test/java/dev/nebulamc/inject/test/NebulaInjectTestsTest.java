@@ -75,11 +75,13 @@ class NebulaInjectTestsTest {
 
             @Service
             Cpu createMockCpu(@Mock final Cpu cpu) {
+
                 return cpu;
             }
 
             @Service
             Cpu createIntelCpu() {
+
                 return new IntelCpu();
             }
         }

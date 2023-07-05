@@ -1,13 +1,12 @@
 package dev.nebulamc.inject;
 
+import dev.nebulamc.inject.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
-
-import dev.nebulamc.inject.util.Preconditions;
 
 /**
  * A {@link ServiceDefinition} for concrete classes with an
@@ -50,7 +49,7 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
         if (Modifier.isAbstract(implementation.getModifiers())) {
             throw new IllegalArgumentException(
                     "Cannot create service definition for abstract class " +
-                    implementation.getName());
+                            implementation.getName());
         }
 
         Constructor<?> injectConstructor = null;

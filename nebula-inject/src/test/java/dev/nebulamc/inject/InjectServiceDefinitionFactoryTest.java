@@ -3,7 +3,6 @@ package dev.nebulamc.inject;
 import dev.nebulamc.inject.car.Car;
 import dev.nebulamc.inject.car.Engine;
 import dev.nebulamc.inject.car.Sedan;
-import dev.nebulamc.inject.car.Suv;
 import dev.nebulamc.inject.car.V8Engine;
 import dev.nebulamc.inject.car.Wheels;
 import org.junit.jupiter.api.AfterEach;
@@ -34,6 +33,35 @@ class InjectServiceDefinitionFactoryTest {
         serviceDefinition = serviceDefinitionFactory.createServiceDefinition(Car.class, Sedan.class);
     }
 
+    static class NoInjectAnnotation {
+
+        public NoInjectAnnotation(final Car car) {
+
+        }
+    }
+
+    static class MultipleInjectableConstructors {
+
+        @Inject
+        public MultipleInjectableConstructors(final Car car) {
+
+        }
+
+        @Inject
+        public MultipleInjectableConstructors(final Engine engine) {
+
+        }
+    }
+
+    static class ThrowingConstructor {
+
+        @Inject
+        public ThrowingConstructor() {
+
+            throw new RuntimeException();
+        }
+    }
+
     @DisplayName("createServiceDefinition(Class<T>, Class<? extends T>)")
     @Nested
     class CreateServiceDefinition {
@@ -57,11 +85,11 @@ class InjectServiceDefinitionFactoryTest {
         @Test
         void testCreateServiceDefinitionFactoryWhenTypeIsAbstract() {
 
-            abstract class AbstractClass {
+            interface Interface {
 
             }
 
-            interface Interface {
+            abstract class AbstractClass {
 
             }
 
@@ -173,35 +201,6 @@ class InjectServiceDefinitionFactoryTest {
                     () -> serviceDefinition.createService(serviceFinder));
 
             verify(serviceFinder).findService(Engine.class);
-        }
-    }
-
-    static class NoInjectAnnotation {
-
-        public NoInjectAnnotation(final Car car) {
-
-        }
-    }
-
-    static class MultipleInjectableConstructors {
-
-        @Inject
-        public MultipleInjectableConstructors(final Car car) {
-
-        }
-
-        @Inject
-        public MultipleInjectableConstructors(final Engine engine) {
-
-        }
-    }
-
-    static class ThrowingConstructor {
-
-        @Inject
-        public ThrowingConstructor() {
-
-            throw new RuntimeException();
         }
     }
 }

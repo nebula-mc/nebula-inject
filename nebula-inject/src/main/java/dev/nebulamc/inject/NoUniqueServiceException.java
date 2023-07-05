@@ -39,7 +39,8 @@ public class NoUniqueServiceException extends RuntimeException {
      * @param cause the cause
      * @since 0.1
      */
-    public NoUniqueServiceException(final @Nullable String message, final @Nullable Throwable cause) {
+    public NoUniqueServiceException(final @Nullable String message,
+                                    final @Nullable Throwable cause) {
 
         super(message, cause);
     }

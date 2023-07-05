@@ -1,8 +1,7 @@
 package dev.nebulamc.inject;
 
-import org.jspecify.nullness.NullMarked;
-
 import dev.nebulamc.inject.util.Preconditions;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * An abstract {@link ServiceDefinitionRegistry} implementation that requires subclasses to only

@@ -313,7 +313,9 @@ class ContainerExtensionTest {
         final ExtensionContext extensionContext = mock(ExtensionContext.class);
         final IntelCpu intelCpu = new IntelCpu();
 
-        class Test {}
+        class Test {
+
+        }
 
         when(extensionContext.getRequiredTestInstance()).thenReturn(new Test());
         when(extensionContext.getRequiredTestClass()).thenAnswer((mock) -> Test.class);

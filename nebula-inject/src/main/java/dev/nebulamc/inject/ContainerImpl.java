@@ -1,14 +1,13 @@
 package dev.nebulamc.inject;
 
+import dev.nebulamc.inject.util.Multimap;
+import dev.nebulamc.inject.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import dev.nebulamc.inject.util.Multimap;
-import dev.nebulamc.inject.util.Preconditions;
 
 /**
  * The default implementation of {@link Container}, used by {@link Container#builder()} and
@@ -98,7 +97,7 @@ final class ContainerImpl extends AbstractContainer {
          */
         private final FactoryServiceDefinitionRegistryFactory serviceDefinitionRegistryFactory
                 = new FactoryServiceDefinitionRegistryFactoryImpl(
-                        new ServiceServiceDefinitionFactoryImpl());
+                new ServiceServiceDefinitionFactoryImpl());
 
         private final ServiceDefinitionRegistry.Builder serviceDefinitions =
                 ServiceDefinitionRegistry.builder();
@@ -151,7 +150,8 @@ final class ContainerImpl extends AbstractContainer {
         }
 
         @Override
-        public <T> Container.Builder singleton(final T singleton, final Iterable<Class<? super T>> types) {
+        public <T> Container.Builder singleton(final T singleton,
+                                               final Iterable<Class<? super T>> types) {
 
             Preconditions.requireNonNull(singleton, "singleton");
             Preconditions.requireNonNull(types, "types");

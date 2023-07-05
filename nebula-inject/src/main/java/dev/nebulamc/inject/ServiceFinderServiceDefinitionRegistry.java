@@ -1,19 +1,18 @@
 package dev.nebulamc.inject;
 
+import dev.nebulamc.inject.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 
 import java.util.List;
 
-import dev.nebulamc.inject.util.Preconditions;
-
 /**
  * A {@link ServiceDefinitionRegistry} of services found using another {@link ServiceFinder}.
- * 
+ *
  * @author Sparky983
  */
 @NullMarked
 final class ServiceFinderServiceDefinitionRegistry implements ServiceDefinitionRegistry {
-    
+
     private final ServiceFinder serviceFinder;
 
     /**
@@ -34,7 +33,7 @@ final class ServiceFinderServiceDefinitionRegistry implements ServiceDefinitionR
     public <T> ServiceDefinition<T> findServiceDefinition(final Class<T> type) {
 
         Preconditions.requireNonNull(type, "type");
-        
+
         try {
             return new SingletonServiceDefinition<>(serviceFinder.findService(type), type);
         } catch (final ServiceException e) {
@@ -46,7 +45,7 @@ final class ServiceFinderServiceDefinitionRegistry implements ServiceDefinitionR
     public <T> List<ServiceDefinition<T>> findServiceDefinitions(final Class<T> type) {
 
         Preconditions.requireNonNull(type, "type");
-        
+
         try {
             return serviceFinder.findServices(type)
                     .stream()

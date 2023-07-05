@@ -19,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import dev.nebulamc.inject.util.Multimap;
-
 class MultimapTest {
 
     Multimap<String, String> map;

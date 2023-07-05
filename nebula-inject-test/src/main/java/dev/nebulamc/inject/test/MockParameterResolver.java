@@ -29,7 +29,7 @@ final class MockParameterResolver implements ParameterResolver {
 
         this.mockFactory = mockFactory;
     }
-    
+
     @Override
     public boolean supportsParameter(final ParameterContext parameterContext,
                                      final ExtensionContext extensionContext)
