@@ -80,7 +80,6 @@ class ServiceTest {
         }
 
         @Service
-        @Inject
         Cpu createCpu(@Mock final Computer computer) {
 
             assertTrue(Mockito.mockingDetails(computer).isMock());
