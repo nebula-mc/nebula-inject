@@ -9,6 +9,7 @@ import org.jspecify.nullness.NullMarked;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,19 +36,19 @@ final class NebulaInjectTests {
 
         this.mockFields = Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Mock.class))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
         this.injectFields = Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Inject.class))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
         this.factoryFields = Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Factory.class))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
         this.serviceFields = Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Service.class))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
         this.serviceMethods = Arrays.stream(testClass.getDeclaredMethods())
                 .filter((method) -> method.isAnnotationPresent(Service.class))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
 
         final Set<Field> annotatedFields = Stream.concat(
                         Stream.concat(mockFields.stream(), injectFields.stream()),
