@@ -8,5 +8,6 @@ module dev.nebulamc.inject {
     requires static org.jspecify;
 
     exports dev.nebulamc.inject;
-    exports dev.nebulamc.inject.util to dev.nebulamc.inject.test;
+    exports dev.nebulamc.inject.internal.util to dev.nebulamc.inject.test;
+    exports dev.nebulamc.inject.internal to dev.nebulamc.inject.test;
 }

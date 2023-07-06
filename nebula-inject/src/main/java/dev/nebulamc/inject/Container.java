@@ -1,6 +1,7 @@
 package dev.nebulamc.inject;
 
 import org.jspecify.nullness.NullMarked;
+import dev.nebulamc.inject.internal.ContainerImpl;
 
 /**
  * Represents the dependency injection container.

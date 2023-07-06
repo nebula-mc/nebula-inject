@@ -4,6 +4,8 @@ import org.jspecify.nullness.NullMarked;
 
 import java.util.List;
 
+import dev.nebulamc.inject.internal.ServiceDefinitionRegistryImpl;
+
 /**
  * A registry of {@link ServiceDefinition ServiceDefinitions}.
  *

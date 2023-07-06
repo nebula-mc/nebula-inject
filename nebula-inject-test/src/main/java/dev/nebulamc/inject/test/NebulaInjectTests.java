@@ -3,7 +3,7 @@ package dev.nebulamc.inject.test;
 import dev.nebulamc.inject.Factory;
 import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.Service;
-import dev.nebulamc.inject.util.Preconditions;
+import dev.nebulamc.inject.internal.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 
 import java.lang.reflect.Field;

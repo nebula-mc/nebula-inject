@@ -4,9 +4,13 @@ import dev.nebulamc.inject.Container;
 import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.NoUniqueServiceException;
 import dev.nebulamc.inject.ServiceDefinition;
+import dev.nebulamc.inject.ServiceDefinitionRegistry;
 import dev.nebulamc.inject.ServiceException;
 import dev.nebulamc.inject.ServiceFinder;
-import dev.nebulamc.inject.util.Preconditions;
+import dev.nebulamc.inject.internal.ContainerImpl;
+import dev.nebulamc.inject.internal.FallbackServiceDefinitionRegistry;
+import dev.nebulamc.inject.internal.ServiceFinderServiceDefinitionRegistry;
+import dev.nebulamc.inject.internal.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 import org.junit.jupiter.api.extension.AfterEachCallback;
@@ -84,7 +88,7 @@ final class ContainerExtension
             throw new IllegalStateException("beforeEach(ExtensionContext) has already been called");
         }
 
-        final Container.Builder mocksAndServicesBuilder = Container.builder();
+        final Container.Builder testDoublesBuilder = Container.builder();
 
         for (final Field field : tests.getMockFields()) {
             final Object mock = mockFactory.createMock(
@@ -95,21 +99,21 @@ final class ContainerExtension
             } finally {
                 field.setAccessible(false);
             }
-            mocksAndServicesBuilder.singleton(mock, (Class) field.getType());
+            testDoublesBuilder.singleton(mock, (Class) field.getType());
         }
 
         for (final Field field : tests.getServiceFields()) {
             field.setAccessible(true);
             try {
                 final Object service = field.get(context.getRequiredTestInstance());
-                mocksAndServicesBuilder.singleton(service, (Class) field.getType());
+                testDoublesBuilder.singleton(service, (Class) field.getType());
             } finally {
                 field.setAccessible(false);
             }
         }
 
         for (final Method method : tests.getServiceMethods()) {
-            mocksAndServicesBuilder.serviceDefinition(new ServiceDefinition<>() {
+            testDoublesBuilder.serviceDefinition(new ServiceDefinition<>() {
                 @Override
                 public Class getServiceType() {
 
@@ -125,13 +129,12 @@ final class ContainerExtension
             });
         }
 
-        final Container mocksContainer = mocksAndServicesBuilder.build();
+        final Container testDoubles = testDoublesBuilder.build();
 
-        final Container.Builder builder = Container.builder()
-                .parent(mocksContainer);
+        final Container.Builder builder = Container.builder();
 
         for (final Field field : tests.getFactoryFields()) {
-            final Object factory = mocksContainer.findService(field.getType());
+            final Object factory = testDoubles.findService(field.getType());
             field.setAccessible(true);
             try {
                 field.set(context.getRequiredTestInstance(), factory);
@@ -141,7 +144,8 @@ final class ContainerExtension
             builder.factory(factory);
         }
 
-        container = builder.build();
+        container = new ContainerImpl(
+                new FallbackServiceDefinitionRegistry(new ServiceFinderServiceDefinitionRegistry(testDoubles), builder.build()));
 
         for (final Field field : tests.getInjectFields()) {
             field.setAccessible(true);
