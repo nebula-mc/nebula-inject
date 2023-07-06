@@ -1,10 +1,12 @@
 package dev.nebulamc.inject.test;
 
+import dev.nebulamc.inject.Factory;
 import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.Service;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
 import dev.nebulamc.inject.test.computer.IntelCpu;
+import dev.nebulamc.inject.test.computer.IntelCpuFactory;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
@@ -54,8 +56,15 @@ class ServiceTest {
     @Nested
     class FieldTest {
 
+        @Factory IntelCpuFactory intelCpuFactory;
         @Service Cpu cpu = new IntelCpu();
         @Inject Computer computer;
+
+        @Test
+        void testServiceReplacesFactory(@Inject final Cpu cpu) {
+
+            assertEquals(this.cpu, cpu);
+        }
 
         @Test
         void testComputerIsInjected() {
@@ -74,9 +83,16 @@ class ServiceTest {
     @Nested
     class MethodTest {
 
+        @Factory IntelCpuFactory intelCpuFactory;
         Cpu cpu = new IntelCpu();
         @Inject Computer computer;
         @Service String string = "testing parameter resolution";
+
+        @Test
+        void testServiceReplacesFactory(@Inject final Cpu cpu) {
+
+            assertEquals(this.cpu, cpu);
+        }
 
         @Test
         void testComputerIsInjected() {

@@ -1,9 +1,11 @@
 package dev.nebulamc.inject.test;
 
+import dev.nebulamc.inject.Factory;
 import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
 import dev.nebulamc.inject.test.computer.IntelCpu;
+import dev.nebulamc.inject.test.computer.IntelCpuFactory;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
@@ -85,8 +87,15 @@ class MockTest {
     @Nested
     class MockFieldTest {
 
+        @Factory IntelCpuFactory intelCpuFactory;
         @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
         @Inject Computer computer;
+
+        @Test
+        void testMockedIntelCpuReplacesFactory(@Inject final IntelCpu intelCpu) {
+
+            assertTrue(Mockito.mockingDetails(cpu).isMock());
+        }
 
         @Test
         void testComputerIsInjected() {
