@@ -1,5 +1,6 @@
 package dev.nebulamc.inject.internal;
 
+import dev.nebulamc.inject.NoUniqueServiceException;
 import dev.nebulamc.inject.Service;
 import dev.nebulamc.inject.ServiceDefinition;
 import dev.nebulamc.inject.ServiceException;
@@ -79,6 +80,9 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
             }
             return t;
         } catch (final InvocationTargetException e) {
+            if (e.getCause() instanceof final NoUniqueServiceException cause) {
+                throw cause;
+            }
             throw new ServiceException(serviceMethod + " threw an exception", e.getCause());
         } catch (final IllegalAccessException e) {
             throw new AssertionError(e);
