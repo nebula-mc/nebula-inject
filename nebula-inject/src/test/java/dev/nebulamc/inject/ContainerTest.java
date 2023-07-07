@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -130,13 +131,13 @@ class ContainerTest {
                 .serviceDefinition(serviceDefinition)
                 .build();
 
-        when(serviceDefinition.createService(container)).thenReturn(engine);
+        when(serviceDefinition.createService(any())).thenReturn(engine);
 
         assertEquals(serviceDefinition, container.findServiceDefinition(Engine.class));
         assertEquals(engine, container.findService(Engine.class));
 
         verify(serviceDefinition).getServiceType();
-        verify(serviceDefinition).createService(container);
+        verify(serviceDefinition).createService(any());
         verifyNoMoreInteractions(serviceDefinition);
     }
 

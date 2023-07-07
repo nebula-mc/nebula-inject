@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -150,7 +151,7 @@ class ContainerImplTest {
         void testFindServiceWhenRequiredServiceNotFound() {
 
             final ServiceDefinition<Engine> serviceDefinition = mock();
-            when(serviceDefinition.createService(container))
+            when(serviceDefinition.createService(any()))
                     .thenThrow(NoUniqueServiceException.class);
 
             when(serviceDefinitionRegistry.findServiceDefinitions(Engine.class))
@@ -166,14 +167,14 @@ class ContainerImplTest {
         void testFindServiceWhenServiceException() {
 
             final ServiceDefinition<Engine> serviceDefinition = mock();
-            when(serviceDefinition.createService(container)).thenThrow(ServiceException.class);
+            when(serviceDefinition.createService(any())).thenThrow(ServiceException.class);
 
             when(serviceDefinitionRegistry.findServiceDefinitions(Engine.class))
                     .thenReturn(List.of(serviceDefinition));
 
             assertThrows(ServiceException.class, () -> container.findService(Engine.class));
             verify(serviceDefinitionRegistry).findServiceDefinitions(Engine.class);
-            verify(serviceDefinition).createService(container);
+            verify(serviceDefinition).createService(any());
         }
 
         @SuppressWarnings("unchecked")
@@ -181,7 +182,7 @@ class ContainerImplTest {
         void testFindService() {
 
             final ServiceDefinition<Engine> serviceDefinition = mock();
-            when(serviceDefinition.createService(container)).thenReturn(new V8Engine());
+            when(serviceDefinition.createService(any())).thenReturn(new V8Engine());
 
             when(serviceDefinitionRegistry.findServiceDefinitions(Engine.class))
                     .thenReturn(List.of(serviceDefinition));
@@ -192,7 +193,7 @@ class ContainerImplTest {
             // Make sure dependencies aren't called because it should be cached
 
             assertInstanceOf(V8Engine.class, engine);
-            verify(serviceDefinition).createService(container);
+            verify(serviceDefinition).createService(any());
             verify(serviceDefinitionRegistry).findServiceDefinitions(Engine.class);
             verifyNoMoreInteractions(serviceDefinition);
         }
@@ -226,7 +227,7 @@ class ContainerImplTest {
         void testFindOptionalServiceWhenRequiredServiceNotFound() {
 
             final ServiceDefinition<Engine> serviceDefinition = mock();
-            when(serviceDefinition.createService(container))
+            when(serviceDefinition.createService(any()))
                     .thenThrow(NoUniqueServiceException.class);
 
             when(serviceDefinitionRegistry.findServiceDefinitions(Engine.class))
@@ -242,14 +243,14 @@ class ContainerImplTest {
         void testFindOptionalServiceWhenServiceException() {
 
             final ServiceDefinition<Engine> serviceDefinition = mock();
-            when(serviceDefinition.createService(container)).thenThrow(ServiceException.class);
+            when(serviceDefinition.createService(any())).thenThrow(ServiceException.class);
 
             when(serviceDefinitionRegistry.findServiceDefinitions(Engine.class))
                     .thenReturn(List.of(serviceDefinition));
 
             assertThrows(ServiceException.class, () -> container.findOptionalService(Engine.class));
             verify(serviceDefinitionRegistry).findServiceDefinitions(Engine.class);
-            verify(serviceDefinition).createService(container);
+            verify(serviceDefinition).createService(any());
         }
 
         @SuppressWarnings("unchecked")
@@ -257,7 +258,7 @@ class ContainerImplTest {
         void testFindOptionalService() {
 
             final ServiceDefinition<Engine> serviceDefinition = mock();
-            when(serviceDefinition.createService(container)).thenReturn(new V8Engine());
+            when(serviceDefinition.createService(any())).thenReturn(new V8Engine());
 
             when(serviceDefinitionRegistry.findServiceDefinitions(Engine.class))
                     .thenReturn(List.of(serviceDefinition));
@@ -269,7 +270,7 @@ class ContainerImplTest {
 
             assertTrue(engine.isPresent());
             assertInstanceOf(V8Engine.class, engine.get());
-            verify(serviceDefinition).createService(container);
+            verify(serviceDefinition).createService(any());
             verify(serviceDefinitionRegistry).findServiceDefinitions(Engine.class);
             verifyNoMoreInteractions(serviceDefinition);
         }
@@ -303,7 +304,7 @@ class ContainerImplTest {
         void testFindServicesWhenRequiredServiceNotFound() {
 
             final ServiceDefinition<Engine> serviceDefinition = mock();
-            when(serviceDefinition.createService(container))
+            when(serviceDefinition.createService(any()))
                     .thenThrow(NoUniqueServiceException.class);
 
             when(serviceDefinitionRegistry.findServiceDefinitions(Engine.class))
@@ -319,14 +320,14 @@ class ContainerImplTest {
         void testFindServicesWhenServiceException() {
 
             final ServiceDefinition<Engine> serviceDefinition = mock();
-            when(serviceDefinition.createService(container)).thenThrow(ServiceException.class);
+            when(serviceDefinition.createService(any())).thenThrow(ServiceException.class);
 
             when(serviceDefinitionRegistry.findServiceDefinitions(Engine.class))
                     .thenReturn(List.of(serviceDefinition));
 
             assertThrows(ServiceException.class, () -> container.findServices(Engine.class));
             verify(serviceDefinitionRegistry).findServiceDefinitions(Engine.class);
-            verify(serviceDefinition).createService(container);
+            verify(serviceDefinition).createService(any());
         }
 
         @Test
@@ -343,7 +344,7 @@ class ContainerImplTest {
         void testFindServices() {
 
             final ServiceDefinition<Engine> serviceDefinition = mock();
-            when(serviceDefinition.createService(container)).thenReturn(new V8Engine());
+            when(serviceDefinition.createService(any())).thenReturn(new V8Engine());
 
             when(serviceDefinitionRegistry.findServiceDefinitions(Engine.class))
                     .thenReturn(List.of(serviceDefinition));
@@ -355,7 +356,7 @@ class ContainerImplTest {
 
             assertEquals(1, engine.size());
             assertInstanceOf(V8Engine.class, engine.get(0));
-            verify(serviceDefinition).createService(container);
+            verify(serviceDefinition).createService(any());
             verify(serviceDefinitionRegistry).findServiceDefinitions(Engine.class);
             verifyNoMoreInteractions(serviceDefinition);
         }
