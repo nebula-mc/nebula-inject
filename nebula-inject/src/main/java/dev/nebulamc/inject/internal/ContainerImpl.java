@@ -81,7 +81,8 @@ public final class ContainerImpl extends AbstractContainer {
         try {
             final List<T> services = findServiceDefinitions(serviceType)
                     .stream()
-                    .map((serviceDefinition) -> serviceDefinition.createService(this))
+                    .map((serviceDefinition) -> serviceDefinition.createService(
+                            new ServiceDefinitionServiceFinderDecorator(this, serviceDefinition)))
                     .toList();
             synchronized (this) {
                 services.forEach((service) -> singletons.add(serviceType, service));
