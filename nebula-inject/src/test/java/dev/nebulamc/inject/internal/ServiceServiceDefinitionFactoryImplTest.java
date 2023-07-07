@@ -1,6 +1,7 @@
 package dev.nebulamc.inject.internal;
 
 import dev.nebulamc.inject.Factory;
+import dev.nebulamc.inject.NoUniqueServiceException;
 import dev.nebulamc.inject.Service;
 import dev.nebulamc.inject.ServiceDefinition;
 import dev.nebulamc.inject.ServiceException;
@@ -139,6 +140,30 @@ class ServiceServiceDefinitionFactoryImplTest {
                         .createServiceDefinition(new ThrowingFactory(), throwingMethod);
 
                 assertThrows(ServiceException.class,
+                        () -> serviceDefinition.createService(serviceFinder));
+            }
+
+            @Test
+            void testCreateServiceWhenServiceMethodThrowsNoUniqueServiceException()
+                    throws NoSuchMethodException {
+
+                @Factory
+                class ThrowingFactory {
+
+                    @Service
+                    Wheels createWheels() {
+
+                        throw new NoUniqueServiceException();
+                    }
+                }
+
+                final Method throwingMethod = ThrowingFactory.class
+                        .getDeclaredMethod("createWheels");
+
+                final ServiceDefinition<?> serviceDefinition = serviceServiceDefinitionFactory
+                        .createServiceDefinition(new ThrowingFactory(), throwingMethod);
+
+                assertThrows(NoUniqueServiceException.class,
                         () -> serviceDefinition.createService(serviceFinder));
             }
 
