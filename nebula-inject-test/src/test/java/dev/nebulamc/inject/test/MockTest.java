@@ -84,8 +84,7 @@ class MockTest {
     }
 
     @NebulaInjectTest
-    @Nested
-    class MockFieldTest {
+    static class MockFieldTest {
 
         @Factory IntelCpuFactory intelCpuFactory;
         @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
@@ -121,8 +120,7 @@ class MockTest {
     }
 
     @NebulaInjectTest
-    @Nested
-    class MockParameterTest {
+    static class MockParameterTest {
 
         @Test
         void testCpuIsMocked(@Mock(answer = Answers.RETURNS_SMART_NULLS) final Cpu cpu) {

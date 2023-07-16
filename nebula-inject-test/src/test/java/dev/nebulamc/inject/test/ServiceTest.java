@@ -17,7 +17,6 @@ import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-@NebulaInjectTest
 class ServiceTest {
 
     @Test
@@ -53,8 +52,7 @@ class ServiceTest {
     }
 
     @NebulaInjectTest
-    @Nested
-    class FieldTest {
+    static class FieldTest {
 
         @Factory IntelCpuFactory intelCpuFactory;
         @Service Cpu cpu = new IntelCpu();
@@ -80,8 +78,7 @@ class ServiceTest {
     }
 
     @NebulaInjectTest
-    @Nested
-    class MethodTest {
+    static class MethodTest {
 
         @Factory IntelCpuFactory intelCpuFactory;
         Cpu cpu = new IntelCpu();
