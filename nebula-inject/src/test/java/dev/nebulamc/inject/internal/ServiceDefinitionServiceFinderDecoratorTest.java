@@ -25,8 +25,8 @@ class ServiceDefinitionServiceFinderDecoratorTest {
     @BeforeEach
     void setUp() {
 
-        serviceFinder = mock(ServiceFinder.class);
-        serviceDefinition = mock(ServiceDefinition.class);
+        serviceFinder = mock();
+        serviceDefinition = mock();
         serviceDefinitionServiceFinderDecorator = new ServiceDefinitionServiceFinderDecorator(serviceFinder, serviceDefinition);
     }
 

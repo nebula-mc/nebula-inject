@@ -31,7 +31,7 @@ class ContainerExtensionTest {
     @BeforeEach
     void beforeEach() {
 
-        mockFactory = mock(MockFactory.class);
+        mockFactory = mock();
         containerExtension = new ContainerExtension(mockFactory);
     }
 
@@ -59,7 +59,7 @@ class ContainerExtensionTest {
     @Test
     void testBeforeEachWhenBeforeAllNotCalled() {
 
-        final ExtensionContext context = mock(ExtensionContext.class);
+        final ExtensionContext context = mock();
 
         assertThrows(IllegalStateException.class, () -> containerExtension.beforeEach(context));
     }
@@ -71,7 +71,7 @@ class ContainerExtensionTest {
 
         }
 
-        final ExtensionContext context = mock(ExtensionContext.class);
+        final ExtensionContext context = mock();
         when(context.getRequiredTestClass()).thenAnswer((invocation) -> Test.class);
 
         containerExtension.beforeAll(context);
@@ -92,7 +92,7 @@ class ContainerExtensionTest {
         final Test test = new Test();
 
         final Cpu cpu = mock();
-        final ExtensionContext context = mock(ExtensionContext.class);
+        final ExtensionContext context = mock();
         when(context.getRequiredTestClass()).thenAnswer((invocation) -> Test.class);
         when(context.getRequiredTestInstance()).thenReturn(test);
         when(mockFactory.createMock(
@@ -117,7 +117,7 @@ class ContainerExtensionTest {
     @Test
     void testAfterEachWhenBeforeAllNotCalled() {
 
-        final ExtensionContext context = mock(ExtensionContext.class);
+        final ExtensionContext context = mock();
 
         assertThrows(IllegalStateException.class, () -> containerExtension.afterEach(context));
     }
@@ -129,7 +129,7 @@ class ContainerExtensionTest {
 
         }
 
-        final ExtensionContext context = mock(ExtensionContext.class);
+        final ExtensionContext context = mock();
         when(context.getRequiredTestClass()).thenAnswer((invocation) -> Test.class);
 
         containerExtension.beforeAll(context);
@@ -141,7 +141,7 @@ class ContainerExtensionTest {
     @Test
     void testSupportsParameterWhenParameterContextIsNull() {
 
-        final ExtensionContext context = mock(ExtensionContext.class);
+        final ExtensionContext context = mock();
 
         assertThrows(
                 NullPointerException.class,
@@ -152,7 +152,7 @@ class ContainerExtensionTest {
     @Test
     void testSupportsParameterWhenContextIsNull() {
 
-        final ParameterContext context = mock(ParameterContext.class);
+        final ParameterContext context = mock();
 
         assertThrows(
                 NullPointerException.class,
@@ -162,8 +162,8 @@ class ContainerExtensionTest {
     @Test
     void testSupportsParameterWhenParameterIsNotAnnotated() {
 
-        final ParameterContext parameterContext = mock(ParameterContext.class);
-        final ExtensionContext extensionContext = mock(ExtensionContext.class);
+        final ParameterContext parameterContext = mock();
+        final ExtensionContext extensionContext = mock();
 
         when(parameterContext.isAnnotated(Inject.class)).thenReturn(false);
 
@@ -173,8 +173,8 @@ class ContainerExtensionTest {
     @Test
     void testSupportsParameterWhenParameterIsAnnotated() {
 
-        final ParameterContext parameterContext = mock(ParameterContext.class);
-        final ExtensionContext extensionContext = mock(ExtensionContext.class);
+        final ParameterContext parameterContext = mock();
+        final ExtensionContext extensionContext = mock();
 
         when(parameterContext.isAnnotated(Inject.class)).thenReturn(true);
 
@@ -185,7 +185,7 @@ class ContainerExtensionTest {
     @Test
     void testResolveParameterWhenParameterContextIsNull() {
 
-        final ExtensionContext extensionContext = mock(ExtensionContext.class);
+        final ExtensionContext extensionContext = mock();
 
         assertThrows(
                 NullPointerException.class,
@@ -196,7 +196,7 @@ class ContainerExtensionTest {
     @Test
     void testResolveParameterWhenContextIsNull() {
 
-        final ParameterContext parameterContext = mock(ParameterContext.class);
+        final ParameterContext parameterContext = mock();
 
         assertThrows(
                 NullPointerException.class,
@@ -206,8 +206,8 @@ class ContainerExtensionTest {
     @Test
     void testResolveParameterWhenBeforeAllIsNotCalled() {
 
-        final ParameterContext parameterContext = mock(ParameterContext.class);
-        final ExtensionContext extensionContext = mock(ExtensionContext.class);
+        final ParameterContext parameterContext = mock();
+        final ExtensionContext extensionContext = mock();
 
         assertThrows(
                 IllegalStateException.class,
@@ -217,8 +217,8 @@ class ContainerExtensionTest {
     @Test
     void testResolveParameterWhenBeforeEachIsNotCalled() {
 
-        final ParameterContext parameterContext = mock(ParameterContext.class);
-        final ExtensionContext extensionContext = mock(ExtensionContext.class);
+        final ParameterContext parameterContext = mock();
+        final ExtensionContext extensionContext = mock();
 
         class Test {
 
@@ -237,7 +237,7 @@ class ContainerExtensionTest {
     @Test
     void testResolveParameterWhenParameterIsNotAnnotated() throws Exception {
 
-        final ParameterContext parameterContext = mock(ParameterContext.class);
+        final ParameterContext parameterContext = mock();
 
         when(parameterContext.isAnnotated(Inject.class)).thenReturn(false);
 
@@ -245,7 +245,7 @@ class ContainerExtensionTest {
 
         }
 
-        final ExtensionContext extensionContext = mock(ExtensionContext.class);
+        final ExtensionContext extensionContext = mock();
         when(extensionContext.getRequiredTestInstance()).thenReturn(new Test());
         when(extensionContext.getRequiredTestClass()).thenAnswer((invocation) -> Test.class);
 
@@ -270,11 +270,11 @@ class ContainerExtensionTest {
                 .getDeclaredMethod("parameter", Cpu.class)
                 .getParameters()[0];
 
-        final ParameterContext parameterContext = mock(ParameterContext.class);
+        final ParameterContext parameterContext = mock();
         when(parameterContext.isAnnotated(Inject.class)).thenReturn(true);
         when(parameterContext.getParameter()).thenReturn(parameter);
 
-        final ExtensionContext extensionContext = mock(ExtensionContext.class);
+        final ExtensionContext extensionContext = mock();
         final IntelCpu intelCpu = new IntelCpu();
 
         class Test {
@@ -306,11 +306,11 @@ class ContainerExtensionTest {
                 .getDeclaredMethod("parameter", Cpu.class)
                 .getParameters()[0];
 
-        final ParameterContext parameterContext = mock(ParameterContext.class);
+        final ParameterContext parameterContext = mock();
         when(parameterContext.isAnnotated(Inject.class)).thenReturn(true);
         when(parameterContext.getParameter()).thenReturn(parameter);
 
-        final ExtensionContext extensionContext = mock(ExtensionContext.class);
+        final ExtensionContext extensionContext = mock();
         final IntelCpu intelCpu = new IntelCpu();
 
         class Test {

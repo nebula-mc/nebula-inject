@@ -113,7 +113,7 @@ class MockParameterResolverTest {
         final Object mock = new Object();
         final ExtensionContext context = mock();
         final ParameterContext parameterContext = mock();
-        final Mock options = mock(Mock.class);
+        final Mock options = mock();
         when(parameterContext.findAnnotation(Mock.class)).thenReturn(Optional.of(options));
         when(parameterContext.getParameter()).thenReturn(parameter);
         when(mockFactory.createMock(Object.class, options)).thenAnswer((invocation) -> mock);
