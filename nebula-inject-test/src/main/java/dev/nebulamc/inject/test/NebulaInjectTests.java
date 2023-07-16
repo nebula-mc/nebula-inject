@@ -9,6 +9,7 @@ import org.jspecify.nullness.NullMarked;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,21 +35,21 @@ final class NebulaInjectTests {
 
         final Field[] fields = testClass.getDeclaredFields();
 
-        this.mockFields = Arrays.stream(fields)
+        this.mockFields = Collections.unmodifiableSet(Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Mock.class))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        this.injectFields = Arrays.stream(fields)
+                .collect(Collectors.<Field, Set<Field>>toCollection(LinkedHashSet::new)));
+        this.injectFields = Collections.unmodifiableSet(Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Inject.class))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        this.factoryFields = Arrays.stream(fields)
+                .collect(Collectors.<Field, Set<Field>>toCollection(LinkedHashSet::new)));
+        this.factoryFields = Collections.unmodifiableSet(Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Factory.class))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        this.serviceFields = Arrays.stream(fields)
+                .collect(Collectors.<Field, Set<Field>>toCollection(LinkedHashSet::new)));
+        this.serviceFields = Collections.unmodifiableSet(Arrays.stream(fields)
                 .filter((field) -> field.isAnnotationPresent(Service.class))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        this.serviceMethods = Arrays.stream(testClass.getDeclaredMethods())
+                .collect(Collectors.<Field, Set<Field>>toCollection(LinkedHashSet::new)));
+        this.serviceMethods = Collections.unmodifiableSet(Arrays.stream(testClass.getDeclaredMethods())
                 .filter((method) -> method.isAnnotationPresent(Service.class))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
+                .collect(Collectors.<Method, Set<Method>>toCollection(LinkedHashSet::new)));
 
         final Set<Field> annotatedFields = Stream.concat(
                         Stream.concat(mockFields.stream(), injectFields.stream()),
