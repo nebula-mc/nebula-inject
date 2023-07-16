@@ -7,7 +7,6 @@ import dev.nebulamc.inject.test.computer.Computer;
 import dev.nebulamc.inject.test.computer.Cpu;
 import dev.nebulamc.inject.test.computer.IntelCpu;
 import dev.nebulamc.inject.test.computer.IntelCpuFactory;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;

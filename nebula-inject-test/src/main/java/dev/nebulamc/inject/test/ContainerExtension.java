@@ -4,7 +4,6 @@ import dev.nebulamc.inject.Container;
 import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.NoUniqueServiceException;
 import dev.nebulamc.inject.ServiceDefinition;
-import dev.nebulamc.inject.ServiceDefinitionRegistry;
 import dev.nebulamc.inject.ServiceException;
 import dev.nebulamc.inject.ServiceFinder;
 import dev.nebulamc.inject.internal.ContainerImpl;
