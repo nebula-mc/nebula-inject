@@ -24,6 +24,7 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
 
     private final Class<T> serviceType;
     private final Constructor<? extends T> injectableConstructor;
+    private final Parameter[] parameters;
 
     /**
      * Constructs a new {@link InjectServiceDefinition} for the given service type and
@@ -42,6 +43,7 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
 
         this.serviceType = serviceType;
         this.injectableConstructor = findInjectableConstructor(implementation);
+        this.parameters = injectableConstructor.getParameters();
     }
 
     @SuppressWarnings("unchecked")
@@ -98,12 +100,9 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
         Preconditions.requireNonNull(serviceFinder, "serviceFinder");
 
         final Object[] arguments = new Object[injectableConstructor.getParameterCount()];
-        final Parameter[] parameters = injectableConstructor.getParameters();
 
-        for (int i = 0; i < parameters.length; i++) {
-            final Parameter parameter = parameters[i];
-            final Object service = serviceFinder.findService(parameter.getType());
-            arguments[i] = service;
+        for (int i = 0; i < arguments.length; i++) {
+            arguments[i] = serviceFinder.findService(parameters[i].getType());
         }
 
         injectableConstructor.setAccessible(true);
