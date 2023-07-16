@@ -14,6 +14,22 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 class InjectTest {
 
     @Test
+    void testNonInjectableField() {
+
+        final SummaryGeneratingListener listener = new SummaryGeneratingListener();
+
+        LauncherFactory.create()
+                .execute(LauncherDiscoveryRequestBuilder.request()
+                        .selectors(DiscoverySelectors.selectClass(NonInjectableFieldTest.class))
+                        .listeners()
+                        .build(), listener);
+
+        assumeTrue(listener.getSummary().getContainersFoundCount() == 2);
+        assertEquals(listener.getSummary().getContainersSucceededCount(), 2);
+        assertEquals(listener.getSummary().getTotalFailureCount(), 1);
+    }
+
+    @Test
     void testNonInjectableParameter() {
 
         final SummaryGeneratingListener listener = new SummaryGeneratingListener();
@@ -27,6 +43,20 @@ class InjectTest {
         assumeTrue(listener.getSummary().getContainersFoundCount() == 2);
         assertEquals(listener.getSummary().getContainersSucceededCount(), 2);
         assertEquals(listener.getSummary().getTotalFailureCount(), 1);
+    }
+
+    @NebulaInjectTest
+    static class NonInjectableFieldTest {
+
+        @Inject Cpu cpu;
+
+        /**
+         * Required so test can fail.
+         */
+        @Test
+        void test() {
+
+        }
     }
 
     @NebulaInjectTest
