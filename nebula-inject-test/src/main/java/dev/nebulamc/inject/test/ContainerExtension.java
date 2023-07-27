@@ -142,7 +142,11 @@ final class ContainerExtension
         }
 
         container = new ContainerImpl(
-                new FallbackServiceDefinitionRegistry(new ServiceFinderServiceDefinitionRegistry(testDoubles), builder.build()));
+                new FallbackServiceDefinitionRegistry(
+                        new ServiceFinderServiceDefinitionRegistry(testDoubles),
+                        builder.build()
+                )
+        );
 
         for (final Field field : tests.getInjectFields()) {
             field.setAccessible(true);
