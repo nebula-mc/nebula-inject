@@ -18,21 +18,15 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @NebulaInjectTest
 class FactoryTest {
 
-    @Factory IntelCpuFactory intelCpuFactory;
+    @Factory IntelCpuFactory intelCpuFactory = new IntelCpuFactory();
     @Inject IntelCpu intelCpu;
     @Inject Cpu cpu;
     @Inject Computer computer;
 
     @Test
-    void testIntelCpuFactoryIsInjectedIntoFactory() {
-
-        assertEquals(intelCpu, intelCpuFactory.getCpu());
-    }
-
-    @Test
     void testCpuFromFactoryIsInjectedIntoTest() {
 
-        assertEquals(intelCpuFactory.getCpu(), cpu);
+        assertEquals(intelCpu, cpu);
     }
 
     @Test
@@ -81,7 +75,7 @@ class FactoryTest {
     @NebulaInjectTest
     static class NonFactoryTest {
 
-        @Factory Cpu nonFactory;
+        @Factory Cpu nonFactory = new IntelCpu();
 
         /**
          * Required so test can fail.

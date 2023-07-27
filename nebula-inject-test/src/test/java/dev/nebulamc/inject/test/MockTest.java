@@ -85,7 +85,7 @@ class MockTest {
     @NebulaInjectTest
     static class MockFieldTest {
 
-        @Factory IntelCpuFactory intelCpuFactory;
+        @Factory IntelCpuFactory intelCpuFactory = new IntelCpuFactory();
         @Mock(answer = Answers.RETURNS_MOCKS) Cpu cpu;
         @Inject Computer computer;
 

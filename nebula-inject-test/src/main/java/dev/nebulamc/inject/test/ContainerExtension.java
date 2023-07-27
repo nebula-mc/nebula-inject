@@ -133,14 +133,12 @@ final class ContainerExtension
         final Container.Builder builder = Container.builder();
 
         for (final Field field : tests.getFactoryFields()) {
-            final Object factory = testDoubles.findService(field.getType());
             field.setAccessible(true);
             try {
-                field.set(context.getRequiredTestInstance(), factory);
+                builder.factory(field.get(context.getRequiredTestInstance()));
             } finally {
                 field.setAccessible(false);
             }
-            builder.factory(factory);
         }
 
         container = new ContainerImpl(
