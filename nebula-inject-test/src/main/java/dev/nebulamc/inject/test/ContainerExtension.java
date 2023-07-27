@@ -105,6 +105,13 @@ final class ContainerExtension
             field.setAccessible(true);
             try {
                 final Object service = field.get(context.getRequiredTestInstance());
+                if (service == null) {
+                    throw new IllegalStateException("""
+                            @Service field must be assigned a value that will be added to the container
+
+                            Example:
+                            @Service Cpu cpu = new TestCpu()""");
+                }
                 testDoublesBuilder.singleton(service, (Class) field.getType());
             } finally {
                 field.setAccessible(false);
@@ -135,7 +142,15 @@ final class ContainerExtension
         for (final Field field : tests.getFactoryFields()) {
             field.setAccessible(true);
             try {
-                builder.factory(field.get(context.getRequiredTestInstance()));
+                final Object factory = field.get(context.getRequiredTestInstance());
+                if (factory == null) {
+                    throw new IllegalStateException("""
+                            @Factory field must be assigned a value that will be added to the container
+                            
+                            Example:
+                            @Factory CpuFactory cpuFactory = new TestCpuFactory();""");
+                }
+                builder.factory(factory);
             } finally {
                 field.setAccessible(false);
             }
