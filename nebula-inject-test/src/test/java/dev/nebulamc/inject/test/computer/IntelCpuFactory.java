@@ -7,17 +7,9 @@ import dev.nebulamc.inject.Service;
 @Factory
 public final class IntelCpuFactory {
 
-    private final IntelCpu intelCpu;
-
-    @Inject
-    public IntelCpuFactory(final IntelCpu intelCpu) {
-
-        this.intelCpu = intelCpu;
-    }
-
     @Service
-    public Cpu getCpu() {
+    public Cpu getCpu(final IntelCpu cpu) {
 
-        return intelCpu;
+        return cpu;
     }
 }

@@ -53,7 +53,7 @@ class ServiceTest {
     @NebulaInjectTest
     static class FieldTest {
 
-        @Factory IntelCpuFactory intelCpuFactory;
+        @Factory IntelCpuFactory intelCpuFactory = new IntelCpuFactory();
         @Service Cpu cpu = new IntelCpu();
         @Inject Computer computer;
 
@@ -79,7 +79,7 @@ class ServiceTest {
     @NebulaInjectTest
     static class MethodTest {
 
-        @Factory IntelCpuFactory intelCpuFactory;
+        @Factory IntelCpuFactory intelCpuFactory = new IntelCpuFactory();
         Cpu cpu = new IntelCpu();
         @Inject Computer computer;
         @Service String string = "testing parameter resolution";
