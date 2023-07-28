@@ -261,4 +261,4 @@ val container = Container.builder()
 {% endtab %}
 {% endtabs %}
 
-However this is only recommended for external objects as you should use [factories](dependency-injection.md#factories) instead.
+However, this is only recommended for external objects as you should use [factories](dependency-injection.md#factories) instead.
