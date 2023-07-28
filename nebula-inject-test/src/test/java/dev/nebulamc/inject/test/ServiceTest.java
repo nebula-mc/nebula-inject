@@ -34,12 +34,42 @@ class ServiceTest {
         assertEquals(listener.getSummary().getTotalFailureCount(), 1);
     }
 
+    @Test
+    void testUnassignedService() {
+
+        final SummaryGeneratingListener listener = new SummaryGeneratingListener();
+
+        LauncherFactory.create()
+                .execute(LauncherDiscoveryRequestBuilder.request()
+                        .selectors(DiscoverySelectors.selectClass(UnassignedServiceTest.class))
+                        .listeners()
+                        .build(), listener);
+
+        assumeTrue(listener.getSummary().getContainersFoundCount() == 2);
+        assertEquals(listener.getSummary().getContainersSucceededCount(), 2);
+        assertEquals(listener.getSummary().getTotalFailureCount(), 1);
+    }
+
     @NebulaInjectTest
     static class MultipleAnnotationsTest {
 
         @Service
         @Inject
-        Computer computer;
+        Cpu cpu = new IntelCpu();
+
+        /**
+         * Required so test can fail.
+         */
+        @Test
+        void test() {
+
+        }
+    }
+
+    @NebulaInjectTest
+    static class UnassignedServiceTest {
+
+        @Service Cpu cpu;
 
         /**
          * Required so test can fail.
