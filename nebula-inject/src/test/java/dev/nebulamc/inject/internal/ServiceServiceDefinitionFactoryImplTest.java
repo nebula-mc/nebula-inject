@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -31,12 +32,20 @@ import static org.mockito.Mockito.when;
 
 class ServiceServiceDefinitionFactoryImplTest {
 
+    ParameterResolver parameterResolver;
     ServiceServiceDefinitionFactory serviceServiceDefinitionFactory;
 
     @BeforeEach
     void setUp() {
 
-        serviceServiceDefinitionFactory = new ServiceServiceDefinitionFactoryImpl();
+        parameterResolver = mock();
+        serviceServiceDefinitionFactory = new ServiceServiceDefinitionFactoryImpl(parameterResolver);
+    }
+
+    @AfterEach
+    void tearDown() {
+
+        verifyNoMoreInteractions(parameterResolver);
     }
 
     @Nested
@@ -194,10 +203,14 @@ class ServiceServiceDefinitionFactoryImplTest {
             @Test
             void testCreateService() {
 
+                final Parameter engineParameter = method.getParameters()[0];
+                final Parameter wheelsParameter = method.getParameters()[1];
                 final Engine engine = new V8Engine();
                 final Wheels wheels = new Wheels();
-                when(serviceFinder.findService(Engine.class)).thenReturn(engine);
-                when(serviceFinder.findService(Wheels.class)).thenReturn(wheels);
+                when(parameterResolver.resolveParameter(engineParameter, serviceFinder))
+                        .thenReturn(engine);
+                when(parameterResolver.resolveParameter(wheelsParameter, serviceFinder))
+                        .thenReturn(wheels);
 
                 final ServiceDefinition<Car> serviceDefinition = (ServiceDefinition<Car>)
                         serviceServiceDefinitionFactory.createServiceDefinition(factory, method);
@@ -208,8 +221,8 @@ class ServiceServiceDefinitionFactoryImplTest {
                 assertEquals(engine, car.getEngine());
                 assertEquals(wheels, car.getWheels());
                 assertNotNull(car.getWheels());
-                verify(serviceFinder).findService(Engine.class);
-                verify(serviceFinder).findService(Wheels.class);
+                verify(parameterResolver).resolveParameter(engineParameter, serviceFinder);
+                verify(parameterResolver).resolveParameter(wheelsParameter, serviceFinder);
             }
         }
     }

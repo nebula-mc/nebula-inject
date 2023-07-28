@@ -13,6 +13,15 @@ import org.jspecify.nullness.NullMarked;
 @NullMarked
 public final class InjectServiceDefinitionFactoryImpl implements InjectServiceDefinitionFactory {
 
+    private final ParameterResolver parameterResolver;
+
+    public InjectServiceDefinitionFactoryImpl(final ParameterResolver parameterResolver) {
+
+        Preconditions.requireNonNull(parameterResolver, "parameterResolver");
+
+        this.parameterResolver = parameterResolver;
+    }
+
     @Override
     public <T> ServiceDefinition<T> createServiceDefinition(
             final Class<T> type,
@@ -21,6 +30,6 @@ public final class InjectServiceDefinitionFactoryImpl implements InjectServiceDe
         Preconditions.requireNonNull(type, "implementation");
         Preconditions.requireNonNull(implementation, "implementation");
 
-        return new InjectServiceDefinition<>(type, implementation);
+        return new InjectServiceDefinition<>(type, implementation, parameterResolver);
     }
 }

@@ -14,6 +14,14 @@ import java.lang.reflect.Method;
 @NullMarked
 final class ServiceServiceDefinitionFactoryImpl implements ServiceServiceDefinitionFactory {
 
+    private final ParameterResolver parameterResolver;
+
+    public ServiceServiceDefinitionFactoryImpl(final ParameterResolver parameterResolver) {
+        Preconditions.requireNonNull(parameterResolver, "parameterResolver");
+
+        this.parameterResolver = parameterResolver;
+    }
+
     @Override
     public ServiceDefinition<?> createServiceDefinition(final Object factory,
                                                         final Method serviceMethod) {
@@ -21,6 +29,6 @@ final class ServiceServiceDefinitionFactoryImpl implements ServiceServiceDefinit
         Preconditions.requireNonNull(factory, "factory");
         Preconditions.requireNonNull(serviceMethod, "serviceMethod");
 
-        return new ServiceServiceDefinition<>(factory, serviceMethod);
+        return new ServiceServiceDefinition<>(factory, serviceMethod, parameterResolver);
     }
 }
