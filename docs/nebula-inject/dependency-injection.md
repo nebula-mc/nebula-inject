@@ -117,6 +117,39 @@ class Car @Inject constructor(private val engine: Engine)
 
 In this case, whenever we want to create a `Car`, Nebula Inject will find the `Engine` dependency and instantiate the `Car` using that engine.&#x20;
 
+#### Injecting Collection Types
+
+Nebula Inject can also inject collection types such as `List` and `Set`:
+
+{% tabs %}
+{% tab title="Java" %}
+```java
+class Car {
+    List<Wheel> wheels;
+    
+    @Inject
+    Car(List<Wheel> wheels) {
+        this.wheels = wheels;
+    }
+}
+```
+{% endtab %}
+
+{% tab title="Kotlin" %}
+```kotlin
+class Car @Inject constructor(private val wheels: List<Wheel>)
+```
+{% endtab %}
+{% endtabs %}
+
+The following collection types are supported:
+
+* `java.lang.Iterable`
+* `java.util.Collection`
+* `java.util.List`
+* `java.util.Set`
+* Arrays
+
 ### Dependency Resolution
 
 Currently, Nebula Inject cannot find the `Engine` dependency because it doesn't know what implementation to use. By default, Nebula Inject cannot resolve interfaces as it can only resolve concrete classes with either an `@Inject` constructor or a no-args constructor. &#x20;
