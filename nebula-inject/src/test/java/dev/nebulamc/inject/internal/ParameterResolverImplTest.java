@@ -11,6 +11,7 @@ import java.lang.reflect.Parameter;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -73,6 +74,13 @@ class ParameterResolverImplTest {
     static class GenericElementParameter {
 
         public GenericElementParameter(final List<List<String>> list) {
+
+        }
+    }
+
+    static class NonCollectionGenericParameter {
+
+        public NonCollectionGenericParameter(final Stream<String> stream) {
 
         }
     }
@@ -180,6 +188,22 @@ class ParameterResolverImplTest {
             assertEquals(
                     Set.of("service 1", "service 2"),
                     parameterResolver.resolveParameter(parameter, serviceFinder));
+        }
+
+        @SuppressWarnings("rawtypes")
+        @Test
+        void testResolveWhenParameterIsGenericButNotCollection() throws NoSuchMethodException {
+
+            final Parameter parameter = NonCollectionGenericParameter.class
+                    .getDeclaredConstructor(Stream.class)
+                    .getParameters()[0];
+
+            when(serviceFinder.findService(Stream.class))
+                    .thenReturn(Stream.of(1, 2));
+
+            assertEquals(
+                    Stream.of(1, 2).toList(),
+                    ((Stream) parameterResolver.resolveParameter(parameter, serviceFinder)).toList());
         }
 
         @Test
