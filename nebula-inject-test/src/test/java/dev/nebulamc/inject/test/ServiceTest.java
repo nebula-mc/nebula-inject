@@ -30,8 +30,8 @@ class ServiceTest {
                         .build(), listener);
 
         assumeTrue(listener.getSummary().getContainersFoundCount() == 2);
-        assertEquals(listener.getSummary().getContainersSucceededCount(), 1);
-        assertEquals(listener.getSummary().getTotalFailureCount(), 1);
+        assertEquals(1, listener.getSummary().getContainersSucceededCount(), 1);
+        assertEquals(1, listener.getSummary().getTotalFailureCount(), 1);
     }
 
     @Test
@@ -46,8 +46,8 @@ class ServiceTest {
                         .build(), listener);
 
         assumeTrue(listener.getSummary().getContainersFoundCount() == 2);
-        assertEquals(listener.getSummary().getContainersSucceededCount(), 2);
-        assertEquals(listener.getSummary().getTotalFailureCount(), 1);
+        assertEquals(2, listener.getSummary().getContainersSucceededCount());
+        assertEquals(1, listener.getSummary().getTotalFailureCount());
     }
 
     @NebulaInjectTest
