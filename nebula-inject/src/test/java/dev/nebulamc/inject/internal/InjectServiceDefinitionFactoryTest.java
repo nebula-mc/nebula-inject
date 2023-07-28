@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Parameter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -28,14 +29,22 @@ import static org.mockito.Mockito.when;
 
 class InjectServiceDefinitionFactoryTest {
 
+    ParameterResolver parameterResolver;
     InjectServiceDefinitionFactory serviceDefinitionFactory;
     ServiceDefinition<Car> serviceDefinition;
 
     @BeforeEach
     void setUp() {
 
-        serviceDefinitionFactory = new InjectServiceDefinitionFactoryImpl();
+        parameterResolver = mock();
+        serviceDefinitionFactory = new InjectServiceDefinitionFactoryImpl(parameterResolver);
         serviceDefinition = serviceDefinitionFactory.createServiceDefinition(Car.class, Sedan.class);
+    }
+
+    @AfterEach
+    void tearDown() {
+
+        verifyNoMoreInteractions(parameterResolver);
     }
 
     static class NoInjectAnnotation {
@@ -160,19 +169,27 @@ class InjectServiceDefinitionFactoryTest {
         }
 
         @Test
-        void testCreateService() {
+        void testCreateService() throws NoSuchMethodException {
 
+            final Parameter engineParameter = Sedan.class
+                    .getDeclaredConstructor(Engine.class, Wheels.class)
+                    .getParameters()[0];
+            final Parameter wheelsParameter = Sedan.class
+                    .getDeclaredConstructor(Engine.class, Wheels.class)
+                    .getParameters()[1];
             final Engine engine = new V8Engine();
             final Wheels wheels = new Wheels();
-            when(serviceFinder.findService(Engine.class)).thenReturn(engine);
-            when(serviceFinder.findService(Wheels.class)).thenReturn(wheels);
+            when(parameterResolver.resolveParameter(engineParameter, serviceFinder))
+                    .thenReturn(engine);
+            when(parameterResolver.resolveParameter(wheelsParameter, serviceFinder))
+                    .thenReturn(wheels);
 
             final Car car = serviceDefinition.createService(serviceFinder);
 
             assertEquals(engine, car.getEngine());
             assertEquals(wheels, car.getWheels());
-            verify(serviceFinder).findService(Engine.class);
-            verify(serviceFinder).findService(Wheels.class);
+            verify(parameterResolver).resolveParameter(engineParameter, serviceFinder);
+            verify(parameterResolver).resolveParameter(wheelsParameter, serviceFinder);
         }
 
         @Test
@@ -197,15 +214,19 @@ class InjectServiceDefinitionFactoryTest {
         }
 
         @Test
-        void testCreateServiceWhenServiceNotFound() {
+        void testCreateServiceWhenServiceNotFound() throws NoSuchMethodException {
 
-            when(serviceFinder.findService(Engine.class))
+            final Parameter engineParameter = Sedan.class
+                    .getDeclaredConstructor(Engine.class, Wheels.class)
+                    .getParameters()[0];
+
+            when(parameterResolver.resolveParameter(engineParameter, serviceFinder))
                     .thenThrow(NoUniqueServiceException.class);
 
             assertThrows(NoUniqueServiceException.class,
                     () -> serviceDefinition.createService(serviceFinder));
 
-            verify(serviceFinder).findService(Engine.class);
+            verify(parameterResolver).resolveParameter(engineParameter, serviceFinder);
         }
     }
 }

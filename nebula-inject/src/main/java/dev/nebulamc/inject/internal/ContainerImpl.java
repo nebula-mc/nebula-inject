@@ -98,12 +98,14 @@ public final class ContainerImpl extends AbstractContainer {
      */
     public static final class BuilderImpl implements Container.Builder {
 
+        private final ParameterResolver parameterResolver = new ParameterResolverImpl();
+
         /**
          * The factory used by {@link #factory(Object)}.
          */
         private final FactoryServiceDefinitionRegistryFactory serviceDefinitionRegistryFactory
                 = new FactoryServiceDefinitionRegistryFactoryImpl(
-                new ServiceServiceDefinitionFactoryImpl());
+                new ServiceServiceDefinitionFactoryImpl(parameterResolver));
 
         private final ServiceDefinitionRegistry.Builder serviceDefinitions =
                 ServiceDefinitionRegistry.builder();
@@ -212,7 +214,7 @@ public final class ContainerImpl extends AbstractContainer {
                     new FallbackServiceDefinitionRegistry(
                             new ServiceDefinitionRegistryComposite(serviceDefinitionRegistries),
                             new InjectServiceDefinitionRegistry(
-                                    new InjectServiceDefinitionFactoryImpl()
+                                    new InjectServiceDefinitionFactoryImpl(parameterResolver)
                             )
                     )
             );

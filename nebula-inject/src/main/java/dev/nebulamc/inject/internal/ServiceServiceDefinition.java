@@ -21,26 +21,33 @@ import java.lang.reflect.Parameter;
 @NullMarked
 final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
 
-    private final Object factory;
-    private final Method serviceMethod;
     /**
      * Cached method parameters so a new array doesn't need to be allocated by
      * {@link Method#getParameters()} due to defensive copying.
      */
     private final Parameter[] parameters;
 
+    private final Object factory;
+    private final Method serviceMethod;
+    private final ParameterResolver parameterResolver;
+
     /**
      * Constructs a new {@link ServiceServiceDefinition} for the specified {@link Service} method.
      *
      * @param factory the factory object
      * @param serviceMethod the service serviceMethod
+     * @param parameterResolver the parameter resolver to use
      * @throws ClassCastException if the service method is not a member of the factory's class.
-     * @throws NullPointerException if the factory or service method are {@code null}.
+     * @throws NullPointerException if the factory, service method or parameter resolver are
+     * {@code null}.
      */
-    ServiceServiceDefinition(final Object factory, final Method serviceMethod) {
+    ServiceServiceDefinition(final Object factory,
+                             final Method serviceMethod,
+                             final ParameterResolver parameterResolver) {
 
         Preconditions.requireNonNull(factory, "factory");
         Preconditions.requireNonNull(serviceMethod, "serviceMethod");
+        Preconditions.requireNonNull(parameterResolver, "parameterResolver");
 
         if (!serviceMethod.getDeclaringClass().isInstance(factory)) {
             throw new ClassCastException(
@@ -49,6 +56,7 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
 
         this.factory = factory;
         this.serviceMethod = serviceMethod;
+        this.parameterResolver = parameterResolver;
         this.parameters = serviceMethod.getParameters();
     }
 
@@ -68,7 +76,7 @@ final class ServiceServiceDefinition<T> implements ServiceDefinition<T> {
         final Object[] arguments = new Object[parameters.length];
 
         for (int i = 0; i < arguments.length; i++) {
-            arguments[i] = serviceFinder.findService(parameters[i].getType());
+            arguments[i] = parameterResolver.resolveParameter(parameters[i], serviceFinder);
         }
 
         serviceMethod.setAccessible(true);

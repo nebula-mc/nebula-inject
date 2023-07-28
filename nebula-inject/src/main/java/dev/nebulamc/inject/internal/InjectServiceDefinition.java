@@ -9,6 +9,7 @@ import org.jspecify.nullness.NullMarked;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 
@@ -22,9 +23,15 @@ import java.lang.reflect.Parameter;
 @NullMarked
 final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
 
+    /**
+     * Cached method parameters so a new array doesn't need to be allocated by
+     * {@link Method#getParameters()} due to defensive copying.
+     */
+    private final Parameter[] parameters;
+
     private final Class<T> serviceType;
     private final Constructor<? extends T> injectableConstructor;
-    private final Parameter[] parameters;
+    private final ParameterResolver parameterResolver;
 
     /**
      * Constructs a new {@link InjectServiceDefinition} for the given service type and
@@ -32,17 +39,23 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
      *
      * @param serviceType the type of the service
      * @param implementation the implementation of the service
+     * @param parameterResolver the parameter resolver to use
      * @throws IllegalArgumentException if the implementation does not have an
      * <a href="package-summary.html#injectable-constructors">injectable constructor</a>.
-     * @throws NullPointerException if the service type or implementation classes are {@code null}.
+     * @throws NullPointerException if the service type, implementation class or parameter resolver
+     * are {@code null}.
      */
-    InjectServiceDefinition(final Class<T> serviceType, final Class<? extends T> implementation) {
+    InjectServiceDefinition(final Class<T> serviceType,
+                            final Class<? extends T> implementation,
+                            final ParameterResolver parameterResolver) {
 
         Preconditions.requireNonNull(serviceType, "serviceType");
         Preconditions.requireNonNull(implementation, "implementation");
+        Preconditions.requireNonNull(parameterResolver, "parameterResolver");
 
         this.serviceType = serviceType;
         this.injectableConstructor = findInjectableConstructor(implementation);
+        this.parameterResolver = parameterResolver;
         this.parameters = injectableConstructor.getParameters();
     }
 
@@ -102,7 +115,7 @@ final class InjectServiceDefinition<T> implements ServiceDefinition<T> {
         final Object[] arguments = new Object[injectableConstructor.getParameterCount()];
 
         for (int i = 0; i < arguments.length; i++) {
-            arguments[i] = serviceFinder.findService(parameters[i].getType());
+            arguments[i] = parameterResolver.resolveParameter(parameters[i], serviceFinder);
         }
 
         injectableConstructor.setAccessible(true);
