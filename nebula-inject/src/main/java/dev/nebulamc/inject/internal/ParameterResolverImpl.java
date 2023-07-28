@@ -37,8 +37,7 @@ public final class ParameterResolverImpl implements ParameterResolver {
             final Type rawType = parameterizedType.getRawType();
             final Type[] typeArguments = parameterizedType.getActualTypeArguments();
 
-            if (typeArguments.length == 1 &&
-                    typeArguments[0] instanceof final Class<?> elementClass) {
+            if (typeArguments[0] instanceof final Class<?> elementClass) {
                 if (rawType.equals(Iterable.class) ||
                         rawType.equals(Collection.class) ||
                         rawType.equals(List.class)) {
