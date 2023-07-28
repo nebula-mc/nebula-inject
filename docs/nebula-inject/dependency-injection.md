@@ -110,7 +110,7 @@ class Car {
 
 {% tab title="Kotlin" %}
 ```kotlin
-class Car @Inject constructor(private val engine: Engine)
+class Car @Inject constructor(val engine: Engine)
 ```
 {% endtab %}
 {% endtabs %}
@@ -137,7 +137,7 @@ class Car {
 
 {% tab title="Kotlin" %}
 ```kotlin
-class Car @Inject constructor(private val wheels: List<Wheel>)
+class Car @Inject constructor(val wheels: List<Wheel>)
 ```
 {% endtab %}
 {% endtabs %}
