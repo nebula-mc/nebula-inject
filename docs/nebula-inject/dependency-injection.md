@@ -73,9 +73,9 @@ Car car = new Car(engine);
 
 {% tab title="Kotlin" %}
 ```kotlin
-val engine = PetrolEngine();
-val car = Car(engine);
-car.start();
+val engine = PetrolEngine()
+val car = Car(engine)
+car.start()
 ```
 {% endtab %}
 {% endtabs %}
