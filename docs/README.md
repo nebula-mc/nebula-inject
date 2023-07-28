@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.nebulamc:nebula-inject:0.1")
+    implementation("dev.nebulamc:nebula-inject:0.2")
 }
 ```
 {% endtab %}
@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'dev.nebulamc:nebula-inject:0.1'
+    implementation 'dev.nebulamc:nebula-inject:0.2'
 }
 ```
 {% endtab %}
