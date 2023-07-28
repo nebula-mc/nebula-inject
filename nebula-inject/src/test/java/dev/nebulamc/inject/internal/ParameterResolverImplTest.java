@@ -92,7 +92,7 @@ class ParameterResolverImplTest {
         }
     }
 
-    @DisplayName("resolve(Parameter, ServiceFinder)")
+    @DisplayName("resolveParameter(Parameter, ServiceFinder)")
     @Nested
     class Resolve {
 
@@ -112,7 +112,7 @@ class ParameterResolverImplTest {
 
         @SuppressWarnings("DataFlowIssue")
         @Test
-        void testResolveWhenParameterIsNull() {
+        void testResolveParameterWhenParameterIsNull() {
 
             assertThrows(NullPointerException.class, () ->
                     parameterResolver.resolveParameter(null, serviceFinder));
@@ -120,7 +120,7 @@ class ParameterResolverImplTest {
 
         @SuppressWarnings("DataFlowIssue")
         @Test
-        void testResolveWhenServiceFinderIsNull() throws NoSuchMethodException {
+        void testResolveParameterWhenServiceFinderIsNull() throws NoSuchMethodException {
 
             final Parameter parameter = NonCollectionParameter.class
                     .getDeclaredConstructor(String.class)
@@ -131,7 +131,7 @@ class ParameterResolverImplTest {
         }
 
         @Test
-        void testResolveWhenParameterIsIterable() throws NoSuchMethodException {
+        void testResolveParameterWhenParameterIsIterable() throws NoSuchMethodException {
 
             final Parameter parameter = IterableParameter.class
                     .getDeclaredConstructor(Iterable.class)
@@ -146,7 +146,7 @@ class ParameterResolverImplTest {
         }
 
         @Test
-        void testResolveWhenParameterIsCollection() throws NoSuchMethodException {
+        void testResolveParameterWhenParameterIsCollection() throws NoSuchMethodException {
 
             final Parameter parameter = CollectionParameter.class
                     .getDeclaredConstructor(Collection.class)
@@ -161,7 +161,7 @@ class ParameterResolverImplTest {
         }
 
         @Test
-        void testResolveWhenParameterIsList() throws NoSuchMethodException {
+        void testResolveParameterWhenParameterIsList() throws NoSuchMethodException {
 
             final Parameter parameter = ListParameter.class
                     .getDeclaredConstructor(List.class)
@@ -176,7 +176,7 @@ class ParameterResolverImplTest {
         }
 
         @Test
-        void testResolveWhenParameterIsSet() throws NoSuchMethodException {
+        void testResolveParameterWhenParameterIsSet() throws NoSuchMethodException {
 
             final Parameter parameter = SetParameter.class
                     .getDeclaredConstructor(Set.class)
@@ -192,7 +192,7 @@ class ParameterResolverImplTest {
 
         @SuppressWarnings("rawtypes")
         @Test
-        void testResolveWhenParameterIsGenericButNotCollection() throws NoSuchMethodException {
+        void testResolveParameterWhenParameterIsGenericButNotCollection() throws NoSuchMethodException {
 
             final Parameter parameter = NonCollectionGenericParameter.class
                     .getDeclaredConstructor(Stream.class)
@@ -207,7 +207,7 @@ class ParameterResolverImplTest {
         }
 
         @Test
-        void testResolveWhenParameterIsArray() throws NoSuchMethodException {
+        void testResolveParameterWhenParameterIsArray() throws NoSuchMethodException {
 
             final Parameter parameter = ArrayParameter.class
                     .getDeclaredConstructor(String[].class)
@@ -223,7 +223,7 @@ class ParameterResolverImplTest {
 
         @SuppressWarnings("rawtypes")
         @Test
-        void testResolveWhenParameterIsGenericArray() throws NoSuchMethodException {
+        void testResolveParameterWhenParameterIsGenericArray() throws NoSuchMethodException {
 
             // when the parameter is a generic array, services of the erasure of the array type
             // should be returned
@@ -241,7 +241,7 @@ class ParameterResolverImplTest {
         }
 
         @Test
-        void testResolveWhenParameterIsCollectionWithGenericElementType()
+        void testResolveParameterWhenParameterIsCollectionWithGenericElementType()
                 throws NoSuchMethodException {
 
             // when the type parameter of a collection is generic, services of the erasure of the
