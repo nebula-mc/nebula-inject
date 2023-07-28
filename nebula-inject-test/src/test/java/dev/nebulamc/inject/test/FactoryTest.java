@@ -72,6 +72,21 @@ class FactoryTest {
         assertEquals(1, listener.getSummary().getContainersFailedCount());
     }
 
+    @Test
+    void testUnassignedFactory() {
+
+        final SummaryGeneratingListener listener = new SummaryGeneratingListener();
+
+        LauncherFactory.create()
+                .execute(LauncherDiscoveryRequestBuilder.request()
+                        .selectors(DiscoverySelectors.selectClass(UnassignedFactoryTest.class))
+                        .listeners()
+                        .build(), listener);
+
+        assumeTrue(listener.getSummary().getTestsFoundCount() == 1);
+        assertEquals(1, listener.getSummary().getTestsFailedCount());
+    }
+
     @NebulaInjectTest
     static class NonFactoryTest {
 
@@ -101,4 +116,19 @@ class FactoryTest {
 
         }
     }
+
+    @NebulaInjectTest
+    static class UnassignedFactoryTest {
+
+        @Factory IntelCpuFactory factory;
+
+        /**
+         * Required so test can fail.
+         */
+        @Test
+        void test() {
+
+        }
+    }
+
 }

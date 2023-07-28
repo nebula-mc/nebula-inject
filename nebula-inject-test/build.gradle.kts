@@ -34,7 +34,9 @@ tasks {
         exclude("dev/nebulamc/inject/test/FactoryTest\$NonFactoryTest.class")
         exclude("dev/nebulamc/inject/test/FactoryTest\$MultipleAnnotationsTest.class")
         exclude("dev/nebulamc/inject/test/FactoryTest\$FactoryAndInjectTest.class")
+        exclude("dev/nebulamc/inject/test/FactoryTest\$UnassignedFactoryTest.class")
         exclude("dev/nebulamc/inject/test/ServiceTest\$MultipleAnnotationsTest.class")
+        exclude("dev/nebulamc/inject/test/ServiceTest\$UnassignedServiceTest.class")
 
         useJUnitPlatform()
     }
