@@ -64,7 +64,7 @@ public interface ServiceDefinitionRegistry {
          *
          * @param serviceDefinition the service definition
          * @return this builder (for chaining)
-         * @throws NullPointerException if the factory is {@code null}.
+         * @throws NullPointerException if the service definition is {@code null}.
          * @since 0.1
          */
         Builder serviceDefinition(ServiceDefinition<?> serviceDefinition);
