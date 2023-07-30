@@ -177,7 +177,7 @@ public final class ContainerImpl extends AbstractContainer {
 
             for (final Class<? super T> type : types) {
                 serviceDefinitions.serviceDefinition(
-                        new SingletonServiceDefinition<>(singleton, type));
+                        new SingletonServiceDefinition<>(type, singleton));
             }
 
             return this;
