@@ -4,7 +4,6 @@ import dev.nebulamc.inject.car.Car;
 import dev.nebulamc.inject.car.CarFactory;
 import dev.nebulamc.inject.car.Engine;
 import dev.nebulamc.inject.car.Sedan;
-import dev.nebulamc.inject.car.Suv;
 import dev.nebulamc.inject.car.V8Engine;
 import dev.nebulamc.inject.car.Wheels;
 import org.junit.jupiter.api.Test;
@@ -42,7 +41,7 @@ class ContainerTest {
 
         final Container child = Container.builder()
                 .parent(parent)
-                .singleton(wheels)
+                .singleton(Wheels.class, wheels)
                 .build();
 
         assertEquals(engine, child.findService(Engine.class));
@@ -55,9 +54,6 @@ class ContainerTest {
 
         final Container.Builder builder = Container.builder();
 
-        assertThrows(NullPointerException.class, () -> builder.singleton(null));
-        assertThrows(NullPointerException.class, () -> builder
-                .singleton((Iterable<Class<? super Object>>) null, null));
         assertThrows(NullPointerException.class, () -> builder
                 .singleton((Class<? super Object>) null, null));
     }
@@ -67,20 +63,14 @@ class ContainerTest {
 
         final V8Engine engine = new V8Engine();
         final Wheels wheels = new Wheels();
-        final Suv suv = new Suv(engine, wheels);
 
         final Container container = Container.builder()
-                .singleton(engine)
+                .singleton(Engine.class, engine)
                 .singleton(Wheels.class, wheels)
-                .singleton(List.of(Suv.class, Car.class), suv)
                 .build();
 
-        assertEquals(engine, container.findService(V8Engine.class));
-        assertEquals(engine, container.findService(Object.class));
         assertEquals(engine, container.findService(Engine.class));
         assertEquals(wheels, container.findService(Wheels.class));
-        assertEquals(suv, container.findService(Suv.class));
-        assertEquals(suv, container.findService(Car.class));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -99,8 +89,8 @@ class ContainerTest {
         final Wheels wheels = new Wheels();
 
         final Container container = Container.builder()
-                .singleton(engine)
-                .singleton(wheels)
+                .singleton(Engine.class, engine)
+                .singleton(Wheels.class, wheels)
                 .factory(new CarFactory())
                 .build();
 
@@ -179,8 +169,8 @@ class ContainerTest {
         final Wheels wheels = new Wheels();
 
         final Container container = Container.builder()
-                .singleton(engine)
-                .singleton(wheels)
+                .singleton(Engine.class, engine)
+                .singleton(Wheels.class, wheels)
                 .build();
 
         final Car car = container.findService(Sedan.class);
@@ -194,7 +184,7 @@ class ContainerTest {
 
         final Wheels wheels = new Wheels();
         final Container parent = Container.builder()
-                .singleton(wheels)
+                .singleton(Wheels.class, wheels)
                 .build();
         final Container child = Container.builder()
                 .parent(parent)
