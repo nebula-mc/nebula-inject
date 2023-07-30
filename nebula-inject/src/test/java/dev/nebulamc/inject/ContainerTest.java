@@ -57,9 +57,9 @@ class ContainerTest {
 
         assertThrows(NullPointerException.class, () -> builder.singleton(null));
         assertThrows(NullPointerException.class, () -> builder
-                .singleton(null, (Iterable<Class<? super Object>>) null));
+                .singleton((Iterable<Class<? super Object>>) null, null));
         assertThrows(NullPointerException.class, () -> builder
-                .singleton(null, (Class<? super Object>) null));
+                .singleton((Class<? super Object>) null, null));
     }
 
     @Test
@@ -71,8 +71,8 @@ class ContainerTest {
 
         final Container container = Container.builder()
                 .singleton(engine)
-                .singleton(wheels, Wheels.class)
-                .singleton(suv, List.of(Suv.class, Car.class))
+                .singleton(Wheels.class, wheels)
+                .singleton(List.of(Suv.class, Car.class), suv)
                 .build();
 
         assertEquals(engine, container.findService(V8Engine.class));
