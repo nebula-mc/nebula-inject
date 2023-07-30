@@ -122,6 +122,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * @throws NullPointerException if the service definition registry is {@code null}.
          * @since 0.3
          */
+        @Override
         Builder serviceDefinitionRegistry(ServiceDefinitionRegistry serviceDefinitionRegistry);
 
         /**

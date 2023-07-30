@@ -6,6 +6,7 @@ import dev.nebulamc.inject.internal.util.Multimap;
 import dev.nebulamc.inject.internal.util.Preconditions;
 import org.jspecify.nullness.NullMarked;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,6 +55,8 @@ public final class ServiceDefinitionRegistryImpl extends AbstractServiceDefiniti
 
         private final Multimap<Class<?>, ServiceDefinition<?>> serviceDefinitions =
                 new Multimap<>();
+        private final List<ServiceDefinitionRegistry> serviceDefinitionRegistries =
+                new ArrayList<>();
 
         @Override
         public Builder serviceDefinition(final ServiceDefinition<?> serviceDefinition) {
@@ -66,9 +69,25 @@ public final class ServiceDefinitionRegistryImpl extends AbstractServiceDefiniti
         }
 
         @Override
+        public Builder serviceDefinitionRegistry(
+                final ServiceDefinitionRegistry serviceDefinitionRegistry) {
+
+            Preconditions.requireNonNull(serviceDefinitionRegistry, "serviceDefinitionRegistry");
+
+            serviceDefinitionRegistries.add(serviceDefinitionRegistry);
+
+            return this;
+        }
+
+        @Override
         public ServiceDefinitionRegistry build() {
 
-            return new ServiceDefinitionRegistryImpl(serviceDefinitions);
+            final List<ServiceDefinitionRegistry> serviceDefinitionRegistries =
+                    new ArrayList<>(this.serviceDefinitionRegistries);
+
+            serviceDefinitionRegistries.add(new ServiceDefinitionRegistryImpl(serviceDefinitions));
+
+            return new ServiceDefinitionRegistryComposite(serviceDefinitionRegistries);
         }
     }
 }
