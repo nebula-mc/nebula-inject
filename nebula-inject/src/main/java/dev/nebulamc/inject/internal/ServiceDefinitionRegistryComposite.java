@@ -41,7 +41,7 @@ public final class ServiceDefinitionRegistryComposite extends AbstractServiceDef
 
         return serviceDefinitionRegistries
                 .stream()
-                .flatMap(registry -> registry.findServiceDefinitions(type).stream())
+                .flatMap((registry) -> registry.findServiceDefinitions(type).stream())
                 .toList();
     }
 }
