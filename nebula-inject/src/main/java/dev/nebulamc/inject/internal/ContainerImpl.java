@@ -157,12 +157,12 @@ public final class ContainerImpl extends AbstractContainer {
         }
 
         @Override
-        public <T> Container.Builder singleton(final Class<T> type, final T singleton) {
+        public <T> Container.Builder service(final Class<T> type, final T service) {
 
             Preconditions.requireNonNull(type, "type");
-            Preconditions.requireNonNull(singleton, "singleton");
+            Preconditions.requireNonNull(service, "singleton");
 
-            serviceDefinitions.serviceDefinition(new SingletonServiceDefinition<>(type, singleton));
+            serviceDefinitions.serviceDefinition(new SingletonServiceDefinition<>(type, service));
 
             return this;
         }
