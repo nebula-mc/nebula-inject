@@ -184,7 +184,7 @@ public final class ContainerImpl extends AbstractContainer {
         }
 
         @Override
-        public <T> Container.Builder singleton(final Class<? super T> type, final T singleton) {
+        public <T> Container.Builder singleton(final Class<T> type, final T singleton) {
 
             Preconditions.requireNonNull(singleton, "singleton");
             Preconditions.requireNonNull(type, "type");

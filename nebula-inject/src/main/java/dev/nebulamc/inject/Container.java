@@ -101,7 +101,7 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
          * @throws NullPointerException if the singleton or type are {@code null}.
          * @since 0.1
          */
-        <T> Builder singleton(Class<? super T> type, T singleton);
+        <T> Builder singleton(Class<T> type, T singleton);
 
         /**
          * Adds a service definition to the container.
