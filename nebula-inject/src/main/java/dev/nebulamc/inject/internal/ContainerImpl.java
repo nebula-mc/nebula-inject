@@ -168,22 +168,6 @@ public final class ContainerImpl extends AbstractContainer {
             return this;
         }
 
-        @SuppressWarnings("unchecked")
-        private <T> Iterable<Class<? super T>> getAllSupertypes(
-                final Class<T> type) {
-
-            assert type != null;
-
-            final List<Class<? super T>> supertypes = new ArrayList<>();
-
-            for (Class<?> current = type; current != null; current = current.getSuperclass()) {
-                supertypes.add((Class<? super T>) current);
-                supertypes.addAll(Arrays.asList((Class<? super T>[]) current.getInterfaces()));
-            }
-
-            return supertypes;
-        }
-
         @Override
         public Container build() {
 
