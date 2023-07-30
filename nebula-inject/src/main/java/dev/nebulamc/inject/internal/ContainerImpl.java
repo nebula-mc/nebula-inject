@@ -156,57 +156,15 @@ public final class ContainerImpl extends AbstractContainer {
             return this;
         }
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        @Override
-        public Container.Builder singleton(final Object singleton) {
-
-            Preconditions.requireNonNull(singleton, "singleton");
-
-            singleton((Iterable) getAllSupertypes(singleton.getClass()), singleton);
-
-            return this;
-        }
-
-        @Override
-        public <T> Container.Builder singleton(final Iterable<Class<? super T>> types,
-                                               final T singleton) {
-
-            Preconditions.requireNonNull(singleton, "singleton");
-            Preconditions.requireNonNull(types, "types");
-
-            for (final Class<? super T> type : types) {
-                serviceDefinitions.serviceDefinition(
-                        new SingletonServiceDefinition<>(type, singleton));
-            }
-
-            return this;
-        }
-
         @Override
         public <T> Container.Builder singleton(final Class<? super T> type, final T singleton) {
 
-            Preconditions.requireNonNull(singleton, "singleton");
             Preconditions.requireNonNull(type, "type");
+            Preconditions.requireNonNull(singleton, "singleton");
 
-            singleton(List.of(type), singleton);
+            serviceDefinitions.serviceDefinition(new SingletonServiceDefinition<>(type, singleton));
 
             return this;
-        }
-
-        @SuppressWarnings("unchecked")
-        private <T> Iterable<Class<? super T>> getAllSupertypes(
-                final Class<T> type) {
-
-            assert type != null;
-
-            final List<Class<? super T>> supertypes = new ArrayList<>();
-
-            for (Class<?> current = type; current != null; current = current.getSuperclass()) {
-                supertypes.add((Class<? super T>) current);
-                supertypes.addAll(Arrays.asList((Class<? super T>[]) current.getInterfaces()));
-            }
-
-            return supertypes;
         }
 
         @Override

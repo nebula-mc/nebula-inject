@@ -57,30 +57,6 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
         Builder factory(Object factory);
 
         /**
-         * Adds a singleton to the container for all super types of the singleton's type (including
-         * the singleton's type itself).
-         *
-         * @param singleton the singleton instance
-         * @return this builder (for chaining)
-         * @throws NullPointerException if the singleton is {@code null}.
-         * @since 0.1
-         */
-        Builder singleton(Object singleton);
-
-        /**
-         * Adds a singleton to the container for the specified types
-         *
-         * @param types the types to register the singleton as
-         * @param singleton the singleton instance
-         * @return this builder (for chaining)
-         * @param <T> the type of the singleton
-         * @throws NullPointerException if the singleton is {@code null} is the types are or
-         * contains {@code null}.
-         * @since 0.1
-         */
-        <T> Builder singleton(Iterable<Class<? super T>> types, T singleton);
-
-        /**
          * Adds a singleton to the container for the specified types
          *
          * @param type the type to register the singleton as
