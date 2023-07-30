@@ -43,7 +43,7 @@ public interface ServiceFinder {
      * Finds all service of the specified type.
      *
      * @param serviceType the type of the service
-     * @return an immutable list of all found services or {@link List#of()} if none were found
+     * @return an unmodifiable list of all found services or {@link List#of()} if none were found
      * @param <T> the type of the service
      * @throws NullPointerException if the service is {@code null}.
      * @throws ServiceException if an exception occurred while finding the service objects.
