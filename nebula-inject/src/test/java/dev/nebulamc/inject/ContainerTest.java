@@ -141,6 +141,37 @@ class ContainerTest {
         verifyNoMoreInteractions(serviceDefinition);
     }
 
+    @SuppressWarnings("DataFlowIssue")
+    @Test
+    void testServiceDefinitionRegistryWhenServiceDefinitionRegistryIsNull() {
+
+        final Container.Builder builder = Container.builder();
+
+        assertThrows(NullPointerException.class, () -> builder.serviceDefinitionRegistry(null));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testServiceDefinitionRegistry() {
+
+        final Engine engine = new V8Engine();
+        final ServiceDefinition<Engine> serviceDefinition = mock();
+        when(serviceDefinition.getServiceType()).thenReturn(Engine.class);
+
+        final ServiceDefinitionRegistry serviceDefinitionRegistry = ServiceDefinitionRegistry.builder()
+                .serviceDefinition(serviceDefinition)
+                .build();
+
+        final Container container = Container.builder()
+                .serviceDefinitionRegistry(serviceDefinitionRegistry)
+                .build();
+
+        when(serviceDefinition.createService(any())).thenReturn(engine);
+
+        assertEquals(serviceDefinition, container.findServiceDefinition(Engine.class));
+        assertEquals(engine, container.findService(Engine.class));
+    }
+
     @Test
     void testFindConcreteService() {
 

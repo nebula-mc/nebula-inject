@@ -109,7 +109,7 @@ public final class ContainerImpl extends AbstractContainer {
 
         private final ServiceDefinitionRegistry.Builder serviceDefinitions =
                 ServiceDefinitionRegistry.builder();
-        private final List<ServiceDefinitionRegistry> factories = new ArrayList<>();
+        private final List<ServiceDefinitionRegistry> serviceDefinitionRegistries = new ArrayList<>();
 
         private @Nullable Container parent;
 
@@ -119,6 +119,17 @@ public final class ContainerImpl extends AbstractContainer {
             Preconditions.requireNonNull(serviceDefinition, "serviceDefinition");
 
             serviceDefinitions.serviceDefinition(serviceDefinition);
+
+            return this;
+        }
+
+        @Override
+        public Container.Builder serviceDefinitionRegistry(
+                final ServiceDefinitionRegistry serviceDefinitionRegistry) {
+
+            Preconditions.requireNonNull(serviceDefinitionRegistry, "serviceDefinitionRegistry");
+
+            serviceDefinitionRegistries.add(serviceDefinitionRegistry);
 
             return this;
         }
@@ -141,7 +152,7 @@ public final class ContainerImpl extends AbstractContainer {
             final ServiceDefinitionRegistry factoryRegistry = serviceDefinitionRegistryFactory
                     .createServiceDefinitionRegistry(factory);
 
-            factories.add(factoryRegistry);
+            serviceDefinitionRegistries.add(factoryRegistry);
 
             return this;
         }
@@ -203,7 +214,7 @@ public final class ContainerImpl extends AbstractContainer {
         public Container build() {
 
             final List<ServiceDefinitionRegistry> serviceDefinitionRegistries =
-                    new ArrayList<>(factories);
+                    new ArrayList<>(this.serviceDefinitionRegistries);
             serviceDefinitionRegistries.add(serviceDefinitions.build());
 
             if (parent != null) {

@@ -115,6 +115,16 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
         Builder serviceDefinition(ServiceDefinition<?> serviceDefinition);
 
         /**
+         * Adds a service definition registry to the container.
+         *
+         * @param serviceDefinitionRegistry the service definition registry
+         * @return this builder (for chaining)
+         * @throws NullPointerException if the service definition registry is {@code null}.
+         * @since 0.3
+         */
+        Builder serviceDefinitionRegistry(ServiceDefinitionRegistry serviceDefinitionRegistry);
+
+        /**
          * Builds the container.
          *
          * @return the built container
