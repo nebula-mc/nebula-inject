@@ -163,7 +163,7 @@ public final class ContainerImpl extends AbstractContainer {
 
             Preconditions.requireNonNull(singleton, "singleton");
 
-            singleton(singleton, (Iterable) getAllSupertypes(singleton.getClass()));
+            singleton((Iterable) getAllSupertypes(singleton.getClass()), singleton);
 
             return this;
         }
@@ -189,7 +189,7 @@ public final class ContainerImpl extends AbstractContainer {
             Preconditions.requireNonNull(singleton, "singleton");
             Preconditions.requireNonNull(type, "type");
 
-            singleton(singleton, List.of(type));
+            singleton(List.of(type), singleton);
 
             return this;
         }
