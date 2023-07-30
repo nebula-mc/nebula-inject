@@ -15,8 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * The default implementation of {@link Container}, used by {@link Container#builder()} and
- * {@link Container#create()}.
+ * The default implementation of {@link Container}, used by {@link Container#builder()}.
  * <p>
  * Services are instantiated lazily, when they are first requested and are cached as a singleton.
  *

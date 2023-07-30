@@ -7,7 +7,7 @@ import dev.nebulamc.inject.internal.ContainerImpl;
  * Represents the dependency injection container.
  *
  * @author Sparky983
- * @see #create()
+ * @see #builder()
  * @since 0.1
  */
 @NullMarked
@@ -22,17 +22,6 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
     static Builder builder() {
 
         return new ContainerImpl.BuilderImpl();
-    }
-
-    /**
-     * Creates a new dependency injection container.
-     *
-     * @return the container
-     * @since 0.1
-     */
-    static Container create() {
-
-        return builder().build();
     }
 
     /**
