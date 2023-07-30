@@ -206,7 +206,7 @@ class ContainerTest {
     @Test
     void testFindServiceWhenServiceIsNotRegistered() {
 
-        final Container container = Container.create();
+        final Container container = Container.builder().build();
 
         assertEquals(Optional.empty(), container.findOptionalService(Car.class));
     }
@@ -214,7 +214,7 @@ class ContainerTest {
     @Test
     void testFindServiceWhenContainer() {
 
-        final Container container = Container.create();
+        final Container container = Container.builder().build();
 
         assertEquals(container, container.findService(Container.class));
     }
