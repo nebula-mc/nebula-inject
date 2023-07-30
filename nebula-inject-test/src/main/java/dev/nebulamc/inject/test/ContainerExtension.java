@@ -98,7 +98,7 @@ final class ContainerExtension
             } finally {
                 field.setAccessible(false);
             }
-            testDoublesBuilder.singleton(mock, (Class) field.getType());
+            testDoublesBuilder.singleton((Class) field.getType(), mock);
         }
 
         for (final Field field : tests.getServiceFields()) {
@@ -112,7 +112,7 @@ final class ContainerExtension
                             Example:
                             @Service Cpu cpu = new TestCpu()""");
                 }
-                testDoublesBuilder.singleton(service, (Class) field.getType());
+                testDoublesBuilder.singleton((Class) field.getType(), service);
             } finally {
                 field.setAccessible(false);
             }

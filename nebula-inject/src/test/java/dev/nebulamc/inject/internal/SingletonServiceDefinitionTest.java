@@ -23,27 +23,27 @@ class SingletonServiceDefinitionTest {
     void setUp() {
 
         engine = new V8Engine();
-        serviceDefinition = new SingletonServiceDefinition<>(engine, Engine.class);
+        serviceDefinition = new SingletonServiceDefinition<>(Engine.class, engine);
     }
 
-    @DisplayName("<init>(T, Class<? super T>)")
+    @DisplayName("<init>(Class<T>, T)")
     @Nested
     class Init {
-
-        @SuppressWarnings("ConstantConditions")
-        @Test
-        void testInitWhenSingletonIsNull() {
-
-            assertThrows(NullPointerException.class, () ->
-                    new SingletonServiceDefinition<>(null, Engine.class));
-        }
 
         @SuppressWarnings("ConstantConditions")
         @Test
         void testInitWhenTypeIsNull() {
 
             assertThrows(NullPointerException.class, () ->
-                    new SingletonServiceDefinition<>(engine, null));
+                    new SingletonServiceDefinition<>(null, engine));
+        }
+
+        @SuppressWarnings("ConstantConditions")
+        @Test
+        void testInitWhenSingletonIsNull() {
+
+            assertThrows(NullPointerException.class, () ->
+                    new SingletonServiceDefinition<>(Engine.class, null));
         }
     }
 

@@ -40,7 +40,7 @@ public final class ServiceFinderServiceDefinitionRegistry implements ServiceDefi
         Preconditions.requireNonNull(type, "type");
 
         try {
-            return new SingletonServiceDefinition<>(serviceFinder.findService(type), type);
+            return new SingletonServiceDefinition<>(type, serviceFinder.findService(type));
         } catch (final ServiceException e) {
             throw new NoUniqueServiceException(e);
         }
@@ -55,7 +55,7 @@ public final class ServiceFinderServiceDefinitionRegistry implements ServiceDefi
             return serviceFinder.findServices(type)
                     .stream()
                     .<ServiceDefinition<T>>map((service) ->
-                            new SingletonServiceDefinition<>(service, type))
+                            new SingletonServiceDefinition<>(type, service))
                     .toList();
         } catch (final ServiceException e) {
             return List.of();

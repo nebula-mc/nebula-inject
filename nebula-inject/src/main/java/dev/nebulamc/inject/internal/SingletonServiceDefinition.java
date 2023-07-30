@@ -15,8 +15,8 @@ import org.jspecify.nullness.NullMarked;
 @NullMarked
 final class SingletonServiceDefinition<T> implements ServiceDefinition<T> {
 
-    private final T singleton;
     private final Class<T> serviceType;
+    private final T singleton;
 
     /**
      * Constructs a new {@link SingletonServiceDefinition} for the specified singleton object.
@@ -25,13 +25,13 @@ final class SingletonServiceDefinition<T> implements ServiceDefinition<T> {
      * @param serviceType the service type
      * @throws NullPointerException if {@code singleton} or {@code serviceType} are {@code null}.
      */
-    SingletonServiceDefinition(final T singleton, final Class<T> serviceType) {
+    SingletonServiceDefinition(final Class<T> serviceType, final T singleton) {
 
-        Preconditions.requireNonNull(singleton, "singleton");
         Preconditions.requireNonNull(serviceType, "type");
+        Preconditions.requireNonNull(singleton, "singleton");
 
-        this.singleton = singleton;
         this.serviceType = serviceType;
+        this.singleton = singleton;
     }
 
     @Override
