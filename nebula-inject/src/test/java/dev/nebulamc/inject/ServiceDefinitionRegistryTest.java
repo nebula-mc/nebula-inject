@@ -1,12 +1,14 @@
 package dev.nebulamc.inject;
 
 import dev.nebulamc.inject.car.Engine;
+import dev.nebulamc.inject.car.V8Engine;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -53,6 +55,33 @@ class ServiceDefinitionRegistryTest {
                 .build();
 
         assertEquals(serviceDefinition, registry.findServiceDefinition(Engine.class));
+    }
+
+    @SuppressWarnings("DataFlowIssue")
+    @Test
+    void testServiceDefinitionRegistryWhenServiceDefinitionRegistryIsNull() {
+
+        final ServiceDefinitionRegistry.Builder builder = ServiceDefinitionRegistry.builder();
+
+        assertThrows(NullPointerException.class, () -> builder.serviceDefinitionRegistry(null));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void testServiceDefinitionRegistry() {
+
+        final ServiceDefinition<Engine> serviceDefinition = mock();
+        when(serviceDefinition.getServiceType()).thenReturn(Engine.class);
+
+        final ServiceDefinitionRegistry child = ServiceDefinitionRegistry.builder()
+                .serviceDefinition(serviceDefinition)
+                .build();
+
+        final ServiceDefinitionRegistry parent = ServiceDefinitionRegistry.builder()
+                .serviceDefinitionRegistry(child)
+                .build();
+
+        assertEquals(parent.findServiceDefinition(Engine.class), serviceDefinition);
     }
 
     @SuppressWarnings("ConstantConditions")
