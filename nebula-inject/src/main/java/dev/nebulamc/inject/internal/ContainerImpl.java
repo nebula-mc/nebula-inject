@@ -11,7 +11,6 @@ import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ public final class ContainerImpl extends AbstractContainer {
     /**
      * A map of service type to service containing all currently loaded singletons.
      */
-    private final Multimap<Class<?>, Object> singletons = new Multimap<>();
+    private final Multimap<Class<?>, ?> singletons = new Multimap<>();
 
     private final ServiceDefinitionRegistry serviceDefinitionRegistry;
 
@@ -61,7 +60,7 @@ public final class ContainerImpl extends AbstractContainer {
         return serviceDefinitionRegistry.findServiceDefinitions(type);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public <T> List<T> findServices(final Class<T> serviceType) {
 
@@ -71,24 +70,24 @@ public final class ContainerImpl extends AbstractContainer {
             return (List<T>) List.of(this);
         }
 
-        final List<T> singletonServices = (List<T>) singletons.get(serviceType);
+        synchronized (singletons) {
+            final List<T> singletonServices = (List<T>) singletons.get(serviceType);
 
-        if (singletonServices != null) {
-            return singletonServices;
-        }
-
-        try {
-            final List<T> services = findServiceDefinitions(serviceType)
-                    .stream()
-                    .map((serviceDefinition) -> serviceDefinition.createService(
-                            new ServiceDefinitionServiceFinderDecorator(this, serviceDefinition)))
-                    .toList();
-            synchronized (this) {
-                services.forEach((service) -> singletons.add(serviceType, service));
+            if (singletonServices != null) {
+                return singletonServices;
             }
-            return services;
-        } catch (final NoUniqueServiceException e) {
-            throw new ServiceException(e);
+
+            try {
+                final List<T> services = findServiceDefinitions(serviceType)
+                        .stream()
+                        .map((serviceDefinition) -> serviceDefinition.createService(
+                                new ServiceDefinitionServiceFinderDecorator(this, serviceDefinition)))
+                        .toList();
+                singletons.put(serviceType, (List) services);
+                return services;
+            } catch (final NoUniqueServiceException e) {
+                throw new ServiceException(e);
+            }
         }
     }
 
