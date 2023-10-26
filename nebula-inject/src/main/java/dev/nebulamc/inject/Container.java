@@ -57,16 +57,16 @@ public interface Container extends ServiceFinder, ServiceDefinitionRegistry {
         Builder factory(Object factory);
 
         /**
-         * Adds a singleton to the container for the specified types
+         * Adds a service to the container for the specified type
          *
-         * @param type the type to register the singleton as
-         * @param singleton the singleton instance
+         * @param type the type to register the service as
+         * @param service the service
          * @return this builder (for chaining)
-         * @param <T> the type of the singleton
-         * @throws NullPointerException if the singleton or type are {@code null}.
+         * @param <T> the type of the service
+         * @throws NullPointerException if the type or service are {@code null}.
          * @since 0.1
          */
-        <T> Builder singleton(Class<T> type, T singleton);
+        <T> Builder service(Class<T> type, T service);
 
         /**
          * Adds a service definition to the container.
