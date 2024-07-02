@@ -10,11 +10,11 @@ dependencies {
     compileOnly("org.jspecify:jspecify:0.2.0")
     // TODO: Update to 0.3.0 when more tools add support
 
-    compileOnly("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    compileOnly("org.junit.jupiter:junit-jupiter-api:5.10.3")
     api("org.mockito:mockito-core:5.12.0")
     api(project(":nebula-inject"))
 
-    testImplementation("org.junit.platform:junit-platform-launcher:1.10.2")
+    testImplementation("org.junit.platform:junit-platform-launcher:1.10.3")
 }
 
 java {
