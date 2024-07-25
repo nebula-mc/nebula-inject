@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.jspecify:jspecify:0.2.0")
+    compileOnly("org.jspecify:jspecify:1.0.0")
     // TODO: Update to 0.3.0 when more tools add support
 
     compileOnly("org.junit.jupiter:junit-jupiter-api:5.10.3")
