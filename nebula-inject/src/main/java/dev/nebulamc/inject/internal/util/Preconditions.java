@@ -1,6 +1,6 @@
 package dev.nebulamc.inject.internal.util;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * An internal utility class for checking preconditions.

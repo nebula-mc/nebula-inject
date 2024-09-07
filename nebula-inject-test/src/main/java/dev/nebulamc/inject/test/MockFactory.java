@@ -1,6 +1,6 @@
 package dev.nebulamc.inject.test;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A factory for creating mock objects.

@@ -1,7 +1,7 @@
 package dev.nebulamc.inject.test;
 
 import dev.nebulamc.inject.internal.util.Preconditions;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;

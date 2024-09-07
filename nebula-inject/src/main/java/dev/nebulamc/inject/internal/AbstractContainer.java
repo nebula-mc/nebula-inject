@@ -3,7 +3,7 @@ package dev.nebulamc.inject.internal;
 import dev.nebulamc.inject.Container;
 import dev.nebulamc.inject.NoUniqueServiceException;
 import dev.nebulamc.inject.internal.util.Preconditions;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 import java.util.Optional;

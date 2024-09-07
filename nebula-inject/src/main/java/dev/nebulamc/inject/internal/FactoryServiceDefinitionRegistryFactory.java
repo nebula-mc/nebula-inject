@@ -1,6 +1,6 @@
 package dev.nebulamc.inject.internal;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 import dev.nebulamc.inject.Factory;
 import dev.nebulamc.inject.Service;
 import dev.nebulamc.inject.ServiceDefinitionRegistry;

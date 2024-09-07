@@ -3,7 +3,7 @@ package dev.nebulamc.inject.internal;
 import dev.nebulamc.inject.ServiceDefinition;
 import dev.nebulamc.inject.ServiceFinder;
 import dev.nebulamc.inject.internal.util.Preconditions;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * A service definition for a singleton object.

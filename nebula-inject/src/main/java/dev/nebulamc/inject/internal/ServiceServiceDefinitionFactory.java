@@ -1,6 +1,6 @@
 package dev.nebulamc.inject.internal;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 import java.lang.reflect.Method;
 

@@ -1,6 +1,6 @@
 package dev.nebulamc.inject;
 
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.List;
 

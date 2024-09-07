@@ -1,7 +1,7 @@
 package dev.nebulamc.inject.test;
 
 import dev.nebulamc.inject.Inject;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 import org.mockito.Answers;
 
 import java.lang.annotation.Documented;
