@@ -3,7 +3,7 @@ package dev.nebulamc.inject.internal;
 import dev.nebulamc.inject.NoUniqueServiceException;
 import dev.nebulamc.inject.ServiceException;
 import dev.nebulamc.inject.ServiceFinder;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 import java.lang.reflect.Parameter;
 

@@ -7,8 +7,8 @@ import dev.nebulamc.inject.ServiceDefinitionRegistry;
 import dev.nebulamc.inject.ServiceException;
 import dev.nebulamc.inject.internal.util.Multimap;
 import dev.nebulamc.inject.internal.util.Preconditions;
-import org.jspecify.nullness.NullMarked;
-import org.jspecify.nullness.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;

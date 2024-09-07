@@ -4,7 +4,7 @@ import dev.nebulamc.inject.Factory;
 import dev.nebulamc.inject.Inject;
 import dev.nebulamc.inject.Service;
 import dev.nebulamc.inject.internal.util.Preconditions;
-import org.jspecify.nullness.NullMarked;
+import org.jspecify.annotations.NullMarked;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
