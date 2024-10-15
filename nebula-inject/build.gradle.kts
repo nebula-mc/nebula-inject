@@ -5,5 +5,5 @@ plugins {
 dependencies {
     compileOnly("org.jspecify:jspecify:1.0.0")
 
-    testImplementation("org.mockito:mockito-core:5.13.0")
+    testImplementation("org.mockito:mockito-core:5.14.2")
 }
