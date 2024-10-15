@@ -10,7 +10,7 @@ dependencies {
     compileOnly("org.jspecify:jspecify:1.0.0")
 
     compileOnly("org.junit.jupiter:junit-jupiter-api:5.11.0")
-    api("org.mockito:mockito-core:5.13.0")
+    api("org.mockito:mockito-core:5.14.2")
     api(project(":nebula-inject"))
 
     testImplementation("org.junit.platform:junit-platform-launcher:1.11.0")
