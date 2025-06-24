@@ -13,7 +13,7 @@ dependencies {
     api("org.mockito:mockito-core:5.13.0")
     api(project(":nebula-inject"))
 
-    testImplementation("org.junit.platform:junit-platform-launcher:1.11.0")
+    testImplementation("org.junit.platform:junit-platform-launcher:1.13.2")
 }
 
 java {
