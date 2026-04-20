@@ -41,7 +41,7 @@ class ContainerTest {
 
         final Container child = Container.builder()
                 .parent(parent)
-                .singleton(Wheels.class, wheels)
+                .service(Wheels.class, wheels)
                 .build();
 
         assertEquals(engine, child.findService(Engine.class));
@@ -55,7 +55,7 @@ class ContainerTest {
         final Container.Builder builder = Container.builder();
 
         assertThrows(NullPointerException.class, () -> builder
-                .singleton((Class<? super Object>) null, null));
+                .service((Class<? super Object>) null, null));
     }
 
     @Test
@@ -65,8 +65,8 @@ class ContainerTest {
         final Wheels wheels = new Wheels();
 
         final Container container = Container.builder()
-                .singleton(Engine.class, engine)
-                .singleton(Wheels.class, wheels)
+                .service(Engine.class, engine)
+                .service(Wheels.class, wheels)
                 .build();
 
         assertEquals(engine, container.findService(Engine.class));
@@ -89,8 +89,8 @@ class ContainerTest {
         final Wheels wheels = new Wheels();
 
         final Container container = Container.builder()
-                .singleton(Engine.class, engine)
-                .singleton(Wheels.class, wheels)
+                .service(Engine.class, engine)
+                .service(Wheels.class, wheels)
                 .factory(new CarFactory())
                 .build();
 
@@ -169,8 +169,8 @@ class ContainerTest {
         final Wheels wheels = new Wheels();
 
         final Container container = Container.builder()
-                .singleton(Engine.class, engine)
-                .singleton(Wheels.class, wheels)
+                .service(Engine.class, engine)
+                .service(Wheels.class, wheels)
                 .build();
 
         final Car car = container.findService(Sedan.class);
@@ -184,7 +184,7 @@ class ContainerTest {
 
         final Wheels wheels = new Wheels();
         final Container parent = Container.builder()
-                .singleton(Wheels.class, wheels)
+                .service(Wheels.class, wheels)
                 .build();
         final Container child = Container.builder()
                 .parent(parent)

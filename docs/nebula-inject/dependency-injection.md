@@ -247,7 +247,7 @@ Additionally, we can manually add objects to the container:
 {% tab title="Java" %}
 ```java
 Container container = Container.builder()
-        .singleton(Engine.class, new PetrolEngine())
+        .service(Engine.class, new PetrolEngine())
         .build();
 ```
 {% endtab %}
@@ -255,7 +255,7 @@ Container container = Container.builder()
 {% tab title="Kotlin" %}
 ```kotlin
 val container = Container.builder()
-        .singleton(Engine::class.java, PetrolEngine())
+        .service(Engine::class.java, PetrolEngine())
         .build()
 ```
 {% endtab %}
