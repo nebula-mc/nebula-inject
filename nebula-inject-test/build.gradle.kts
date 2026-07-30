@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.jspecify:jspecify:1.0.0")
+    compileOnly("org.jspecify:jspecify:1.0.1")
 
     compileOnly("org.junit.jupiter:junit-jupiter-api:5.11.0")
     api("org.mockito:mockito-core:5.13.0")

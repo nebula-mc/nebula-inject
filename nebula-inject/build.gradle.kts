@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly("org.jspecify:jspecify:1.0.0")
+    compileOnly("org.jspecify:jspecify:1.0.1")
 
     testImplementation("org.mockito:mockito-core:5.13.0")
 }
